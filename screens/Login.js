@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   Text,
   View,
+  Button
 } from 'react-native'
 
 class Login extends Component {
@@ -15,12 +16,13 @@ class Login extends Component {
     return (
       <View style={styles.container}>
         <TouchableOpacity
-          style={styles.button}
+          style={[styles.button, styles.facebook]}
         >
-          <Text>Login with Facebook</Text>
+          <Text style={styles.textColor}>Login with Facebook</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
-          style={styles.button}
+          style={[styles.button, styles.google]}
         >
           <Text>Login with Google</Text>
         </TouchableOpacity>
@@ -33,12 +35,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingHorizontal: 10
+    alignItems: 'center',
+    paddingHorizontal: 10,
   },
   button: {
     alignItems: 'center',
     backgroundColor: '#DDDDDD',
-    padding: 10
+    padding: 10,
+    marginBottom: 20,
+    width: 300
+  },
+  facebook: {
+    backgroundColor: '#4060B8'
+  },
+  google: {
+    backgroundColor: '#FFFFFF'
+  },
+  textColor: {
+    color: '#FFFFFF'
   },
   countContainer: {
     alignItems: 'center',
