@@ -5,7 +5,7 @@ import { Container, Header, Content, List, ListItem, Thumbnail, Text, Body, Righ
 
 export default class CustomView extends React.Component {
   render() {
-    console.log('asaoskoaskas', this.props.currentMessage)
+    // console.log('asaoskoaskas', this.props.currentMessage)
     if (this.props.currentMessage.text === 'Alright') {
       return (
         <Container

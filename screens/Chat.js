@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { Platform, StyleSheet, Text, View } from 'react-native'
+import { Platform, StyleSheet, Text, TouchableOpacity, ToastAndroid } from 'react-native'
+import { Icon } from 'native-base'
 import { GiftedChat, Actions, Bubble, SystemMessage } from 'react-native-gifted-chat'
+import SpeechAndroid from 'react-native-android-voice'
 
-// import CustomActions from './data/CustomActions'
+import CustomActions from './data/CustomActions'
 import CustomView from './data/CustomView'
 
 class Chat extends Component {
@@ -22,11 +24,12 @@ class Chat extends Component {
     this._isMounted = false
     this.onSend = this.onSend.bind(this)
     this.onReceive = this.onReceive.bind(this)
-    // this.renderCustomActions = this.renderCustomActions.bind(this)
+    this.renderCustomActions = this.renderCustomActions.bind(this)
     this.renderBubble = this.renderBubble.bind(this)
     this.renderSystemMessage = this.renderSystemMessage.bind(this)
     this.renderFooter = this.renderFooter.bind(this)
     this.onLoadEarlier = this.onLoadEarlier.bind(this)
+    this._buttonClick = this._buttonClick.bind(this)
 
     this._isAlright = null
   }
@@ -112,7 +115,6 @@ class Chat extends Component {
 
   onReceive(text) {
     this.setState((previousState) => {
-      console.log('---->', previousState)
       return {
         messages: GiftedChat.append(previousState.messages, {
           _id: Math.round(Math.random() * 1000000),
@@ -128,39 +130,23 @@ class Chat extends Component {
     })
   }
 
-  // renderCustomActions(props) {
-  //   if (Platform.OS === 'ios') {
-  //     return (
-  //       <CustomActions
-  //         {...props}
-  //       />
-  //     )
-  //   }
-  //   const options = {
-  //     'Action 1': (props) => {
-  //       alert('option 1')
-  //     },
-  //     'Action 2': (props) => {
-  //       alert('option 2')
-  //     },
-  //     'Cancel': () => { },
-  //   }
-  //   return (
-  //     <Actions
-  //       {...props}
-  //       options={options}
-  //     />
-  //   )
-  // }
-
-  // renderMessage(props) {
-  //   return (
-  //     <View>
-  //       {...props}
-  //       <Text>Halooooo</Text>
-  //     </View>
-  //   )
-  // }
+  renderCustomActions(props) {
+    if (Platform.OS === 'ios') {
+      return (
+        <Text>test</Text>
+        // <Icon name="mic" />
+      )
+    } else {
+      return (
+        <TouchableOpacity
+          style={{paddingBottom: 8, paddingLeft: 12}}
+          onPress={this._buttonClick}
+        >
+          <Icon name="ios-mic" />
+        </TouchableOpacity>
+      )
+    }
+  }
 
   renderBubble(props) {
     return (
@@ -211,6 +197,29 @@ class Chat extends Component {
     return null
   }
 
+  // Speech to text
+  async _buttonClick() {
+    try {
+      var spokenText = await SpeechAndroid.startSpeech("Speak yo", SpeechAndroid.INDONESIAN)
+      ToastAndroid.show(spokenText, ToastAndroid.LONG)
+      alert(spokenText)
+    } catch (error) {
+      switch (error) {
+        case SpeechAndroid.E_VOICE_CANCELLED:
+          ToastAndroid.show("Voice Recognizer cancelled", ToastAndroid.LONG)
+          break
+        case SpeechAndroid.E_NO_MATCH:
+          ToastAndroid.show("No match for what you said", ToastAndroid.LONG)
+          break
+        case SpeechAndroid.E_SERVER_ERROR:
+          ToastAndroid.show("Google Server Error", ToastAndroid.LONG)
+          break
+        default:
+        alert(error)
+      }
+    }
+  }
+
   render() {
     return (
       <GiftedChat
@@ -224,7 +233,7 @@ class Chat extends Component {
           _id: 1, // sent messages should have same user._id
         }}
 
-        // renderActions={this.renderCustomActions}
+        renderActions={this.renderCustomActions}
         renderBubble={this.renderBubble}
         renderSystemMessage={this.renderSystemMessage}
         renderCustomView={this.renderCustomView}

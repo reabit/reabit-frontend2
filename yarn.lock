@@ -3729,6 +3729,10 @@ react-devtools-core@3.0.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
+react-native-android-voice@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-android-voice/-/react-native-android-voice-0.6.0.tgz#bdeb8d2e64fae7d32300663ffde19ebbde68057c"
+
 react-native-communications@2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/react-native-communications/-/react-native-communications-2.2.1.tgz#7883b56b20a002eeb790c113f8616ea8692ca795"
