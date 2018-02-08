@@ -13,10 +13,13 @@ class Login extends Component {
   }
 
   render() {
+    const { navigate } = this.props.navigation
     return (
       <View style={styles.container}>
         <TouchableOpacity
           style={[styles.button, styles.facebook]}
+          onPress={() =>
+            navigate('Home')}
         >
           <Text style={styles.textColor}>Login with Facebook</Text>
         </TouchableOpacity>
