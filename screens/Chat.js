@@ -3,7 +3,7 @@ import { Platform, StyleSheet, Text, View } from 'react-native'
 import { GiftedChat, Actions, Bubble, SystemMessage } from 'react-native-gifted-chat'
 
 // import CustomActions from './data/CustomActions'
-// import CustomView from './data/CustomView'
+import CustomView from './data/CustomView'
 
 class Chat extends Component {
   static navigationOptions = {
@@ -35,7 +35,7 @@ class Chat extends Component {
     this._isMounted = true
     this.setState(() => {
       return {
-        messages: require('./data/messages.js'),
+        messages: require('./data/messages.js')
       }
     })
   }
@@ -112,6 +112,7 @@ class Chat extends Component {
 
   onReceive(text) {
     this.setState((previousState) => {
+      console.log('---->', previousState)
       return {
         messages: GiftedChat.append(previousState.messages, {
           _id: Math.round(Math.random() * 1000000),
@@ -152,13 +153,22 @@ class Chat extends Component {
   //   )
   // }
 
+  // renderMessage(props) {
+  //   return (
+  //     <View>
+  //       {...props}
+  //       <Text>Halooooo</Text>
+  //     </View>
+  //   )
+  // }
+
   renderBubble(props) {
     return (
       <Bubble
         {...props}
         wrapperStyle={{
           left: {
-            backgroundColor: '#f0f0f0',
+            backgroundColor: '#ffffff',
           }
         }}
       />
@@ -179,13 +189,14 @@ class Chat extends Component {
     )
   }
 
-  // renderCustomView(props) {
-  //   return (
-  //     <CustomView
-  //       {...props}
-  //     />
-  //   )
-  // }
+  renderCustomView(props) {
+    console.log('customView', props)
+    return (
+      <CustomView
+        {...props}
+      />
+    )
+  }
 
   renderFooter(props) {
     if (this.state.typingText) {
@@ -216,8 +227,9 @@ class Chat extends Component {
         // renderActions={this.renderCustomActions}
         renderBubble={this.renderBubble}
         renderSystemMessage={this.renderSystemMessage}
-        // renderCustomView={this.renderCustomView}
+        renderCustomView={this.renderCustomView}
         renderFooter={this.renderFooter}
+        renderMessage={this.renderMessage}
       />
     )
   }
