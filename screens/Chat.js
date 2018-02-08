@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Platform, StyleSheet, Text, TouchableOpacity, ToastAndroid } from 'react-native'
+import { Platform, StyleSheet, Text, TouchableOpacity, ToastAndroid, View } from 'react-native'
 import { Icon } from 'native-base'
 import { GiftedChat, Actions, Bubble, SystemMessage } from 'react-native-gifted-chat'
 import SpeechAndroid from 'react-native-android-voice'
