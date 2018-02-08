@@ -4,6 +4,7 @@ import Chat from './Chat'
 import ArticleList from './ArticleList'
 import ReadingList from './ReadingList'
 import DetailArticle from './DetailArticle'
+import HistoryReadings from './HistoryReadings'
 
 export {
   Login,
@@ -11,5 +12,6 @@ export {
   Chat,
   ArticleList,
   ReadingList,
-  DetailArticle
+  DetailArticle,
+  HistoryReadings
 }

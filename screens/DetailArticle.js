@@ -4,11 +4,10 @@ import {
   Container,
   Header,
   Content,
-  Footer,
-  FooterTab,
   Button,
   Icon,
   Text,
+  Title,
   Badge,
   List,
   ListItem,
@@ -19,6 +18,8 @@ import {
   Card,
   CardItem
 } from 'native-base'
+
+import MenuFooters from './MenuFooters'
 
 const winSize = Dimensions.get('window')
 class DetailArticle extends Component {
@@ -34,6 +35,16 @@ class DetailArticle extends Component {
   render() {
     return (
       <Container>
+        <Header>
+          <Left>
+            <Button transparent>
+              <Icon name='arrow-back' />
+            </Button>
+          </Left>
+          <Body>
+            <Title>Header</Title>
+          </Body>
+        </Header>
         <Content>
           <Card style={{flex: 0}}>
             <CardItem>
@@ -55,32 +66,7 @@ class DetailArticle extends Component {
             </CardItem>
           </Card>
         </Content>
-        <Footer>
-          <FooterTab>
-            <Button active vertical>
-              <Icon name="chatboxes" />
-              <Text>Chat</Text>
-            </Button>
-            <Button  badge vertical>
-              <Badge>
-                <Text>10</Text>
-              </Badge>
-              <Icon name="list-box" />
-              <Text>Article</Text>
-            </Button>
-            <Button active badge vertical>
-              <Badge>
-                <Text>2</Text>
-              </Badge>
-              <Icon active name="md-book" />
-              <Text>Read</Text>
-            </Button>
-            <Button vertical>
-              <Icon name="md-clipboard" />
-              <Text>History</Text>
-            </Button>
-          </FooterTab>
-        </Footer>
+        <MenuFooters />
       </Container>
     )
   }

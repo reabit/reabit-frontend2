@@ -20,6 +20,8 @@ import {
   CardItem
 } from 'native-base'
 
+import MenuFooters from './MenuFooters'
+
 const winSize = Dimensions.get('window')
 class Home extends Component {
   static navigationOptions = {
@@ -74,32 +76,7 @@ class Home extends Component {
             </ListItem>
           </List>
         </Content>
-        <Footer>
-          <FooterTab>
-            <Button active vertical>
-              <Icon name="chatboxes" />
-              <Text>Chat</Text>
-            </Button>
-            <Button  badge vertical>
-              <Badge>
-                <Text>10</Text>
-              </Badge>
-              <Icon name="list-box" />
-              <Text>Article</Text>
-            </Button>
-            <Button active badge vertical>
-              <Badge>
-                <Text>2</Text>
-              </Badge>
-              <Icon active name="md-book" />
-              <Text>Read</Text>
-            </Button>
-            <Button vertical>
-              <Icon name="md-clipboard" />
-              <Text>History</Text>
-            </Button>
-          </FooterTab>
-        </Footer>
+        <MenuFooters />
       </Container>
     )
   }
