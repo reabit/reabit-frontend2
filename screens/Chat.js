@@ -27,6 +27,7 @@ import axios from 'axios'
 import CustomActions from './data/CustomActions'
 import CustomView from './data/CustomView'
 import Menu from './Menu'
+import { summaryBot } from './data/summary'
 
 class Chat extends Component {
   static navigationOptions = {
@@ -39,7 +40,8 @@ class Chat extends Component {
       messages: [],
       loadEarlier: true,
       typingText: null,
-      isLoadingEarlier: false
+      isLoadingEarlier: false,
+      idArticle: null
     }
 
     this._isMounted = false
@@ -57,11 +59,22 @@ class Chat extends Component {
 
   componentWillMount() {
     this._isMounted = true
-    this.setState(() => {
-      return {
-        messages: require('./data/messages.js')
-      }
-    })
+    
+    console.log(this.props.navigation.state)
+    if (this.props.navigation.state.params) {
+      this.setState(() => {
+        return {
+          messages: summaryBot(this.props.navigation.state.params.title),
+          idArticle: this.props.navigation.state.params.idArticle 
+        }
+      })
+    } else {
+      this.setState(() => {
+        return {
+          messages: require('./data/messages.js')
+        }
+      })
+    }
   }
 
   componentWillUnmount() {
@@ -102,7 +115,6 @@ class Chat extends Component {
         chat: messages[0].text
       })
       .then(result => {
-
         this.setState(previousState => {
           return {
             messages: GiftedChat.append(previousState.messages, [
@@ -127,8 +139,13 @@ class Chat extends Component {
             .then(categoryList => {
               this.answerDemo(categoryList.data, result.data.category)
             })
-        }else{
-
+        } else if(result.data.summary) {
+          axios.post(`http://apibucket.sabikaorganizer.com:3008/summarys/add/${this.state.idArticle}`, {
+            summary: messages[0].text
+          })
+          .then(resultSummary => {
+            console.log(resultSummary, '-------------- ini dari then summary')
+          })
         }
       })
       .catch(err => {

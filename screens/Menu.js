@@ -33,7 +33,7 @@ class Menu extends Component {
               <Icon active name="md-book" />
               <Text>Read</Text>
             </Button>
-            <Button vertical>
+            <Button vertical onPress={()=>navigate('History')}>
               <Icon name="md-clipboard" />
               <Text>History</Text>
             </Button>

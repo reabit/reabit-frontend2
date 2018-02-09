@@ -14,7 +14,6 @@ export {
   Chat,
   ArticleList,
   ReadingList,
-  history,
   DetailArticle,
   HistoryReadings,
   Menu
