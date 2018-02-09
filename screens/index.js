@@ -6,6 +6,8 @@ import ReadingList from './ReadingList'
 import DetailArticle from './DetailArticle'
 import HistoryReadings from './HistoryReadings'
 
+import Menu from './Menu'
+
 export {
   Login,
   Home,
@@ -13,5 +15,6 @@ export {
   ArticleList,
   ReadingList,
   DetailArticle,
-  HistoryReadings
+  HistoryReadings,
+  Menu
 }

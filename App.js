@@ -15,7 +15,8 @@ import {
   DetailArticle,
   ArticleList,
   ReadingList,
-  HistoryReadings
+  HistoryReadings,
+  Menu
 } from './screens'
 
 const AppNavigator = StackNavigator({
@@ -25,11 +26,11 @@ const AppNavigator = StackNavigator({
   ArticleList: { screen: ArticleList },
   ReadingList: { screen: ReadingList },
   DetailArticle: { screen: DetailArticle },
-  HistoryReadings: { screen: HistoryReadings }
+  HistoryReadings: { screen: HistoryReadings },
+  Menu: { screen: Menu }
 }, {
-    initialRouteName: 'HistoryReadings',
-    headerMode: 'none'
-  })
+    initialRouteName: 'Login',
+})
 
 export default class App extends Component {
   render() {
