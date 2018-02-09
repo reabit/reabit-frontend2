@@ -69,7 +69,6 @@ class ReadingList extends Component {
 
   render() {
     const { navigate } = this.props.navigation
-    console.log(this.state.listViewData)
     return (
       <Container>
         <Content style={styles.content}>
@@ -83,7 +82,7 @@ class ReadingList extends Component {
                 <Body style={{ marginLeft: 3, width: winSize.width / 2}}>
                   <Text 
                     style={{ textAlign: 'left', marginRight: 0 }}
-                    onPress={() => navigate('Chat', { id: data._id })}
+                    // onPress={() => navigate('Chat', { id: data._id })}
                   >
                     {data.title.length > 60 ? data.title.substr(0, 60)+'...' : data.title }
                   </Text>
@@ -91,7 +90,10 @@ class ReadingList extends Component {
               </ListItem>
             }
             renderLeftHiddenRow={data =>
-              <Button full onPress={() => navigate('Chat')}>
+              <Button full onPress={() => navigate('Chat', {
+                title:data.title,
+                idArticle: data._id
+                })}>
                 <Icon active name="md-checkmark-circle-outline" style={{ color: '#ffffff'}}/>
               </Button>
             }

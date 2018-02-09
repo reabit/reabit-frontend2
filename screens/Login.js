@@ -59,7 +59,7 @@ class Login extends Component {
   }
 
   render() {
-    // const { navigate } = this.props.navigation
+    const { navigate } = this.props.navigation
     return (
       <View style={styles.container}>
         <TouchableOpacity
@@ -72,6 +72,7 @@ class Login extends Component {
 
         <TouchableOpacity
           style={[styles.button, styles.google]}
+          onPress={() => navigate('Chat')}
         >
           <Text>Login with Google</Text>
         </TouchableOpacity>
