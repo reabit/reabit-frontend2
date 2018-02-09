@@ -1,15 +1,36 @@
 import React, { Component } from 'react'
-import { Platform, StyleSheet, Text, TouchableOpacity, ToastAndroid } from 'react-native'
-import { Icon } from 'native-base'
-import { GiftedChat, Actions, Bubble, SystemMessage } from 'react-native-gifted-chat'
+import {
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  ToastAndroid,
+  View
+} from 'react-native'
+import {
+  Icon,
+  Container,
+  Text,
+  Content,
+  Footer,
+  FooterTab,
+  Button,
+  Badge
+} from 'native-base'
+import {
+  GiftedChat,
+  Actions,
+  Bubble,
+  SystemMessage
+} from 'react-native-gifted-chat'
 import SpeechAndroid from 'react-native-android-voice'
-
+import axios from 'axios'
 import CustomActions from './data/CustomActions'
 import CustomView from './data/CustomView'
+import Menu from './Menu'
 
 class Chat extends Component {
   static navigationOptions = {
-    title: 'Chat',
+    title: 'Chat'
   }
 
   constructor(props) {
@@ -18,7 +39,7 @@ class Chat extends Component {
       messages: [],
       loadEarlier: true,
       typingText: null,
-      isLoadingEarlier: false,
+      isLoadingEarlier: false
     }
 
     this._isMounted = false
@@ -48,19 +69,22 @@ class Chat extends Component {
   }
 
   onLoadEarlier() {
-    this.setState((previousState) => {
+    this.setState(previousState => {
       return {
-        isLoadingEarlier: true,
+        isLoadingEarlier: true
       }
     })
 
     setTimeout(() => {
       if (this._isMounted === true) {
-        this.setState((previousState) => {
+        this.setState(previousState => {
           return {
-            messages: GiftedChat.prepend(previousState.messages, require('./data/old_messages.js')),
+            messages: GiftedChat.prepend(
+              previousState.messages,
+              require('./data/old_messages.js')
+            ),
             loadEarlier: false,
-            isLoadingEarlier: false,
+            isLoadingEarlier: false
           }
         })
       }
@@ -68,64 +92,111 @@ class Chat extends Component {
   }
 
   onSend(messages = []) {
-    this.setState((previousState) => {
+    this.setState(previousState => {
       return {
-        messages: GiftedChat.append(previousState.messages, messages),
+        messages: GiftedChat.append(previousState.messages, messages)
       }
     })
+    axios
+      .post('http://apibucket.sabikaorganizer.com:3008/chatbot', {
+        chat: messages[0].text
+      })
+      .then(result => {
 
-    // for demo purpose
-    this.answerDemo(messages)
-  }
-
-  answerDemo(messages) {
-    if (messages.length > 0) {
-      if ((messages[0].image || messages[0].location) || !this._isAlright) {
-        this.setState((previousState) => {
+        this.setState(previousState => {
           return {
-            typingText: 'React Native is typing'
+            messages: GiftedChat.append(previousState.messages, [
+              {
+                _id: Math.round(Math.random() * 1000000),
+                text: result.data.data,
+                createdAt: new Date().getTime(),
+                user: {
+                  _id: 2,
+                  name: 'Reading Habit'
+                }
+              }
+            ])
           }
         })
-      }
-    }
+        console.log(result.data, '-----------> category')
+        if (result.data.category) {
+          axios
+            .post('http://apibucket.sabikaorganizer.com:3008/cheerio', {
+              category: result.data.category
+            })
+            .then(categoryList => {
+              this.answerDemo(categoryList.data, result.data.category)
+            })
+        }else{
 
+        }
+      })
+      .catch(err => {
+        console.log(err, 'ini error')
+      })
+    // console.log(messages)
+  }
+
+  answerDemo(dataFromBot, category = '') {
+    console.log(dataFromBot, 'in answerDemo')
+    this.setState(previousState => {
+      return {
+        typingText: 'Reabit is typing'
+      }
+    })
     setTimeout(() => {
       if (this._isMounted === true) {
-        if (messages.length > 0) {
-          if (messages[0].image) {
-            this.onReceive('Nice picture!')
-          } else if (messages[0].location) {
-            this.onReceive('My favorite place')
+        if (dataFromBot) {
+          if (dataFromBot.messages == 'List Categories') {
+            console.log('masuk ke sini')
+            this.onReceive(
+              'ini list artikel yang kamu minta, kamu bisa memilih artikel yang ingin kamu baca dengan menekan tombol tambah',
+              dataFromBot.data,
+              category
+            )
+            this.setState(previousState => {
+              return {
+                messages: GiftedChat.append(previousState.messages, [
+                  {
+                    _id: Math.round(Math.random() * 1000000),
+                    text: 'masih bingung? ketik help',
+                    createdAt: new Date().getTime(),
+                    user: {
+                      _id: 2,
+                      name: 'Reading Habit'
+                    }
+                  }
+                ])
+              }
+            })
           } else {
-            if (!this._isAlright) {
-              this._isAlright = true
-              this.onReceive('Alright')
-            }
+            this.onReceive('no data', dataFromBot.data)
           }
         }
       }
 
-      this.setState((previousState) => {
+      this.setState(previousState => {
         return {
-          typingText: null,
+          typingText: null
         }
       })
     }, 1000)
   }
 
-  onReceive(text) {
-    this.setState((previousState) => {
+  onReceive(text, dataFromBot, category) {
+    this.setState(previousState => {
       return {
         messages: GiftedChat.append(previousState.messages, {
           _id: Math.round(Math.random() * 1000000),
           text: text,
+          dataFromBot: dataFromBot,
+          category: category,
           createdAt: new Date(),
           user: {
             _id: 2,
-            name: 'React Native',
-            // avatar: 'https://facebook.github.io/react/img/logo_og.png',
-          },
-        }),
+            name: 'Reading Habit'
+          }
+        })
       }
     })
   }
@@ -139,7 +210,7 @@ class Chat extends Component {
     } else {
       return (
         <TouchableOpacity
-          style={{paddingBottom: 8, paddingLeft: 12}}
+          style={{ paddingBottom: 8, paddingLeft: 12 }}
           onPress={this._buttonClick}
         >
           <Icon name="ios-mic" />
@@ -154,7 +225,7 @@ class Chat extends Component {
         {...props}
         wrapperStyle={{
           left: {
-            backgroundColor: '#ffffff',
+            backgroundColor: '#ffffff'
           }
         }}
       />
@@ -166,31 +237,24 @@ class Chat extends Component {
       <SystemMessage
         {...props}
         containerStyle={{
-          marginBottom: 15,
+          marginBottom: 15
         }}
         textStyle={{
-          fontSize: 14,
+          fontSize: 14
         }}
       />
     )
   }
 
   renderCustomView(props) {
-    console.log('customView', props)
-    return (
-      <CustomView
-        {...props}
-      />
-    )
+    return <CustomView {...props} />
   }
 
   renderFooter(props) {
     if (this.state.typingText) {
       return (
         <View style={styles.footerContainer}>
-          <Text style={styles.footerText}>
-            {this.state.typingText}
-          </Text>
+          <Text style={styles.footerText}>{this.state.typingText}</Text>
         </View>
       )
     }
@@ -200,46 +264,60 @@ class Chat extends Component {
   // Speech to text
   async _buttonClick() {
     try {
-      var spokenText = await SpeechAndroid.startSpeech("Speak yo", SpeechAndroid.INDONESIAN)
+      var spokenText = await SpeechAndroid.startSpeech(
+        'Speak yo',
+        SpeechAndroid.INDONESIAN
+      )
       ToastAndroid.show(spokenText, ToastAndroid.LONG)
-      alert(spokenText)
+      console.log(spokenText, 'from buttonclick')
+      let dataGoThroughChat = {
+        text: spokenText,
+        _id: Math.round(Math.random() * 1000000),
+        user: {
+          _id: 1
+        }
+      }
+      this.onSend([dataGoThroughChat])
     } catch (error) {
       switch (error) {
         case SpeechAndroid.E_VOICE_CANCELLED:
-          ToastAndroid.show("Voice Recognizer cancelled", ToastAndroid.LONG)
+          ToastAndroid.show('Voice Recognizer cancelled', ToastAndroid.LONG)
           break
         case SpeechAndroid.E_NO_MATCH:
-          ToastAndroid.show("No match for what you said", ToastAndroid.LONG)
+          ToastAndroid.show('No match for what you said', ToastAndroid.LONG)
           break
         case SpeechAndroid.E_SERVER_ERROR:
-          ToastAndroid.show("Google Server Error", ToastAndroid.LONG)
+          ToastAndroid.show('Google Server Error', ToastAndroid.LONG)
           break
         default:
-        alert(error)
+          alert(error)
       }
     }
   }
 
   render() {
+    const { navigate } = this.props.navigation
+
     return (
-      <GiftedChat
-        messages={this.state.messages}
-        onSend={this.onSend}
-        loadEarlier={this.state.loadEarlier}
-        onLoadEarlier={this.onLoadEarlier}
-        isLoadingEarlier={this.state.isLoadingEarlier}
-
-        user={{
-          _id: 1, // sent messages should have same user._id
-        }}
-
-        renderActions={this.renderCustomActions}
-        renderBubble={this.renderBubble}
-        renderSystemMessage={this.renderSystemMessage}
-        renderCustomView={this.renderCustomView}
-        renderFooter={this.renderFooter}
-        renderMessage={this.renderMessage}
-      />
+      <Container>
+        <GiftedChat
+          messages={this.state.messages}
+          onSend={this.onSend} //chat now
+          loadEarlier={this.state.loadEarlier} //load earlier message
+          onLoadEarlier={this.onLoadEarlier}
+          isLoadingEarlier={this.state.isLoadingEarlier}
+          user={{
+            _id: 1 // sent messages should have same user._id
+          }}
+          renderActions={this.renderCustomActions}
+          renderBubble={this.renderBubble}
+          // renderSystemMessage={this.renderSystemMessage}
+          renderFooter={this.renderFooter}
+          renderCustomView={this.renderCustomView}
+          renderMessage={this.renderMessage}
+        />
+        <Menu navigate={navigate} />
+      </Container>
     )
   }
 }
@@ -249,12 +327,12 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginLeft: 10,
     marginRight: 10,
-    marginBottom: 10,
+    marginBottom: 10
   },
   footerText: {
     fontSize: 14,
-    color: '#aaa',
-  },
+    color: '#aaa'
+  }
 })
 
 export default Chat

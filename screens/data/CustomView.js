@@ -1,158 +1,50 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Container, Header, Content, List, ListItem, Thumbnail, Text, Body, Right, Icon } from 'native-base';
-
+import { Container, Header, Content, List, ListItem, Thumbnail, Text, Body, Right, Icon, Button } from 'native-base';
+import axios from 'axios'
 
 export default class CustomView extends React.Component {
+  state = {
+    dataCategories : this.props.currentMessage.dataFromBot ? this.props.currentMessage.dataFromBot : ''
+  }
+  addToReadingList(url){
+    console.log(url)
+    axios.post('http://apibucket.sabikaorganizer.com:3008/readings/set', {
+      url: url,
+      category: this.props.currentMessage.category
+    })
+    .then(result => {
+      console.log(result.data, 'dari add to reading list')
+    })
+  }
+  
   render() {
-    // console.log('asaoskoaskas', this.props.currentMessage)
-    if (this.props.currentMessage.text === 'Alright') {
+    if (this.props.currentMessage.dataFromBot) {
       return (
         <Container
           style={{width: 300}}
         >
           <Content>
             <List>
-              <ListItem
-                style={{marginLeft: 15, marginRight: 15, paddingRight: 0}}
-              >
-                <Body
-                  style={{width: 250}}
-                >
-                  <Text style={{marginLeft: 0, marginRight: 0}} >Sankhadeep</Text>
-                  <Text style={{marginLeft: 0, marginRight: 0}} note>Its time to build a difference . . .</Text>
-                </Body>
-                <Right>
-                  <Icon name="add-circle" style={{fontSize: 24, color: 'green'}}/>
+              {this.props.currentMessage.dataFromBot.map((article, idx) => {
+                return (
+                  <ListItem
+                    style={{marginLeft: 15, marginRight: 15, paddingRight: 0}}
+                    key={idx}
+                  >
+                    <Body
+                      style={{width: 250}}
+                    >
+                      <Text style={{marginLeft: 0, marginRight: 0}} >{article.title}</Text>
+                    </Body>
+                    <Right>
+                      <Icon name="add-circle" style={{fontSize: 24, color: 'green'}} onPress={() => this.addToReadingList(article.url)}/>
+                    </Right>
+                  </ListItem>
 
-                </Right>
-              </ListItem>
-              <ListItem
-                style={{marginLeft: 15, marginRight: 15, paddingRight: 0}}
-              >
-                <Body
-                  style={{width: 250}}
-                >
-                  <Text style={{marginLeft: 0, marginRight: 0}} >Sankhadeep</Text>
-                  <Text style={{marginLeft: 0, marginRight: 0}} note>Its time to build a difference . . .</Text>
-                </Body>
-                <Right>
-                  <Icon name="add-circle" style={{fontSize: 24, color: 'green'}}/>
-
-                </Right>
-              </ListItem>
-              <ListItem
-                style={{marginLeft: 15, marginRight: 15, paddingRight: 0}}
-              >
-                <Body
-                  style={{width: 250}}
-                >
-                  <Text style={{marginLeft: 0, marginRight: 0}} >Sankhadeep</Text>
-                  <Text style={{marginLeft: 0, marginRight: 0}} note>Its time to build a difference . . .</Text>
-                </Body>
-                <Right>
-                  <Icon name="add-circle" style={{fontSize: 24, color: 'green'}}/>
-
-                </Right>
-              </ListItem>
-              <ListItem
-                style={{marginLeft: 15, marginRight: 15, paddingRight: 0}}
-              >
-                <Body
-                  style={{width: 250}}
-                >
-                  <Text style={{marginLeft: 0, marginRight: 0}} >Sankhadeep</Text>
-                  <Text style={{marginLeft: 0, marginRight: 0}} note>Its time to build a difference . . .</Text>
-                </Body>
-                <Right>
-                  <Icon name="add-circle" style={{fontSize: 24, color: 'green'}}/>
-
-                </Right>
-              </ListItem>
-              <ListItem
-                style={{marginLeft: 15, marginRight: 15, paddingRight: 0}}
-              >
-                <Body
-                  style={{width: 250}}
-                >
-                  <Text style={{marginLeft: 0, marginRight: 0}} >Sankhadeep</Text>
-                  <Text style={{marginLeft: 0, marginRight: 0}} note>Its time to build a difference . . .</Text>
-                </Body>
-                <Right>
-                  <Icon name="add-circle" style={{fontSize: 24, color: 'green'}}/>
-
-                </Right>
-              </ListItem>
-              <ListItem
-                style={{marginLeft: 15, marginRight: 15, paddingRight: 0}}
-              >
-                <Body
-                  style={{width: 250}}
-                >
-                  <Text style={{marginLeft: 0, marginRight: 0}} >Sankhadeep</Text>
-                  <Text style={{marginLeft: 0, marginRight: 0}} note>Its time to build a difference . . .</Text>
-                </Body>
-                <Right>
-                  <Icon name="add-circle" style={{fontSize: 24, color: 'green'}}/>
-
-                </Right>
-              </ListItem>
-              <ListItem
-                style={{marginLeft: 15, marginRight: 15, paddingRight: 0}}
-              >
-                <Body
-                  style={{width: 250}}
-                >
-                  <Text style={{marginLeft: 0, marginRight: 0}} >Sankhadeep</Text>
-                  <Text style={{marginLeft: 0, marginRight: 0}} note>Its time to build a difference . . .</Text>
-                </Body>
-                <Right>
-                  <Icon name="add-circle" style={{fontSize: 24, color: 'green'}}/>
-
-                </Right>
-              </ListItem>
-              <ListItem
-                style={{marginLeft: 15, marginRight: 15, paddingRight: 0}}
-              >
-                <Body
-                  style={{width: 250}}
-                >
-                  <Text style={{marginLeft: 0, marginRight: 0}} >Sankhadeep</Text>
-                  <Text style={{marginLeft: 0, marginRight: 0}} note>Its time to build a difference . . .</Text>
-                </Body>
-                <Right>
-                  <Icon name="add-circle" style={{fontSize: 24, color: 'green'}}/>
-
-                </Right>
-              </ListItem>
-              <ListItem
-                style={{marginLeft: 15, marginRight: 15, paddingRight: 0}}
-              >
-                <Body
-                  style={{width: 250}}
-                >
-                  <Text style={{marginLeft: 0, marginRight: 0}} >Sankhadeep</Text>
-                  <Text style={{marginLeft: 0, marginRight: 0}} note>Its time to build a difference . . .</Text>
-                </Body>
-                <Right>
-                  <Icon name="add-circle" style={{fontSize: 24, color: 'green'}}/>
-
-                </Right>
-              </ListItem>
-              <ListItem
-                style={{marginLeft: 15, marginRight: 15, paddingRight: 0}}
-              >
-                <Body
-                  style={{width: 250}}
-                >
-                  <Text style={{marginLeft: 0, marginRight: 0}} >Sankhadeep</Text>
-                  <Text style={{marginLeft: 0, marginRight: 0}} note>Its time to build a difference . . .</Text>
-                </Body>
-                <Right>
-                  <Icon name="add-circle" style={{fontSize: 24, color: 'green'}}/>
-
-                </Right>
-              </ListItem>
+                )
+              })}
+              
             </List>
           </Content>
         </Container>

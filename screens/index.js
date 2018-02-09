@@ -6,12 +6,16 @@ import ReadingList from './ReadingList'
 import DetailArticle from './DetailArticle'
 import HistoryReadings from './HistoryReadings'
 
+import Menu from './Menu'
+
 export {
   Login,
   Home,
   Chat,
   ArticleList,
   ReadingList,
+  history,
   DetailArticle,
-  HistoryReadings
+  HistoryReadings,
+  Menu
 }
