@@ -1923,11 +1923,6 @@ find-up@^2.0.0, find-up@^2.1.0:
   dependencies:
     locate-path "^2.0.0"
 
-follow-redirects@^1.2.5:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.4.1.tgz#d8120f4518190f55aac65bb6fc7b85fcd666d6aa"
-  dependencies:
-    debug "^3.1.0"
 firebase@^4.9.1:
   version "4.9.1"
   resolved "https://registry.yarnpkg.com/firebase/-/firebase-4.9.1.tgz#7adda5cf05dbb9d65e316adb61e2c62abcef2586"
@@ -4094,6 +4089,10 @@ react-native-gifted-chat@^0.3.0:
     react-native-parsed-text "^0.0.19"
     shallowequal "1.0.2"
     uuid "3.1.0"
+
+react-native-google-signin@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/react-native-google-signin/-/react-native-google-signin-0.12.0.tgz#fc549593adbc92ed2a5a683a957f157650ece961"
 
 react-native-invertible-scroll-view@^1.1.0:
   version "1.1.0"
