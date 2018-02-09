@@ -19,6 +19,7 @@ import {
   Card,
   CardItem
 } from 'native-base'
+import Menu from './Menu'
 
 const winSize = Dimensions.get('window')
 class Home extends Component {
@@ -32,6 +33,7 @@ class Home extends Component {
   // }
 
   render() {
+    const { navigate } = this.props.navigation
     return (
       <Container>
         <Content style={ styles.content }>
@@ -74,32 +76,7 @@ class Home extends Component {
             </ListItem>
           </List>
         </Content>
-        <Footer>
-          <FooterTab>
-            <Button active vertical>
-              <Icon name="chatboxes" />
-              <Text>Chat</Text>
-            </Button>
-            <Button  badge vertical>
-              <Badge>
-                <Text>10</Text>
-              </Badge>
-              <Icon name="list-box" />
-              <Text>Article</Text>
-            </Button>
-            <Button active badge vertical>
-              <Badge>
-                <Text>2</Text>
-              </Badge>
-              <Icon active name="md-book" />
-              <Text>Read</Text>
-            </Button>
-            <Button vertical>
-              <Icon name="md-clipboard" />
-              <Text>History</Text>
-            </Button>
-          </FooterTab>
-        </Footer>
+        <Menu navigate={navigate} />
       </Container>
     )
   }

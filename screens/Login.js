@@ -64,6 +64,7 @@ class Login extends Component {
       <View style={styles.container}>
         <TouchableOpacity
           style={[styles.button, styles.facebook]}
+
           onPress={() => this.onLoginOrRegister()}
         >
           <Text style={styles.textColor}>Login with Facebook</Text>

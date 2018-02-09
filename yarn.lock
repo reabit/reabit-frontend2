@@ -1923,6 +1923,11 @@ find-up@^2.0.0, find-up@^2.1.0:
   dependencies:
     locate-path "^2.0.0"
 
+follow-redirects@^1.2.5:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.4.1.tgz#d8120f4518190f55aac65bb6fc7b85fcd666d6aa"
+  dependencies:
+    debug "^3.1.0"
 firebase@^4.9.1:
   version "4.9.1"
   resolved "https://registry.yarnpkg.com/firebase/-/firebase-4.9.1.tgz#7adda5cf05dbb9d65e316adb61e2c62abcef2586"
