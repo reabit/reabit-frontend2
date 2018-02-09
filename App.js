@@ -27,7 +27,7 @@ const AppNavigator = StackNavigator({
   DetailArticle: { screen: DetailArticle },
   HistoryReadings: { screen: HistoryReadings }
 }, {
-    initialRouteName: 'DetailArticle',
+    initialRouteName: 'HistoryReadings',
     headerMode: 'none'
   })
 

@@ -1,9 +1,16 @@
 import React, { Component } from 'react'
-import { View, Dimensions } from 'react-native'
+import axios from 'axios'
+
+import { 
+  View, 
+  Dimensions 
+} from 'react-native'
+
 import { 
   Container, 
   Header, 
   Content, 
+  Spinner,
   List, 
   Button,
   Icon,
@@ -17,34 +24,73 @@ const winSize = Dimensions.get('window')
 
 class ListHistoryReading extends Component {
 
-  render() {
-    return (
-      <Container>
-        <Content>
-          <List>
-            <ListItem>
-              <Thumbnail square size={80} source={{ uri: 'https://www.shareicon.net/download/2016/07/10/119669_people_512x512.png' }} />
-              <Body>
-                <Text>Sankhadeep</Text>
-                <Text note>Its time to build a difference . .</Text>
-              </Body>
-              <View style={styles.buttonView}>
-                  <Button small danger vertical
-                  style={styles.button}>
-                  <Text style={styles.text}>80%</Text>
-                  </Button>
-                  <Button small success vertical 
-                  style={styles.button}
-                  >
-                    <Icon name="ios-book-outline" />
+  constructor(props) {
+    super(props)
+    this.state= {
+      historys: ''
+    }
+  }
 
-                  </Button>
-                </View>
-            </ListItem>
-          </List>
-        </Content>
-      </Container>
-    )
+  componentDidMount() {
+    axios.get(`http://apibucket.sabikaorganizer.com:3008/summarys/list`)
+      .then(({data}) => {
+        console.log(data.data)
+        this.setState({
+          historys: data.data
+        })
+      })
+      .catch(err => console.log(err))
+  }
+
+  render() {
+    if (!this.state.historys) {
+      return (
+        <Container>
+          <Content>
+            <Spinner color='blue' />
+          </Content>
+        </Container>
+      )
+    } else {
+      return (
+        <Container>
+          <Content>
+            <List>
+                { this.state.historys.map((history,idx) => {
+                  let similarity = '';
+                  if(history.similarity === true) {
+                    similarity = <Icon name="ios-happy-outline" />
+                  } else {
+                    similarity = <Icon name="ios-sad-outline" />
+                  }
+                return (
+                      <ListItem key={idx}>
+                        <Thumbnail square size={80} source={{ uri: history.idReading.img }} />
+                        <Body>
+                          <Text>{ (history.idReading.title.length > 30 ? history.idReading.title.substr(0, 30)+'...' : history.idReading.title) }</Text>
+                        </Body>
+                        <View style={styles.buttonView}>
+                            <Button small danger vertical
+                            style={styles.button}>
+                            { similarity }
+                            </Button>
+                            {/* <Button small success vertical 
+                            style={styles.button}
+                            >
+                              <Icon name="ios-book-outline" />
+
+                            </Button> */}
+                        </View>
+                      </ListItem>
+                    )
+                  }
+                )
+              }
+            </List>
+          </Content>
+        </Container>
+      )
+    }
   }
 }
 
