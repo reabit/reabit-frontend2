@@ -27,7 +27,7 @@ import {
   Spinner
 } from 'native-base'
 
-import MenuFooters from './MenuFooters'
+import Menu from './Menu'
 
 const winSize = Dimensions.get('window')
 class DetailArticle extends Component {
@@ -45,7 +45,7 @@ class DetailArticle extends Component {
   }
   
   componentDidMount = () => {
-    let idArticle = '5a7d12f39979205e39026a3e' || this.props.navigation.state.params.id;
+    let idArticle = this.props.navigation.state.params.id;
     let url = `http://apibucket.sabikaorganizer.com:3008/readings/detail/${idArticle}`
     axios.get(url)
      .then(({ data }) => {
@@ -124,7 +124,7 @@ class DetailArticle extends Component {
               </CardItem>
             </Card>
           </Content>
-          <MenuFooters />
+          <Menu navigate={navigate} />
         </Container>
       )
     }
