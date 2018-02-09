@@ -19,13 +19,13 @@ class Menu extends Component {
         <FooterTab>
             <Button active vertical >
               <Icon name="ios-home-outline" />
-              <Text>Home</Text>
+              <Text style={ styles.fontButton }>Home</Text>
             </Button>
             <Button active vertical
               onPress={() => navigate('Chat')}
             >
               <Icon name="chatboxes" />
-              <Text>Chat</Text>
+              <Text style={ styles.fontButton }>Chat</Text>
             </Button>
             
             <Button active badge vertical
@@ -35,19 +35,25 @@ class Menu extends Component {
                 <Text>2</Text>
               </Badge>
               <Icon active name="md-book" />
-              <Text>Read</Text>
+              <Text style={ styles.fontButton }>Read</Text>
             </Button>
             <Button vertical onPress={()=>navigate('History')}>
               <Icon name="md-clipboard" />
-              <Text>History</Text>
+              <Text style={ styles.fontButton }>History</Text>
             </Button>
             <Button vertical>
               <Icon name="md-exit" />
-              <Text>Logout</Text>
+              <Text style={ styles.fontButton }>Logout</Text>
             </Button>
         </FooterTab>
       </Footer>
     )
+  }
+}
+
+const styles = {
+  fontButton: {
+    fontSize:8
   }
 }
 
