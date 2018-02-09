@@ -23,7 +23,7 @@ const AppNavigator = StackNavigator({
   ArticleList: { screen: ArticleList },
   ReadingList: { screen: ReadingList }
 }, {
-    initialRouteName: 'Login'
+    initialRouteName: 'ReadingList'
   })
 
 export default class App extends Component {
