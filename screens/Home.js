@@ -25,9 +25,6 @@ import MenuFooters from './MenuFooters'
 
 const winSize = Dimensions.get('window')
 class Home extends Component {
-  static navigationOptions = {
-    title: 'Home'
-  }
   // componentDidMount() {
   //   if (!EventEmitter.listeners('myEvent').length) {
   //     EventEmitter.addListener('myEvent', this.handleMyEvent);
@@ -38,47 +35,42 @@ class Home extends Component {
     const { navigate } = this.props.navigation
     return (
       <Container>
-        <Content style={ styles.content }>
-          <List>
-            <ListItem avatar  style={{
-            marginLeft: 2,
-            }}>
-              <Left style={{
-                width: winSize.width / 6
-              }}>
-                <Thumbnail source={{ uri: 'https://www.shareicon.net/download/2016/07/10/119669_people_512x512.png' }} />
-              </Left>
-              <Body style={{
-                marginLeft: 3,
-                width: winSize.width / 2
-              }}>
-                <Text style={{
-                  textAlign: 'left',
-                  marginRight: 0
-                }}>Title Article</Text>
-                <Text note style={{
-                  textAlign: 'left',
-                  marginRight: 0,
-
-                }}>Description Article asdsd</Text>
+        <Content>
+        <Card>
+          <CardItem>
+            <Text>Reading List</Text>
+          </CardItem>
+          <CardItem>
+            <Left style={{ marginLeft: 10 }}>
+              <Body>
+                <Icon name="md-bookmarks" style={{fontSize: 130, color: 'blue'}} />
               </Body>
-                <View style={styles.buttonView}>
-                  <Button small success vertical 
-                  style={styles.button}
-                  >
-                    <Icon name="checkmark" />
-
-                  </Button>
-                  <Button small danger vertical
-                  style={styles.button}>
-                    <Icon name="trash" />
-
-                  </Button>
-                </View>
-            </ListItem>
-          </List>
-        </Content>
-
+            </Left>
+            <Right style={{ marginRight: 10 }}>
+              <Body>
+                <Text style={{fontSize: 100, color: 'blue'}}>60</Text>
+              </Body>
+            </Right>
+          </CardItem>
+       </Card>
+       <Card>
+          <CardItem> 
+            <Text>Graphic Summary</Text>
+          </CardItem>
+          <CardItem>
+            <Left style={{ marginLeft: 10 }}>
+              <Body>
+                <Icon name="md-bookmarks" style={{fontSize: 130, color: 'blue'}} />
+              </Body>
+            </Left>
+            <Right style={{ marginRight: 10 }}>
+              <Body>
+                <Text style={{fontSize: 100, color: 'blue'}}>60</Text>
+              </Body>
+            </Right>
+          </CardItem>
+       </Card>
+      </Content>
         <Menu navigate={navigate} />
       </Container>
     )

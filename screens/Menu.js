@@ -17,7 +17,11 @@ class Menu extends Component {
     return (
       <Footer>
         <FooterTab>
-        <Button active vertical
+            <Button active vertical >
+              <Icon name="ios-home-outline" />
+              <Text>Home</Text>
+            </Button>
+            <Button active vertical
               onPress={() => navigate('Chat')}
             >
               <Icon name="chatboxes" />
