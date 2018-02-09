@@ -29,7 +29,6 @@ const AppNavigator = StackNavigator({
   HistoryReadings: { screen: HistoryReadings },
   Menu: { screen: Menu }
 }, {
-
     initialRouteName: 'Login',
 })
 
