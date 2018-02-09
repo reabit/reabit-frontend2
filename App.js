@@ -13,7 +13,8 @@ import {
   Home,
   Chat,
   ArticleList,
-  ReadingList
+  ReadingList,
+  Menu
 } from './screens'
 
 const AppNavigator = StackNavigator({
@@ -21,9 +22,10 @@ const AppNavigator = StackNavigator({
   Home: { screen: Home },
   Chat: { screen: Chat },
   ArticleList: { screen: ArticleList },
-  ReadingList: { screen: ReadingList }
+  ReadingList: { screen: ReadingList },
+  Menu: { screen: Menu }
 }, {
-    initialRouteName: 'ReadingList'
+    initialRouteName: 'Login'
   })
 
 export default class App extends Component {

@@ -19,7 +19,7 @@ class Login extends Component {
         <TouchableOpacity
           style={[styles.button, styles.facebook]}
           onPress={() =>
-            navigate('Home')}
+            navigate('Chat')}
         >
           <Text style={styles.textColor}>Login with Facebook</Text>
         </TouchableOpacity>
