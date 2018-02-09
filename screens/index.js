@@ -3,6 +3,9 @@ import Home from './Home'
 import Chat from './Chat'
 import ArticleList from './ArticleList'
 import ReadingList from './ReadingList'
+import DetailArticle from './DetailArticle'
+import HistoryReadings from './HistoryReadings'
+
 import Menu from './Menu'
 
 export {
@@ -11,5 +14,8 @@ export {
   Chat,
   ArticleList,
   ReadingList,
+  history,
+  DetailArticle,
+  HistoryReadings,
   Menu
 }

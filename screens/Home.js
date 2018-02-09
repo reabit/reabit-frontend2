@@ -21,6 +21,8 @@ import {
 } from 'native-base'
 import Menu from './Menu'
 
+import MenuFooters from './MenuFooters'
+
 const winSize = Dimensions.get('window')
 class Home extends Component {
   static navigationOptions = {
@@ -76,6 +78,7 @@ class Home extends Component {
             </ListItem>
           </List>
         </Content>
+
         <Menu navigate={navigate} />
       </Container>
     )
