@@ -19,6 +19,7 @@ import {
   Card,
   CardItem
 } from 'native-base'
+import Menu from './Menu'
 
 import MenuFooters from './MenuFooters'
 
@@ -34,6 +35,7 @@ class Home extends Component {
   // }
 
   render() {
+    const { navigate } = this.props.navigation
     return (
       <Container>
         <Content style={ styles.content }>
@@ -76,7 +78,8 @@ class Home extends Component {
             </ListItem>
           </List>
         </Content>
-        <MenuFooters />
+
+        <Menu navigate={navigate} />
       </Container>
     )
   }
