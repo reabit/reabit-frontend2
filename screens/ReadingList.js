@@ -82,7 +82,7 @@ class ReadingList extends Component {
                 <Body style={{ marginLeft: 3, width: winSize.width / 2}}>
                   <Text 
                     style={{ textAlign: 'left', marginRight: 0 }}
-                    // onPress={() => navigate('Chat', { id: data._id })}
+                    onPress={() => navigate('DetailArticle', { id: data._id })}
                   >
                     {data.title.length > 60 ? data.title.substr(0, 60)+'...' : data.title }
                   </Text>
