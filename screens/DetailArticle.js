@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { View, Dimensions, Image } from 'react-native'
+
+import { 
+  View, 
+  Dimensions, 
+  Image 
+} from 'react-native'
+
 import {
   Container,
   Header,
