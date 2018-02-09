@@ -19,9 +19,9 @@ import {
   Card,
   CardItem
 } from 'native-base'
-
+import Menu from './Menu'
 const datas = [
-  'Simon Mignolet',
+  'Simon asda',
   'Nathaniel Clyne',
   'Dejan Lovren',
   'Mama Sakho',
@@ -74,32 +74,7 @@ class ReadingList extends Component {
             style={{ paddingLeft: 17 }}
           />
         </Content>
-        <Footer>
-          <FooterTab>
-            <Button active vertical>
-              <Icon name="chatboxes" />
-              <Text>Chat</Text>
-            </Button>
-            <Button badge vertical>
-              <Badge>
-                <Text>10</Text>
-              </Badge>
-              <Icon name="list-box" />
-              <Text>Article</Text>
-            </Button>
-            <Button active badge vertical>
-              <Badge>
-                <Text>2</Text>
-              </Badge>
-              <Icon active name="md-book" />
-              <Text>Read</Text>
-            </Button>
-            <Button vertical>
-              <Icon name="md-clipboard" />
-              <Text>History</Text>
-            </Button>
-          </FooterTab>
-        </Footer>
+        <Menu navigate={navigate}/>
       </Container>
     )
   }
