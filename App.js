@@ -25,7 +25,7 @@ const AppNavigator = StackNavigator({
   ReadingList: { screen: ReadingList },
   Menu: { screen: Menu }
 }, {
-    initialRouteName: 'Login'
+    initialRouteName: 'ReadingList'
   })
 
 export default class App extends Component {

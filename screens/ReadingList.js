@@ -19,27 +19,20 @@ import {
   Card,
   CardItem
 } from 'native-base'
+import axios from 'axios'
+
 import Menu from './Menu'
-const datas = [
-  'Simon asda',
-  'Nathaniel Clyne',
-  'Dejan Lovren',
-  'Mama Sakho',
-  'Alberto Moreno',
-  'Emre Can',
-  'Joe Allen',
-  'Phil Coutinho',
-]
+
 
 const winSize = Dimensions.get('window')
 
 class ReadingList extends Component {
   constructor(props) {
     super(props)
-    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 })
+    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     this.state = {
       basic: true,
-      listViewData: datas,
+      listViewData: [],
     }
   }
 
@@ -54,21 +47,54 @@ class ReadingList extends Component {
     this.setState({ listViewData: newData })
   }
 
+  componentDidMount () {
+    const url = 'http://apibucket.sabikaorganizer.com:3008/readings/list/1'
+    axios.get(url)
+    .then(({ data: { data } }) => {
+      this.setState({
+        listViewData: data
+      })
+    })
+    .catch(err => console.log(err))
+  }
+
+  itemList (data) {
+    console.log(data)
+    if (data.length > 60) {
+      return data.substr(0, 60) + '...'
+    } else {
+      return data
+    }
+  }
+
   render() {
     const { navigate } = this.props.navigation
+    console.log(this.state.listViewData)
     return (
       <Container>
         <Content style={styles.content}>
           <List
             dataSource={this.ds.cloneWithRows(this.state.listViewData)}
             renderRow={data =>
-              <ListItem>
-                <Text>{data}</Text>
-              </ListItem>}
+              <ListItem avatar style={{ marginLeft: 2 }}>
+                <Left style={{ width: winSize.width / 6 }}>
+                  <Thumbnail source={{ uri: data.img }} />
+                </Left>
+                <Body style={{ marginLeft: 3, width: winSize.width / 2}}>
+                  <Text 
+                    style={{ textAlign: 'left', marginRight: 0 }}
+                    onPress={() => navigate('Chat', { id: data._id })}
+                  >
+                    {data.title.length > 60 ? data.title.substr(0, 60)+'...' : data.title }
+                  </Text>
+                </Body>
+              </ListItem>
+            }
             renderLeftHiddenRow={data =>
               <Button full onPress={() => navigate('Chat')}>
                 <Icon active name="md-checkmark-circle-outline" style={{ color: '#ffffff'}}/>
-              </Button>}
+              </Button>
+            }
             leftOpenValue={75}
             disableLeftSwipe={true}
             style={{ paddingLeft: 17 }}
