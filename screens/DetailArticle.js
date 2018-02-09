@@ -1,5 +1,12 @@
 import React, { Component } from 'react'
-import { View, Dimensions, Image } from 'react-native'
+import axios from 'axios'
+
+import { 
+  View, 
+  Dimensions, 
+  Image 
+} from 'react-native'
+
 import {
   Container,
   Header,
@@ -16,65 +23,126 @@ import {
   Right,
   Thumbnail,
   Card,
-  CardItem
+  CardItem,
+  Spinner
 } from 'native-base'
 
 import MenuFooters from './MenuFooters'
 
 const winSize = Dimensions.get('window')
 class DetailArticle extends Component {
-  static navigationOptions = {
-    title: 'Detail Article'
+  constructor(props) {
+    super(props)
+    this.state = {
+      title: '',
+      article: '',
+      date: '',
+      author: '',
+      category: '',
+      decription: '',
+      img: ''
+    }
   }
-  // componentDidMount() {
-  //   if (!EventEmitter.listeners('myEvent').length) {
-  //     EventEmitter.addListener('myEvent', this.handleMyEvent);
-  //   }
-  // }
+  
+  componentDidMount = () => {
+    let idArticle = '5a7d12f39979205e39026a3e' || this.props.navigation.state.params.id;
+    let url = `http://apibucket.sabikaorganizer.com:3008/readings/detail/${idArticle}`
+    axios.get(url)
+     .then(({ data }) => {
+       console.log(data.data)
+       this.setState({
+          title: data.data.title,
+          article: data.data.article,
+          date: data.data.date,
+          author: data.data.author,
+          category: data.data.category,
+          description: data.data.description,
+          img: data.data.img
+        })
+     })
+     .catch(err => console.log(err))
+  }
 
+  
   render() {
-    return (
-      <Container>
-        <Header>
-          <Left>
-            <Button transparent>
-              <Icon name='arrow-back' />
-            </Button>
-          </Left>
-          <Body>
-            <Title>Header</Title>
-          </Body>
-        </Header>
-        <Content>
-          <Card style={{flex: 0}}>
-            <CardItem>
-              <Left>
-                <Thumbnail source={{ uri: 'https://www.shareicon.net/download/2016/07/10/119669_people_512x512.png' }} />
+    const { navigate } = this.props.navigation
+    if(!this.state.title){
+      return (
+        <Container>
+          <Header>
+            <Left>
+              <Button transparent onPress={() => navigate('ReadingList')}>
+                <Icon name='arrow-back' />
+              </Button>
+            </Left>
+            <Body>
+              <Title>Detail Article</Title>
+            </Body>
+          </Header>
+          <Content>
+          <Spinner color='blue' />
+          </Content>
+        </Container>
+      )
+    } else {
+      return (
+        <Container>
+          <Header>
+            <Left>
+              <Button transparent onPress={() => navigate('ReadingList')} >
+                <Icon name='arrow-back' />
+              </Button>
+            </Left>
+            <Body>
+              <Title>Detail Article</Title>
+            </Body>
+          </Header>
+          <Content>
+            <Card style={{flex: 0}}>
+              <CardItem>
+                <Left>
+                  <Body>
+                    <Text>{this.state.title}</Text>
+                    <Text note>{this.state.date}</Text>
+                  </Body>
+                </Left>
+              </CardItem>
+              <CardItem>
                 <Body>
-                  <Text>NativeBase NativeBase NativeBase NativeBase NativeBase</Text>
-                  <Text note>April 15, 2016</Text>
+                  <Image source={{ uri: this.state.img }} style={{height: 200, width: '100%', flex: 1}}/>
+                  <Text style={styles.decription}>{this.state.description}</Text>
+                  { this.state.article.map((art,idx) => {
+                        return (
+                          <Content key={idx}>
+                            <Text style={styles.article}>{art}</Text>
+                          </Content>       
+                        )
+                      }
+                    ) 
+                  }
                 </Body>
-              </Left>
-            </CardItem>
-            <CardItem>
-              <Body>
-                <Image source={{ uri: 'https://cdn-images-1.medium.com/max/800/1*WFx8Z7vxXXdFj9BsXDtTjQ.jpeg' }} style={{height: 200, width: '100%', flex: 1}}/>
-                <Text>
-                On February 2015, Vint Cerf, also known as the father of the internet, issued a warning to humanity - that of a possible dark age and a lost generation simply because the systems of the future will not be able to render the files of the present.
-                </Text>
-              </Body>
-            </CardItem>
-          </Card>
-        </Content>
-        <MenuFooters />
-      </Container>
-    )
+              </CardItem>
+            </Card>
+          </Content>
+          <MenuFooters />
+        </Container>
+      )
+    }
   }
 }
 
 const styles = {
   content: {
     backgroundColor: '#fff'
+  },
+  decription: {
+    fontSize: 13,
+    fontStyle: 'italic'
+  },
+  article: {
+    fontSize: 13,
+    fontWeight: 'normal',
+    textAlign: 'justify'
   }
 }
 
