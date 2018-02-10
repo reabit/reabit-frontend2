@@ -14,7 +14,7 @@ import {
   Button
 } from 'native-base';
 
-import MenuFooters from './MenuFooters'
+import Menu from './Menu'
 import GraficReading from './GraficReading'
 import ListHistoryReading from './ListHistoryReading'
 
@@ -27,6 +27,7 @@ class HistoryReadings extends Component {
   // }
 
   render() {
+    const { navigate } = this.props.navigation
     return (
       <Container>
         <Tabs>
@@ -37,7 +38,7 @@ class HistoryReadings extends Component {
             <ListHistoryReading />
           </Tab>
         </Tabs>
-        <MenuFooters />
+        <Menu navigate={navigate} />
       </Container>
     )
   }

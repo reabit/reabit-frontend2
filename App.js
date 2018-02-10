@@ -29,7 +29,7 @@ const AppNavigator = StackNavigator({
   HistoryReadings: { screen: HistoryReadings },
   Menu: { screen: Menu }
 }, {
-    initialRouteName: 'Home',
+    initialRouteName: 'Login',
 })
 
 export default class App extends Component {
