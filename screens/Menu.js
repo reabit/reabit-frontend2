@@ -37,7 +37,7 @@ class Menu extends Component {
               <Icon active name="md-book" />
               <Text style={ styles.fontButton }>Read</Text>
             </Button>
-            <Button vertical onPress={()=>navigate('History')}>
+            <Button vertical onPress={()=>navigate('HistoryReadings')}>
               <Icon name="md-clipboard" />
               <Text style={ styles.fontButton }>History</Text>
             </Button>

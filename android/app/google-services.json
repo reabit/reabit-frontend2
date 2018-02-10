@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "1024910241700",
+    "firebase_url": "https://reabit-chatbot.firebaseio.com",
+    "project_id": "reabit-chatbot",
+    "storage_bucket": "reabit-chatbot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1024910241700:android:140609cb7a95c1ee",
+        "android_client_info": {
+          "package_name": "com.reabit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1024910241700-1ac2h04kq2km2c3766nuljmq4k4mrhoe.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1024910241700-r6bfdcmmqkjjlsd4k376n2lpcshpto9k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reabit",
+            "certificate_hash": "db251a2a94a9bab652dc4e70af634db5654ec628"
+          }
+        },
+        {
+          "client_id": "1024910241700-1frri4s2be2m8lbasur92pgbfb3oj1s9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWa62hR6It_2dIJ-r8OBcme751mlLACmI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1024910241700-1ac2h04kq2km2c3766nuljmq4k4mrhoe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
