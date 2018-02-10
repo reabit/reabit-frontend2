@@ -19,10 +19,9 @@ import {
   Card,
   CardItem
 } from 'native-base'
-import axios from 'axios'
+import { connect } from 'react-redux'
 
 import Menu from './Menu'
-
 
 const winSize = Dimensions.get('window')
 
@@ -32,39 +31,12 @@ class ReadingList extends Component {
     this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     this.state = {
       basic: true,
-      listViewData: [],
+      listViewData: this.props.articles,
     }
   }
 
   static navigationOptions = {
     title: 'Reading List',
-  }
-
-  deleteRow(secId, rowId, rowMap) {
-    rowMap[`${secId}${rowId}`].props.closeRow()
-    const newData = [...this.state.listViewData]
-    newData.splice(rowId, 1)
-    this.setState({ listViewData: newData })
-  }
-
-  componentDidMount () {
-    const url = 'http://apibucket.sabikaorganizer.com:3008/readings/list/1'
-    axios.get(url)
-    .then(({ data: { data } }) => {
-      this.setState({
-        listViewData: data
-      })
-    })
-    .catch(err => console.log(err))
-  }
-
-  itemList (data) {
-    console.log(data)
-    if (data.length > 60) {
-      return data.substr(0, 60) + '...'
-    } else {
-      return data
-    }
   }
 
   render() {
@@ -124,4 +96,10 @@ const styles = {
   }
 }
 
-export default ReadingList
+const mapStateToProps = (state) => {
+  return {
+    articles: state.articlesReducers.articles
+  }
+}
+
+export default connect(mapStateToProps, null)(ReadingList)

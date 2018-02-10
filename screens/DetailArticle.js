@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import axios from 'axios'
+import { connect } from 'react-redux'
 
 import { 
   View, 
@@ -45,26 +45,25 @@ class DetailArticle extends Component {
   }
   
   componentDidMount = () => {
-    let idArticle = this.props.navigation.state.params.id;
-    let url = `http://apibucket.sabikaorganizer.com:3008/readings/detail/${idArticle}`
-    axios.get(url)
-     .then(({ data }) => {
-       console.log(data.data)
-       this.setState({
-          title: data.data.title,
-          article: data.data.article,
-          date: data.data.date,
-          author: data.data.author,
-          category: data.data.category,
-          description: data.data.description,
-          img: data.data.img
-        })
-     })
-     .catch(err => console.log(err))
+    let article = this.props.articles.filter(article => {
+      return article._id === this.props.navigation.state.params.id
+    })
+
+    this.setState({
+      title: article[0].title,
+      article: article[0].article,
+      date: article[0].createdAt,
+      author: article[0].author,
+      category: article[0].category,
+      decription: article[0].description,
+      img: article[0].img
+    })
+    console.log('article', article[0])
   }
 
   
   render() {
+    console.log('articles', this.props)
     const { navigate } = this.props.navigation
     if(!this.state.title){
       return (
@@ -146,4 +145,10 @@ const styles = {
   }
 }
 
-export default DetailArticle
+const mapStateToProps = (state) => {
+  return {
+    articles: state.articlesReducers.articles
+  }
+}
+
+export default connect(mapStateToProps, null)(DetailArticle)
