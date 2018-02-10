@@ -19,6 +19,7 @@ export const fetch_articles_from_api = () => {
     }
     axios.get(urlAPI, config)
     .then(({ data: { data } }) => {
+      console.log('--------->', data)
       dispatch(add_articles_from_api(data))
     })
   }

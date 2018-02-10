@@ -24,6 +24,8 @@ import {
 } from 'react-native-gifted-chat'
 import SpeechAndroid from 'react-native-android-voice'
 import axios from 'axios'
+import firebase from '../firebase'
+
 import CustomActions from './data/CustomActions'
 import CustomView from './data/CustomView'
 import Menu from './Menu'
@@ -142,7 +144,11 @@ class Chat extends Component {
         } else if(result.data.summary) {
           axios.post(`http://apibucket.sabikaorganizer.com:3008/summarys/add/${this.state.idArticle}`, {
             summary: messages[0].text
-          })
+          }, {
+              headers: {
+                email: firebase.auth().currentUser.email
+              }
+            })
           .then(resultSummary => {
             console.log(resultSummary, '-------------- ini dari then summary')
           })

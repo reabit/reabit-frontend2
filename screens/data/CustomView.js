@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Container, Header, Content, List, ListItem, Thumbnail, Text, Body, Right, Icon, Button } from 'native-base';
 import axios from 'axios'
+import firebase from '../../firebase'
 
 export default class CustomView extends React.Component {
   state = {
@@ -12,6 +13,10 @@ export default class CustomView extends React.Component {
     axios.post('http://apibucket.sabikaorganizer.com:3008/readings/set', {
       url: url,
       category: this.props.currentMessage.category
+    }, {
+      headers: {
+        email: firebase.auth().currentUser.email
+      }
     })
     .then(result => {
       console.log(result.data, 'dari add to reading list')
