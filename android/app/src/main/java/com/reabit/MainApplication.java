@@ -13,6 +13,7 @@ import com.facebook.CallbackManager;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.wmjmc.reactspeech.VoicePackage;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;  
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,9 +35,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new SvgPackage(),
+          new SvgPackage(),
           new FBSDKPackage(mCallbackManager),
-          new VoicePackage()
+          new VoicePackage(),
+          new ReactNativePushNotificationPackage()
       );
     }
 
