@@ -11,20 +11,38 @@ import {
 } from 'native-base'
 
 import { VictoryPie, VictoryChart, VictoryTheme, VictoryLine, VictoryBar } from 'victory-native'
+import { connect } from 'react-redux'
 
 class GraficReading extends Component {
   
   render() {
-
+    console.log('summaries graphic', this.props.summaries)
     let data = []
-
     for (let index = 0; index <= 12; index++) {
+      let lengthMonth = this.props.summaries.filter(summary => {
+        let setDate = new Date(summary.date)
+        let month = setDate.getMonth()
+        return month == index
+      })
       let mouthData = {
-        y: Math.floor(Math.random()*12),
+        y: lengthMonth.length,
         x: index
       }
       data.push(mouthData);
     }
+
+    let goodLength = this.props.summaries.filter(summary => {
+      return summary.similarity === true
+    }).length
+    console.log('good', goodLength)
+    let badLength = this.props.summaries.filter(summary => {
+      return summary.similarity === false
+    }).length
+    console.log('bad', badLength)
+    let goodPercentage = (goodLength / this.props.summaries.length) * 100
+    console.log('goodPercentage', goodPercentage)
+    let badPercentage = (badLength / this.props.summaries.length) * 100
+    console.log('badPercentage', badPercentage)
 
     return (
       <Container>
@@ -37,8 +55,8 @@ class GraficReading extends Component {
               <Body style={{ marginLeft: -40, marginTop: -30 }}>
                 <VictoryPie
                   data={[
-                    { x: "Good", y: 35 },
-                    { x: "Bad", y: 40 }
+                    { x: "Good", y: goodPercentage },
+                    { x: "Bad", y: badPercentage }
                   ]}
                   labelRadius={90}
                   style={{ 
@@ -83,4 +101,10 @@ class GraficReading extends Component {
   }
 }
 
-export default GraficReading
+const mapStateToProps = (state) => {
+  return {
+    summaries: state.summariesReducers.summaries
+  }
+}
+
+export default connect(mapStateToProps)(GraficReading)

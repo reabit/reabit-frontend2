@@ -37,7 +37,6 @@ class Home extends Component {
     const { navigate } = this.props.navigation
 
     let data = []
-
     for (let index = 0; index <= 12; index++) {
       let lengthMonth = this.props.summaries.filter(summary => {
         let setDate = new Date(summary.date)

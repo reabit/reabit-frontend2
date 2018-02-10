@@ -8,11 +8,17 @@ import {
   Badge
 } from 'native-base'
 
+import { connect } from 'react-redux'
+
 class Menu extends Component {
   constructor(props){
     super(props)
   }
   render() {
+    console.log('articles menu', this.props.articles)
+    let unreadArticles = this.props.articles.filter(article => {
+      return article.statusRead === false
+    }).length
     const navigate = this.props.navigate
     return (
       <Footer>
@@ -34,7 +40,7 @@ class Menu extends Component {
               onPress={() => navigate('ReadingList')}
             >
               <Badge>
-                <Text>2</Text>
+              <Text>{unreadArticles}</Text>
               </Badge>
               <Icon active name="md-book" />
               <Text style={ styles.fontButton }>Read</Text>
@@ -59,4 +65,10 @@ const styles = {
   }
 }
 
-export default Menu
+const mapStateToProps = (state) => {
+  return {
+    articles: state.articlesReducers.articles
+  }
+}
+
+export default connect(mapStateToProps, null)(Menu)
