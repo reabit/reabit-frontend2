@@ -9,6 +9,8 @@ import {
 import firebase from '../firebase'
 import { AccessToken, LoginManager } from 'react-native-fbsdk'
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin'
+import { connect } from 'react-redux'
+import { create_user } from '../redux/actions/usersActions'
 
 class Login extends Component {
   static navigationOptions = {
@@ -44,6 +46,7 @@ class Login extends Component {
           photoURL: user.photoURL
         }
         console.log('facebook account -->', payload)
+        this.props.createUser(payload)
         this.props.navigation.navigate('Home')
       })
       .catch((error) => {
@@ -53,6 +56,7 @@ class Login extends Component {
     }
     
     googleLogin () {
+      
       GoogleSignin.signIn()
       .then((data) => {
         // Login with the credential
@@ -67,6 +71,7 @@ class Login extends Component {
           photoURL: user.photoURL
         }
         console.log('google account -->', payload)
+        this.props.createUser(payload)
         this.props.navigation.navigate('Home')
       })
       .catch((error) => {
@@ -129,4 +134,10 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Login
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createUser: (payload) => dispatch(create_user(payload))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Login)
