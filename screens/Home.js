@@ -13,9 +13,12 @@ import {
   Card,
   CardItem
 } from 'native-base'
-import Menu from './Menu'
-
 import { VictoryPie, VictoryChart, VictoryTheme, VictoryLine, VictoryBar } from 'victory-native'
+import { connect } from 'react-redux'
+
+
+import Menu from './Menu'
+import { fetch_article_from_api } from '../redux/actions/articleActions'
 
 const winSize = Dimensions.get('window')
 class Home extends Component {
@@ -24,6 +27,9 @@ class Home extends Component {
   //     EventEmitter.addListener('myEvent', this.handleMyEvent);
   //   }
   // }
+  componentDidMount () {
+    this.props.fetchArticles()
+  }
 
   render() {
     const { navigate } = this.props.navigation
@@ -31,8 +37,13 @@ class Home extends Component {
     let data = []
 
     for (let index = 0; index <= 12; index++) {
+      let lengthMonth = this.props.articles.filter(article => {
+        let setDate = new Date(article.createdAt)
+        let month = setDate.getMonth()
+        return month == index
+      })
       let mouthData = {
-        y: Math.floor(Math.random()*12),
+        y: lengthMonth.length,
         x: index
       }
       data.push(mouthData);
@@ -53,7 +64,7 @@ class Home extends Component {
             </Left>
             <Right style={{ marginRight: 10 }}>
               <Body>
-                <Text style={{fontSize: 100, color: '#66b3ff'}}>60</Text>
+                <Text style={{fontSize: 100, color: '#66b3ff'}}>{this.props.articles.length}</Text>
               </Body>
             </Right>
           </CardItem>
@@ -97,4 +108,16 @@ const styles = {
   }
 }
 
-export default Home
+const mapStateToProps = (state) => {
+  return {
+    articles: state.articleReducers.articles
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchArticles: () => dispatch(fetch_article_from_api())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
