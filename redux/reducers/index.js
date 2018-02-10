@@ -1,5 +1,7 @@
-import articleReducers from './articleReducers'
+import articlesReducers from './articlesReducers'
+import summariesReducers from './summariesReducers'
 
 export {
-  articleReducers
+  articlesReducers,
+  summariesReducers
 }

@@ -18,7 +18,8 @@ import { connect } from 'react-redux'
 
 
 import Menu from './Menu'
-import { fetch_article_from_api } from '../redux/actions/articleActions'
+import { fetch_articles_from_api } from '../redux/actions/articlesActions'
+import { fetch_summaries_from_api } from '../redux/actions/summariesActions'
 
 const winSize = Dimensions.get('window')
 class Home extends Component {
@@ -29,6 +30,7 @@ class Home extends Component {
   // }
   componentDidMount () {
     this.props.fetchArticles()
+    this.props.fetchSummaries()
   }
 
   render() {
@@ -37,8 +39,8 @@ class Home extends Component {
     let data = []
 
     for (let index = 0; index <= 12; index++) {
-      let lengthMonth = this.props.articles.filter(article => {
-        let setDate = new Date(article.createdAt)
+      let lengthMonth = this.props.summaries.filter(summary => {
+        let setDate = new Date(summary.date)
         let month = setDate.getMonth()
         return month == index
       })
@@ -110,13 +112,15 @@ const styles = {
 
 const mapStateToProps = (state) => {
   return {
-    articles: state.articleReducers.articles
+    articles: state.articlesReducers.articles,
+    summaries: state.summariesReducers.summaries
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchArticles: () => dispatch(fetch_article_from_api())
+    fetchArticles: () => dispatch(fetch_articles_from_api()),
+    fetchSummaries: () => dispatch(fetch_summaries_from_api())
   }
 }
 
