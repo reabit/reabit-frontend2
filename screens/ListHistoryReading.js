@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 
 import { 
   View, 
@@ -20,6 +19,8 @@ import {
   Body 
 } from 'native-base';
 
+import { connect } from 'react-redux'
+
 const winSize = Dimensions.get('window')
 
 class ListHistoryReading extends Component {
@@ -27,23 +28,13 @@ class ListHistoryReading extends Component {
   constructor(props) {
     super(props)
     this.state= {
-      historys: ''
+      histories: this.props.summaries
     }
   }
 
-  componentDidMount() {
-    axios.get(`http://apibucket.sabikaorganizer.com:3008/summarys/list`)
-      .then(({data}) => {
-        console.log(data.data)
-        this.setState({
-          historys: data.data
-        })
-      })
-      .catch(err => console.log(err))
-  }
-
   render() {
-    if (!this.state.historys) {
+    console.log('summaries list history reading', this.props.summaries)
+    if (!this.state.histories) {
       return (
         <Container>
           <Content>
@@ -56,7 +47,7 @@ class ListHistoryReading extends Component {
         <Container>
           <Content>
             <List>
-                { this.state.historys.map((history,idx) => {
+                { this.state.histories.map((history,idx) => {
                   let similarity = '';
                   if(history.similarity === true) {
                     similarity = <Icon name="ios-happy-outline" />
@@ -113,4 +104,10 @@ const styles = {
   }
 }
 
-export default ListHistoryReading
+const mapStateToProps = (state) => {
+  return {
+    summaries: state.summariesReducers.summaries
+  }
+}
+
+export default connect(mapStateToProps, null)(ListHistoryReading)

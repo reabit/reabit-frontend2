@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-
 import {
   Platform,
   StyleSheet,
@@ -7,10 +6,11 @@ import {
   View,
   AppState
 } from 'react-native'
-
 import { StackNavigator } from 'react-navigation'
+import PushNotification from 'react-native-push-notification'
+import { Provider } from 'react-redux'
 
-import PushNotification from 'react-native-push-notification';
+import store from './redux/store'
 
 PushNotification.configure({
     // (required) Called when a remote or local notification is opened or received
@@ -67,26 +67,28 @@ const AppNavigator = StackNavigator({
 
 export default class App extends Component {
 
-  componentDidMount() {
-    AppState.addEventListener('change', this.handleAppStateChange);
-  }
+  // componentDidMount() {
+  //   AppState.addEventListener('change', this.handleAppStateChange);
+  // }
 
-  componentWillUnmount() {
-    AppState.removeEventListener('change', this.handleAppStateChange);
-  }
+  // componentWillUnmount() {
+  //   AppState.removeEventListener('change', this.handleAppStateChange);
+  // }
   
-  handleAppStateChange(appState) {
-    if (appState == 'background') {
-      PushNotification.localNotificationSchedule({
-        message: "My Notification Message", // (required)
-        date: new Date(Date.now() + (10 * 1000)) // in 60 secs
-      });
-    }
-  }
+  // handleAppStateChange(appState) {
+  //   if (appState == 'background') {
+  //     PushNotification.localNotificationSchedule({
+  //       message: "My Notification Message", // (required)
+  //       date: new Date(Date.now() + (10 * 1000)) // in 60 secs
+  //     });
+  //   }
+  // }
 
   render() {
     return (
-      <AppNavigator />
+      <Provider store={store}>
+        <AppNavigator />
+      </Provider>
     )
   }
 }
