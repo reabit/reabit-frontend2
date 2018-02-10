@@ -10,25 +10,71 @@ import {
   Body 
 } from 'native-base'
 
+import { VictoryPie, VictoryChart, VictoryTheme, VictoryLine, VictoryBar } from 'victory-native'
+
 class GraficReading extends Component {
   
   render() {
+
+    let data = []
+
+    for (let index = 0; index <= 12; index++) {
+      let mouthData = {
+        y: Math.floor(Math.random()*12),
+        x: index
+      }
+      data.push(mouthData);
+    }
+
     return (
       <Container>
         <Content>
           <Card>
             <CardItem header>
-              <Text>NativeBase</Text>
+              <Text>Percentage Summary Articles</Text>
             </CardItem>
             <CardItem>
-              <Body>
-                <Text>
-                  //Your text here
-                </Text>
+              <Body style={{ marginLeft: -40, marginTop: -30 }}>
+                <VictoryPie
+                  data={[
+                    { x: "Good", y: 35 },
+                    { x: "Bad", y: 40 }
+                  ]}
+                  labelRadius={90}
+                  style={{ 
+                    labels: { 
+                      fill: "white", 
+                      fontSize: 20, 
+                      fontWeight: "bold" 
+                    } 
+                  }}
+                  // width={10}
+                />
               </Body>
             </CardItem>
-            <CardItem footer>
-              <Text>GeekyAnts</Text>
+         </Card>
+         <Card>
+            <CardItem header>
+              <Text>Graphic Articles</Text>
+            </CardItem>
+            <CardItem>
+              <Body style={{ marginLeft: -20, marginTop: -30 }}>
+              <VictoryChart
+                theme={VictoryTheme.material}
+                animate={{
+                  duration: 2000,
+                  onLoad: { duration: 1000 }
+                }}
+              >
+                <VictoryLine
+                  style={{
+                    data: { stroke: "#66b3ff" },
+                    parent: { border: "1px solid #ccc"}
+                  }}
+                  data={data}
+                />
+              </VictoryChart>
+              </Body>
             </CardItem>
          </Card>
         </Content>
