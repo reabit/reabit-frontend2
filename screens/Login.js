@@ -6,56 +6,73 @@ import {
   View,
   Button
 } from 'react-native'
-// import { LoginButton } from 'react-native-fbsdk'
-import { LoginButton, AccessToken, LoginManager } from 'react-native-fbsdk'
-import firebase from 'firebase'
+import firebase from '../firebase'
+import { AccessToken, LoginManager } from 'react-native-fbsdk'
+import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin'
 
 class Login extends Component {
   static navigationOptions = {
     title: 'Login',
   }
 
-  onLoginOrRegister = () => {
+  componentWillMount () {
+    GoogleSignin.hasPlayServices({ autoResolve: true })
+    GoogleSignin.configure({
+      webClientId: '1024910241700-1frri4s2be2m8lbasur92pgbfb3oj1s9.apps.googleusercontent.com'
+    })
+  }
+    
+  facebookLogin () {
     LoginManager.logInWithReadPermissions(['public_profile', 'email'])
-    .then((result) => {
-      if (result.isCancelled) {
-        return Promise.reject(new Error('The user cancelled the request'))
-      }
-      // Retrieve the access token
-      return AccessToken.getCurrentAccessToken()
-    })
-    .then((data) => {
-      // Create a new Firebase credential with the token
-      firebase.initializeApp({
-        apiKey: 'AIzaSyB9pZ7AjNMf8eYUOVR6YSJ6NfNBYEIDv_4',
-        authDomain: 'reabit-chatbot.firebaseapp.com',
-        databaseURL: 'https://reabit-chatbot.firebaseio.com',
-        projectId: 'reabit-chatbot',
-        storageBucket: 'reabit-chatbot.appspot.com',
-        messagingSenderId: '1024910241700'
-      })
-      const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken)
-      // Login with the credential
-      return firebase.auth().signInWithCredential(credential)
-    })
-    .then((user) => {
-      // If you need to do anything with the user, do it here
-      // The user will be logged in automatically by the
-      // `onAuthStateChanged` listener we set up in App.js earlier
-      console.log('user -->', {
-        user: {
-          name: user.displayName,
-          email: user.email
+      .then((result) => {
+        if (result.isCancelled) {
+          return Promise.reject(new Error('The user cancelled the request'))
         }
+        // Retrieve the access token
+        return AccessToken.getCurrentAccessToken()
       })
-      this.props.navigation('Home')
-    })
-    .catch((error) => {
-      const { code, message } = error
-      // For details of error codes, see the docs
-      // The message contains the default Firebase string
-      // representation of the error
-    })
+      .then((data) => {
+        // Login with the credential
+        const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken)
+        return firebase.auth().signInWithCredential(credential)
+      })
+      .then((user) => {
+        // If you need to do anything with the user, do it here
+        let payload = {
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL
+        }
+        console.log('facebook account -->', payload)
+        this.props.navigation.navigate('Home')
+      })
+      .catch((error) => {
+        // For details of error codes, see the docs
+        alert('Oops.. Login failed! ', error)
+      })
+    }
+    
+    googleLogin () {
+      GoogleSignin.signIn()
+      .then((data) => {
+        // Login with the credential
+        let credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken)
+        return firebase.auth().signInWithCredential(credential)
+      })
+      .then((user) => {
+        // If you need to do anything with the user, do it here
+        const payload = {
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL
+        }
+        console.log('google account -->', payload)
+        this.props.navigation.navigate('Home')
+      })
+      .catch((error) => {
+        // For details of error codes, see the docs
+        alert('Oops.. Login failed! ', error)
+      })
   }
 
   render() {
@@ -64,36 +81,18 @@ class Login extends Component {
       <View style={styles.container}>
         <TouchableOpacity
           style={[styles.button, styles.facebook]}
-
-          onPress={() => this.onLoginOrRegister()}
+          onPress={() => this.facebookLogin()}
         >
           <Text style={styles.textColor}>Login with Facebook</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.button, styles.google]}
-          onPress={() => navigate('Chat')}
+          onPress={() => this.googleLogin()}
         >
           <Text>Login with Google</Text>
         </TouchableOpacity>
       </View>
-      // <View style={styles.container}>
-      //   <LoginButton
-      //     publishPermissions={['publish_actions']}
-      //     onLoginFinished={
-      //       (error, result) => {
-      //         if (error) {
-      //           alert('Login failed with error: ' + result.error)
-      //         } else if (result.isCancelled) {
-      //           alert('Login was cancelled')
-      //         } else {
-      //           alert('Login was successful with permissions: ' + result.grantedPermissions)
-      //           console.log('result -->', result)
-      //         }
-      //       }
-      //     }
-      //     onLogoutFinished={() => alert('User logged out')}/>
-      // </View>
     )
   }
 }
