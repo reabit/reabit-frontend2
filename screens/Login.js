@@ -3,18 +3,18 @@ import {
   StyleSheet,
   TouchableOpacity,
   Text,
-  View,
-  Button
+  View
 } from 'react-native'
-import firebase from '../firebase'
 import { AccessToken, LoginManager } from 'react-native-fbsdk'
-import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin'
+import { GoogleSignin } from 'react-native-google-signin'
 import { connect } from 'react-redux'
+
+import firebase from '../firebase'
 import { create_user } from '../redux/actions/usersActions'
 
 class Login extends Component {
   static navigationOptions = {
-    title: 'Login',
+    header: null
   }
 
   componentWillMount () {
@@ -23,15 +23,16 @@ class Login extends Component {
       webClientId: '1024910241700-1frri4s2be2m8lbasur92pgbfb3oj1s9.apps.googleusercontent.com'
     })
   }
-    
+
   facebookLogin () {
     LoginManager.logInWithReadPermissions(['public_profile', 'email'])
       .then((result) => {
         if (result.isCancelled) {
           return Promise.reject(new Error('The user cancelled the request'))
+        } else {
+          // Retrieve the access token
+          return AccessToken.getCurrentAccessToken()
         }
-        // Retrieve the access token
-        return AccessToken.getCurrentAccessToken()
       })
       .then((data) => {
         // Login with the credential
@@ -54,34 +55,32 @@ class Login extends Component {
         alert('Oops.. Login failed! ', error)
       })
     }
-    
-    googleLogin () {
-      
-      GoogleSignin.signIn()
-      .then((data) => {
-        // Login with the credential
-        let credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken)
-        return firebase.auth().signInWithCredential(credential)
-      })
-      .then((user) => {
-        // If you need to do anything with the user, do it here
-        const payload = {
-          name: user.displayName,
-          email: user.email,
-          photoURL: user.photoURL
-        }
-        console.log('google account -->', payload)
-        this.props.createUser(payload)
-        this.props.navigation.navigate('Home')
-      })
-      .catch((error) => {
-        // For details of error codes, see the docs
-        alert('Oops.. Login failed! ', error)
-      })
+
+  googleLogin () {
+    GoogleSignin.signIn()
+    .then((data) => {
+      // Login with the credential
+      let credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken)
+      return firebase.auth().signInWithCredential(credential)
+    })
+    .then((user) => {
+      // If you need to do anything with the user, do it here
+      const payload = {
+        name: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL
+      }
+      console.log('google account -->', payload)
+      this.props.createUser(payload)
+      this.props.navigation.navigate('Home')
+    })
+    .catch((error) => {
+      // For details of error codes, see the docs
+      alert('Oops.. Login failed! ', error)
+    })
   }
 
   render() {
-    const { navigate } = this.props.navigation
     return (
       <View style={styles.container}>
         <TouchableOpacity

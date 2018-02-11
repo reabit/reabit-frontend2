@@ -36,7 +36,7 @@ class ReadingList extends Component {
   }
 
   static navigationOptions = {
-    title: 'Reading List',
+    header: null
   }
 
   render() {

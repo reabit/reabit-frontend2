@@ -44,6 +44,10 @@ class DetailArticle extends Component {
     }
   }
 
+  static navigationOptions = {
+    header: null
+  }
+
   render() {
     let article = this.props.articles.filter(article => {
       return article._id === this.props.navigation.state.params.id

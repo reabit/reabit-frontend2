@@ -7,15 +7,21 @@ import {
   Icon,
   Badge
 } from 'native-base'
-
 import { connect } from 'react-redux'
 
+import firebase from '../firebase'
+
 class Menu extends Component {
-  constructor(props){
-    super(props)
+  async logout () {
+    try {
+      await firebase.auth().signOut()
+      this.props.navigate('Login')
+    } catch (err) {
+      alert(err)
+    }
   }
+
   render() {
-    console.log('articles menu', this.props.articles)
     let unreadArticles = this.props.articles.filter(article => {
       return article.statusRead === false
     }).length
@@ -32,7 +38,7 @@ class Menu extends Component {
             <Button active vertical
               onPress={() => navigate('Chat')}
             >
-              <Icon name="chatboxes" />
+            <Icon name="ios-chatbubbles-outline" />
               <Text style={ styles.fontButton }>Chat</Text>
             </Button>
             
@@ -40,18 +46,18 @@ class Menu extends Component {
               onPress={() => navigate('ReadingList')}
             >
               <Badge>
-              <Text>{unreadArticles}</Text>
+                <Text>{unreadArticles}</Text>
               </Badge>
-              <Icon active name="md-book" />
+              <Icon active name="ios-book-outline" />
               <Text style={ styles.fontButton }>Read</Text>
             </Button>
-            <Button vertical onPress={()=>navigate('HistoryReadings')}>
-              <Icon name="md-clipboard" />
+            <Button vertical onPress={() => navigate('HistoryReadings')}>
+              <Icon name="ios-clipboard-outline" />
               <Text style={ styles.fontButton }>History</Text>
             </Button>
-            <Button vertical>
-              <Icon name="md-exit" />
-              <Text style={ styles.fontButton }>Logout</Text>
+            <Button vertical onPress={() => this.logout()}>
+              <Icon name="ios-log-out-outline" />
+              <Text style={ styles.fontButton }>Log out</Text>
             </Button>
         </FooterTab>
       </Footer>
@@ -61,7 +67,7 @@ class Menu extends Component {
 
 const styles = {
   fontButton: {
-    fontSize:8
+    fontSize: 8
   }
 }
 
