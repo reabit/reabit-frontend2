@@ -44,11 +44,10 @@ class DetailArticle extends Component {
     }
   }
 
-  render() {
+  componentDidMount() {
     let article = this.props.articles.filter(article => {
-      return article._id === this.props.navigation.state.params.id
+      return article._id == this.props.navigation.state.params.id
     })
-  
     this.setState({
       title: article[0].title,
       article: article[0].article,
@@ -58,6 +57,9 @@ class DetailArticle extends Component {
       decription: article[0].description,
       img: article[0].img
     })
+  }
+
+  render() {
     const { navigate } = this.props.navigation
     if(!this.state.title){
       return (

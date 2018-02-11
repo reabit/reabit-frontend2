@@ -14,7 +14,7 @@ export const fetch_articles_from_api = () => {
     const userEmail = firebase.auth().currentUser
     const config = {
       headers: {
-        email: userEmail.email
+        email: 'triamri@gmail.com'
       }
     }
     axios.get(urlAPI, config)
