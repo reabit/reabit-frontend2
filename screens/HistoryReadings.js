@@ -20,6 +20,10 @@ import ListHistoryReading from './ListHistoryReading'
 
 const winSize = Dimensions.get('window')
 class HistoryReadings extends Component {
+  static navigationOptions = {
+    header: null
+  }
+
   // componentDidMount() {
   //   if (!EventEmitter.listeners('myEvent').length) {
   //     EventEmitter.addListener('myEvent', this.handleMyEvent);
@@ -31,7 +35,7 @@ class HistoryReadings extends Component {
     return (
       <Container>
         <Tabs>
-          <Tab heading={ <TabHeading><Icon name="ios-pie-outline" /><Text>Grafic</Text></TabHeading>}>
+          <Tab heading={ <TabHeading><Icon name="ios-pie-outline" /><Text>Chart</Text></TabHeading>}>
             <GraficReading />
           </Tab>
           <Tab heading={ <TabHeading><Icon name="ios-list-box-outline" /><Text>List</Text></TabHeading>}>

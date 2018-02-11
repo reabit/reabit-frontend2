@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
-
 import { 
   View, 
   Dimensions 
 } from 'react-native'
-
 import { 
   Container, 
   Header, 
@@ -18,13 +16,11 @@ import {
   Text, 
   Body 
 } from 'native-base';
-
 import { connect } from 'react-redux'
 
 const winSize = Dimensions.get('window')
 
 class ListHistoryReading extends Component {
-
   constructor(props) {
     super(props)
     this.state= {
@@ -33,7 +29,6 @@ class ListHistoryReading extends Component {
   }
 
   render() {
-    console.log('summaries list history reading', this.props.summaries)
     if (!this.state.histories) {
       return (
         <Container>

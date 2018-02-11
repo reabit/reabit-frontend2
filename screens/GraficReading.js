@@ -9,14 +9,22 @@ import {
   Text, 
   Body 
 } from 'native-base'
-
-import { VictoryPie, VictoryChart, VictoryTheme, VictoryLine, VictoryBar } from 'victory-native'
+import {
+  VictoryPie,
+  VictoryChart,
+  VictoryTheme,
+  VictoryLine,
+  VictoryBar
+} from 'victory-native'
 import { connect } from 'react-redux'
 
 class GraficReading extends Component {
+  static navigationOptions = {
+    header: null
+  }
   
   render() {
-    console.log('summaries graphic', this.props.summaries)
+    // console.log('summaries graphic', this.props.summaries)
     let data = []
     for (let index = 0; index <= 12; index++) {
       let lengthMonth = this.props.summaries.filter(summary => {
@@ -34,15 +42,15 @@ class GraficReading extends Component {
     let goodLength = this.props.summaries.filter(summary => {
       return summary.similarity === true
     }).length
-    console.log('good', goodLength)
+    // console.log('good', goodLength)
     let badLength = this.props.summaries.filter(summary => {
       return summary.similarity === false
     }).length
-    console.log('bad', badLength)
+    // console.log('bad', badLength)
     let goodPercentage = (goodLength / this.props.summaries.length) * 100
-    console.log('goodPercentage', goodPercentage)
+    // console.log('goodPercentage', goodPercentage)
     let badPercentage = (badLength / this.props.summaries.length) * 100
-    console.log('badPercentage', badPercentage)
+    // console.log('badPercentage', badPercentage)
 
     return (
       <Container>
@@ -66,7 +74,6 @@ class GraficReading extends Component {
                       fontWeight: "bold" 
                     } 
                   }}
-                  // width={10}
                 />
               </Body>
             </CardItem>
