@@ -1,28 +1,25 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
 import { 
-  Container, 
-  Header, 
-  Content, 
-  Card, 
-  CardItem, 
-  Text, 
-  Body 
+  Container,
+  Content,
+  Card,
+  CardItem,
+  Text,
+  Body
 } from 'native-base'
 import {
   VictoryPie,
   VictoryChart,
   VictoryTheme,
-  VictoryLine,
-  VictoryBar
+  VictoryLine
 } from 'victory-native'
 import { connect } from 'react-redux'
 
-class GraficReading extends Component {
+class HistoryChart extends Component {
   static navigationOptions = {
     header: null
   }
-  
+
   render() {
     // console.log('summaries graphic', this.props.summaries)
     let data = []
@@ -114,4 +111,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(GraficReading)
+export default connect(mapStateToProps, null)(HistoryChart)

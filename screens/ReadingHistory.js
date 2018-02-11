@@ -1,25 +1,19 @@
 import React, { Component } from 'react'
-import { View, Dimensions } from 'react-native'
+import { Dimensions } from 'react-native'
 import { 
-  Container, 
-  Header, 
-  Tab, 
-  Tabs, 
-  TabHeading, 
-  Icon, 
-  Text,
-  Footer,
-  FooterTab,
-  Badge,
-  Button
+  Container,
+  Tab,
+  Tabs,
+  TabHeading,
+  Icon,
+  Text
 } from 'native-base';
 
-import Menu from './Menu'
-import GraficReading from './GraficReading'
-import ListHistoryReading from './ListHistoryReading'
+import { Menu } from './components'
+import { HistoryChart, HistoryList} from './components'
 
 const winSize = Dimensions.get('window')
-class HistoryReadings extends Component {
+class ReadingHistory extends Component {
   static navigationOptions = {
     header: null
   }
@@ -36,10 +30,10 @@ class HistoryReadings extends Component {
       <Container>
         <Tabs>
           <Tab heading={ <TabHeading><Icon name="ios-pie-outline" /><Text>Chart</Text></TabHeading>}>
-            <GraficReading />
+            <HistoryChart />
           </Tab>
           <Tab heading={ <TabHeading><Icon name="ios-list-box-outline" /><Text>List</Text></TabHeading>}>
-            <ListHistoryReading />
+            <HistoryList />
           </Tab>
         </Tabs>
         <Menu navigate={navigate} />
@@ -54,4 +48,4 @@ const styles = {
   }
 }
 
-export default HistoryReadings
+export default ReadingHistory

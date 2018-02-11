@@ -24,11 +24,10 @@ import {
 } from 'react-native-gifted-chat'
 import SpeechAndroid from 'react-native-android-voice'
 import axios from 'axios'
-import firebase from '../firebase'
 
-import CustomActions from './data/CustomActions'
+import firebase from '../firebase'
 import CustomView from './data/CustomView'
-import Menu from './Menu'
+import { Menu } from './components'
 import { summaryBot } from './data/summary'
 
 class Chat extends Component {
@@ -43,6 +42,8 @@ class Chat extends Component {
     }
 
     this._isMounted = false
+    this._isAlright = null
+
     this.onSend = this.onSend.bind(this)
     this.onReceive = this.onReceive.bind(this)
     this.renderCustomActions = this.renderCustomActions.bind(this)
@@ -51,8 +52,6 @@ class Chat extends Component {
     this.renderFooter = this.renderFooter.bind(this)
     this.onLoadEarlier = this.onLoadEarlier.bind(this)
     this._buttonClick = this._buttonClick.bind(this)
-
-    this._isAlright = null
   }
 
   static navigationOptions = {
@@ -223,13 +222,7 @@ class Chat extends Component {
   }
 
   renderCustomActions(props) {
-    // if (Platform.OS === 'ios') {
-    //   return (
-    //     <Text>test</Text>
-    //     // <Icon name="mic" />
-    //   )
-    // } else {
-    // }
+    // if (Platform.OS === 'ios') {} else {}
     return (
       <TouchableOpacity
         style={{ paddingBottom: 8, paddingLeft: 12 }}

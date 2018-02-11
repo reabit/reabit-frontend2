@@ -1,12 +1,5 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-
-import { 
-  View, 
-  Dimensions, 
-  Image 
-} from 'react-native'
-
+import { Dimensions } from 'react-native'
 import {
   Container,
   Header,
@@ -26,11 +19,12 @@ import {
   CardItem,
   Spinner
 } from 'native-base'
+import { connect } from 'react-redux'
 
-import Menu from './Menu'
+import { Menu } from './components'
 
 const winSize = Dimensions.get('window')
-class DetailArticle extends Component {
+class ArticleDetail extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -52,7 +46,7 @@ class DetailArticle extends Component {
     let article = this.props.articles.filter(article => {
       return article._id === this.props.navigation.state.params.id
     })
-  
+
     this.setState({
       title: article[0].title,
       article: article[0].article,
@@ -62,6 +56,7 @@ class DetailArticle extends Component {
       decription: article[0].description,
       img: article[0].img
     })
+
     const { navigate } = this.props.navigation
     if(!this.state.title){
       return (
@@ -108,15 +103,13 @@ class DetailArticle extends Component {
                 <Body>
                   <Image source={{ uri: this.state.img }} style={{height: 200, width: '100%', flex: 1}}/>
                   <Text style={styles.decription}>{this.state.description}</Text>
-                  { this.state.article.map((art,idx) => {
-                        return (
-                          <Content key={idx}>
-                            <Text style={styles.article}>{art}</Text>
-                          </Content>       
-                        )
-                      }
-                    ) 
-                  }
+                  {this.state.article.map((art,idx) => {
+                    return (
+                      <Content key={idx}>
+                        <Text style={styles.article}>{art}</Text>
+                      </Content>       
+                    )}
+                  )}
                 </Body>
               </CardItem>
             </Card>
@@ -149,4 +142,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, null)(DetailArticle)
+export default connect(mapStateToProps, null)(ArticleDetail)

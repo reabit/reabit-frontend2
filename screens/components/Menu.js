@@ -9,7 +9,7 @@ import {
 } from 'native-base'
 import { connect } from 'react-redux'
 
-import firebase from '../firebase'
+import firebase from '../../firebase'
 
 class Menu extends Component {
   async logout () {
@@ -29,32 +29,29 @@ class Menu extends Component {
     return (
       <Footer>
         <FooterTab>
-            <Button active vertical 
-              onPress={() => navigate('Home')}
-            >
+            <Button active vertical onPress={() => navigate('Home')}>
               <Icon name="ios-home-outline" />
               <Text style={ styles.fontButton }>Home</Text>
             </Button>
-            <Button active vertical
-              onPress={() => navigate('Chat')}
-            >
-            <Icon name="ios-chatbubbles-outline" />
+
+            <Button active vertical onPress={() => navigate('Chat')}>
+              <Icon name="ios-chatbubbles-outline" />
               <Text style={ styles.fontButton }>Chat</Text>
             </Button>
-            
-            <Button active badge vertical
-              onPress={() => navigate('ReadingList')}
-            >
+
+            <Button active badge vertical onPress={() => navigate('ReadingList')}>
               <Badge>
                 <Text>{unreadArticles}</Text>
               </Badge>
               <Icon active name="ios-book-outline" />
               <Text style={ styles.fontButton }>Read</Text>
             </Button>
-            <Button vertical onPress={() => navigate('HistoryReadings')}>
+
+            <Button vertical onPress={() => navigate('ReadingHistory')}>
               <Icon name="ios-clipboard-outline" />
               <Text style={ styles.fontButton }>History</Text>
             </Button>
+
             <Button vertical onPress={() => this.logout()}>
               <Icon name="ios-log-out-outline" />
               <Text style={ styles.fontButton }>Log out</Text>

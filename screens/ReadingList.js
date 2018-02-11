@@ -1,30 +1,22 @@
 import React, { Component } from 'react'
-import { View, Dimensions, ListView } from 'react-native'
+import { Dimensions, ListView } from 'react-native'
 import {
   Container,
-  Header,
   Content,
-  Footer,
-  FooterTab,
   Button,
   Icon,
   Text,
-  Badge,
   List,
   ListItem,
   Left,
   Body,
-  Right,
-  Thumbnail,
-  Card,
-  CardItem
+  Thumbnail
 } from 'native-base'
 import { connect } from 'react-redux'
 
-import Menu from './Menu'
+import { Menu } from './components'
 
 const winSize = Dimensions.get('window')
-
 class ReadingList extends Component {
   constructor(props) {
     super(props)
@@ -54,7 +46,7 @@ class ReadingList extends Component {
                 <Body style={{ marginLeft: 3, width: winSize.width / 2}}>
                   <Text 
                     style={{ textAlign: 'left', marginRight: 0 }}
-                    onPress={() => navigate('DetailArticle', { id: data._id })}
+                    onPress={() => navigate('ArticleDetail', { id: data._id })}
                   >
                     {data.title.length > 60 ? data.title.substr(0, 60)+'...' : data.title }
                   </Text>

@@ -10,8 +10,6 @@ const summaryBot = (title) => {
         name: 'Reading Habit',
       },
     },
-    
-    
   ]
 }
 
