@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import { View, Dimensions } from 'react-native'
+import { Dimensions } from 'react-native'
 import {
   Container,
   Content,
   Icon,
-  H1,
   H2,
   Text,
   Left,
@@ -12,9 +11,7 @@ import {
   Right,
   Card,
   CardItem,
-  Thumbnail,
-  ListItem,
-  CheckBox
+  Thumbnail
 } from 'native-base'
 import {
   VictoryChart,
@@ -23,7 +20,7 @@ import {
 } from 'victory-native'
 import { connect } from 'react-redux'
 
-import Menu from './Menu'
+import { Menu } from './components'
 import firebase from '../firebase'
 import { fetch_articles_from_api } from '../redux/actions/articlesActions'
 import { fetch_summaries_from_api } from '../redux/actions/summariesActions'
@@ -74,7 +71,7 @@ class Home extends Component {
                 <Thumbnail source={{ uri: this.state.user.photoURL }} />
                 <Body>
                   <Text>{this.state.user.displayName}</Text>
-                  <Text note>Full Stack Web Developer</Text>
+                  <Text note>Last login: {new Date(this.state.user.metadata.lastSignInTime).toLocaleString()}</Text>
                 </Body>
               </Left>
             </CardItem>
