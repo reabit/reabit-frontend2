@@ -13,6 +13,7 @@ import {
   CardItem,
   Thumbnail
 } from 'native-base'
+import { Col, Row, Grid } from 'react-native-easy-grid'
 import {
   VictoryChart,
   VictoryTheme,
@@ -53,68 +54,102 @@ class Home extends Component {
         let month = setDate.getMonth()
         return month == index
       })
-      let mouthData = {
+      let monthData = {
         y: lengthMonth.length,
         x: index
       }
-      data.push(mouthData);
+      data.push(monthData);
     }
 
     return (
       <Container style={ styles.content }>
         <Content>
           <Card>
-            <CardItem
-              // style={{borderBottomWidth: 0.5, borderColor: '#C9C9C9'}}
+            <CardItem header 
+              style={{
+                backgroundColor: '#4060B8', //3F51B5, 2874F0
+                justifyContent: 'center',
+                paddingBottom: 0
+              }}
             >
-              <Left>
-                <Thumbnail source={{ uri: this.state.user.photoURL }} />
-                <Body>
-                  <Text>{this.state.user.displayName}</Text>
-                  <Text note>Last login: {new Date(this.state.user.metadata.lastSignInTime).toLocaleString()}</Text>
-                </Body>
-              </Left>
+              <Thumbnail source={{ uri: this.state.user.photoURL }}/>
             </CardItem>
-            {/* <CardItem header style={{ justifyContent: 'center', paddingBottom: 0 }}>
-              <H2>Header One</H2>
+            <CardItem header
+              style={{
+                backgroundColor: '#4060B8',
+                justifyContent: 'center'
+              }}
+            >
+              <Body style={{
+                alignItems: 'center'
+              }}>
+                <H2 style={{ color: '#FFFFFF' }}>
+                  {this.state.user.displayName}
+                </H2>
+                <Text note 
+                  style={{
+                    color: '#E0E0E0',
+                    fontSize: 10,
+                    marginRight: 0
+                  }}
+                >
+                  Last login: {new Date(this.state.user.metadata.lastSignInTime).toLocaleString()}
+                </Text>
+              </Body>
             </CardItem>
-            <CardItem>
-              <Left style={{ marginLeft: 10 }}>
-                <Body>
-                  <Icon name="md-bookmarks" style={{fontSize: 130, color: '#66b3ff'}} />
-                </Body>
-              </Left>
-              <Right style={{ marginRight: 10 }}>
-                <Body>
-                  <Text style={{fontSize: 100, color: '#66b3ff'}}>{this.props.articles.length}</Text>
-                </Body>
-              </Right>
-            </CardItem> */}
+            <CardItem footer>
+              <Grid>
+                <Row>
+                  <Col style={{ alignItems: 'center' }}>
+                    <Text style={{ fontWeight: 'bold', color: '#4060B8' }}>
+                      {this.props.articles.length}
+                    </Text>
+                    <Text>Articles</Text>
+                  </Col>
+                  <Col style={{ alignItems: 'center' }}>
+                    <Text style={{ fontWeight: 'bold', color: '#4060B8'}}>0</Text>
+                    <Text>Unread</Text>
+                  </Col>
+                  <Col style={{ alignItems: 'center' }}>
+                    <Text style={{ fontWeight: 'bold', color: '#4060B8'}}>0</Text>
+                    <Text>Done</Text>
+                  </Col>
+                </Row>
+              </Grid>
+            </CardItem>
           </Card>
           <Card>
-            <CardItem header style={{ justifyContent: 'center', paddingBottom: 0 }}>
-              <H2>Reading Summary</H2>
+            <CardItem header>
+              <Text>Reading Summary</Text>
             </CardItem>
-            <CardItem>
-              {/* <Left style={{ marginLeft: -30 }}> */}
-                <Body>
-                  <VictoryChart
-                    theme={VictoryTheme.material}
-                    animate={{
-                      duration: 2000,
-                      onLoad: { duration: 1000 }
+            <CardItem
+              style={{
+                paddingTop: 0,
+                paddingRight: 17,
+                paddingBottom: 0,
+                paddingLeft: 17,
+                marginTop: -17,
+                marginBottom: -17
+              }}
+            >
+              <Body>
+                <VictoryChart
+                  theme={VictoryTheme.material}
+                  animate={{
+                    duration: 2000,
+                    onLoad: { duration: 1000 }
+                  }}
+                  height={300}
+                >
+                  <VictoryLine
+                    style={{
+                      data: { stroke: "#66b3ff" },
+                      parent: { border: "1px solid #ccc"}
                     }}
-                  >
-                    <VictoryLine
-                      style={{
-                        data: { stroke: "#66b3ff" },
-                        parent: { border: "1px solid #ccc"}
-                      }}
-                      data={data}
-                    />
-                  </VictoryChart>
-                </Body>
-              {/* </Left> */}
+                    data={data}
+                  />
+                </VictoryChart>
+              </Body>
             </CardItem>
           </Card>
         </Content>

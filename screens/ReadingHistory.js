@@ -29,10 +29,20 @@ class ReadingHistory extends Component {
     return (
       <Container>
         <Tabs>
-          <Tab heading={ <TabHeading><Icon name="ios-pie-outline" /><Text>Chart</Text></TabHeading>}>
+          <Tab heading={
+            <TabHeading style={{ backgroundColor: '#4060B8' }}>
+              <Icon name="ios-pie-outline" />
+              <Text>Overview</Text>
+            </TabHeading>
+          }>
             <HistoryChart />
           </Tab>
-          <Tab heading={ <TabHeading><Icon name="ios-list-box-outline" /><Text>List</Text></TabHeading>}>
+          <Tab heading={
+            <TabHeading style={{ backgroundColor: '#4060B8' }}>
+              <Icon name="ios-list-box-outline" />
+              <Text>List</Text>
+            </TabHeading>
+          }>
             <HistoryList />
           </Tab>
         </Tabs>

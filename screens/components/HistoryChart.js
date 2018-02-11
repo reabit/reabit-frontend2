@@ -54,10 +54,19 @@ class HistoryChart extends Component {
         <Content>
           <Card>
             <CardItem header>
-              <Text>Percentage Summary Articles</Text>
+              <Text>Summary Percentage</Text>
             </CardItem>
-            <CardItem>
-              <Body style={{ marginLeft: -40, marginTop: -30 }}>
+            <CardItem
+              style={{
+                paddingTop: 0,
+                paddingRight: 17,
+                paddingBottom: 0,
+                paddingLeft: 17,
+                marginTop: -17,
+                marginBottom: -17
+              }}
+            >
+              <Body>
                 <VictoryPie
                   data={[
                     { x: "Good", y: goodPercentage },
@@ -77,25 +86,35 @@ class HistoryChart extends Component {
          </Card>
          <Card>
             <CardItem header>
-              <Text>Graphic Articles</Text>
+              <Text>Reading Percentage</Text>
             </CardItem>
-            <CardItem>
-              <Body style={{ marginLeft: -20, marginTop: -30 }}>
-              <VictoryChart
-                theme={VictoryTheme.material}
-                animate={{
-                  duration: 2000,
-                  onLoad: { duration: 1000 }
-                }}
-              >
-                <VictoryLine
-                  style={{
-                    data: { stroke: "#66b3ff" },
-                    parent: { border: "1px solid #ccc"}
+            <CardItem
+              style={{
+                paddingTop: 0,
+                paddingRight: 17,
+                paddingBottom: 0,
+                paddingLeft: 17,
+                marginTop: -17,
+                marginBottom: -17
+              }}
+            >
+              <Body>
+                <VictoryChart
+                  height={300}
+                  theme={VictoryTheme.material}
+                  animate={{
+                    duration: 2000,
+                    onLoad: { duration: 1000 }
                   }}
-                  data={data}
-                />
-              </VictoryChart>
+                >
+                  <VictoryLine
+                    style={{
+                      data: { stroke: "#66b3ff" },
+                      parent: { border: "1px solid #ccc"}
+                    }}
+                    data={data}
+                  />
+                </VictoryChart>
               </Body>
             </CardItem>
          </Card>

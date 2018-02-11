@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import {
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  View
-} from 'react-native'
+  Container,
+  Content,
+  Button,
+  Icon,
+  Text
+} from 'native-base'
 import { AccessToken, LoginManager } from 'react-native-fbsdk'
 import { GoogleSignin } from 'react-native-google-signin'
 import { connect } from 'react-redux'
@@ -82,56 +83,29 @@ class Login extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <TouchableOpacity
-          style={[styles.button, styles.facebook]}
-          onPress={() => this.facebookLogin()}
+      <Container>
+        <Content padder 
+          contentContainerStyle={{ flex: 1, justifyContent: 'center' }}
         >
-          <Text style={styles.textColor}>Login with Facebook</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.button, styles.google]}
-          onPress={() => this.googleLogin()}
-        >
-          <Text>Login with Google</Text>
-        </TouchableOpacity>
-      </View>
+          <Button block 
+            style={{ backgroundColor: '#4060B8', marginBottom: 20 }}
+            onPress={() => this.facebookLogin()}
+          >
+            <Icon name='logo-facebook' />
+            <Text>Login with Facebook</Text>
+          </Button>
+          <Button block 
+            style={{ backgroundColor: '#EB2E1B' }}
+            onPress={() => this.googleLogin()}
+          >
+            <Icon name='logo-googleplus' />
+            <Text>Login with Google</Text>
+          </Button>
+        </Content>
+      </Container>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-  },
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-    marginBottom: 20,
-    width: 300
-  },
-  facebook: {
-    backgroundColor: '#4060B8'
-  },
-  google: {
-    backgroundColor: '#FFFFFF'
-  },
-  textColor: {
-    color: '#FFFFFF'
-  },
-  countContainer: {
-    alignItems: 'center',
-    padding: 10
-  },
-  countText: {
-    color: '#FF00FF'
-  }
-})
 
 const mapDispatchToProps = (dispatch) => {
   return {
