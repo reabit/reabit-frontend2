@@ -29,6 +29,8 @@ import firebase from '../firebase'
 import CustomView from './data/CustomView'
 import { Menu } from './components'
 import { summaryBot } from './data/summary'
+import { connect } from 'react-redux'
+import { fetch_chatbot_from_api } from '../redux/actions/chatbotActions'
 
 class Chat extends Component {
   constructor(props) {
@@ -59,6 +61,7 @@ class Chat extends Component {
   }
 
   componentWillMount() {
+    this.props.showMessages('help')
     this._isMounted = true
 
     if (this.props.navigation.state.params) {
@@ -110,7 +113,7 @@ class Chat extends Component {
         messages: GiftedChat.append(previousState.messages, messages)
       }
     })
-    axios
+     axios
       .post('http://apibucket.sabikaorganizer.com:3008/chatbot', {
         chat: messages[0].text
       })
@@ -222,7 +225,6 @@ class Chat extends Component {
   }
 
   renderCustomActions(props) {
-    // if (Platform.OS === 'ios') {} else {}
     return (
       <TouchableOpacity
         style={{ paddingBottom: 8, paddingLeft: 12 }}
@@ -317,7 +319,7 @@ class Chat extends Component {
         <GiftedChat
           messages={this.state.messages}
           onSend={this.onSend} //chat now
-          // loadEarlier={this.state.loadEarlier} //load earlier message
+          loadEarlier={this.state.loadEarlier}
           onLoadEarlier={this.onLoadEarlier}
           isLoadingEarlier={this.state.isLoadingEarlier}
           user={{
@@ -349,4 +351,15 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Chat
+const mapStateToProps = (state) => {
+  return {
+    messages: state.chatbotReducers.messages
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    showMessages: (data) => dispatch(fetch_chatbot_from_api(data))
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Chat)

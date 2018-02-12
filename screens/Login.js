@@ -58,8 +58,10 @@ class Login extends Component {
     }
 
   googleLogin () {
+    console.log(GoogleSignin)
     GoogleSignin.signIn()
     .then((data) => {
+      console.log('asad')
       // Login with the credential
       let credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken)
       return firebase.auth().signInWithCredential(credential)
