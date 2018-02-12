@@ -10,7 +10,9 @@ import {
   ListItem,
   Left,
   Body,
-  Thumbnail
+  Thumbnail,
+  Header,
+  Title
 } from 'native-base'
 import { connect } from 'react-redux'
 
@@ -32,24 +34,51 @@ class ReadingList extends Component {
   }
 
   render() {
+    console.log('ini apa', this.state.listViewData)
     const { navigate } = this.props.navigation
     return (
       <Container>
+        <Header>
+          <Body style={{ alignItems: 'center' }}>
+            <Title>Reading List</Title>
+          </Body>
+        </Header>
         <Content style={styles.content}>
           <List
             dataSource={this.ds.cloneWithRows(this.state.listViewData)}
             renderRow={data =>
-              <ListItem avatar style={{ marginLeft: 2 }}>
-                <Left style={{ width: winSize.width / 6 }}>
+              <ListItem avatar 
+                style={{
+                  marginLeft: 2,
+                  backgroundColor: (data.statusRead ? '#F5F5F5' : '#FFFFFF'),
+                  paddingTop: 5,
+                  borderBottomWidth: 0.5,
+                  borderColor: '#C9C9C9'
+                }}
+              >
+                <Left style={{ width: winSize.width / 6, paddingLeft: 17 }}>
                   <Thumbnail source={{ uri: data.img }} />
                 </Left>
-                <Body style={{ marginLeft: 3, width: winSize.width / 2}}>
+                <Body 
+                  style={{
+                    marginLeft: 3,
+                    width: winSize.width / 2,
+                    paddingLeft: 17,
+                    paddingBottom: 17,
+                    borderBottomWidth: 0
+                  }}
+                >
                   <Text 
-                    style={{ textAlign: 'left', marginRight: 0 }}
+                    style={{
+                      textAlign: 'left',
+                      marginRight: 0,
+                      color: (data.statusRead ? '#757575' : '#000000')
+                    }}
                     onPress={() => navigate('ArticleDetail', { id: data._id })}
                   >
                     {data.title.length > 60 ? data.title.substr(0, 60)+'...' : data.title }
                   </Text>
+                  <Text note>{data.category}</Text>
                 </Body>
               </ListItem>
             }
@@ -63,7 +92,6 @@ class ReadingList extends Component {
             }
             leftOpenValue={75}
             disableLeftSwipe={true}
-            style={{ paddingLeft: 17 }}
           />
         </Content>
         <Menu navigate={navigate}/>

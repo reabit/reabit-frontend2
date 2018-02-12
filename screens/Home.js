@@ -107,6 +107,14 @@ class Home extends Component {
       data.push(monthData);
     }
 
+    let unread = this.props.articles.filter(article => {
+      return article.statusRead === false
+    }).length
+
+    let done = this.props.articles.filter(article => {
+      return article.statusRead === true
+    }).length
+
     return (
       <Container style={ styles.content }>
         <Content>
@@ -153,11 +161,11 @@ class Home extends Component {
                     <Text>Articles</Text>
                   </Col>
                   <Col style={{ alignItems: 'center' }}>
-                    <Text style={{ fontWeight: 'bold', color: '#4060B8'}}>0</Text>
+                    <Text style={{ fontWeight: 'bold', color: '#4060B8' }}>{unread}</Text>
                     <Text>Unread</Text>
                   </Col>
                   <Col style={{ alignItems: 'center' }}>
-                    <Text style={{ fontWeight: 'bold', color: '#4060B8'}}>0</Text>
+                    <Text style={{ fontWeight: 'bold', color: '#4060B8' }}>{done}</Text>
                     <Text>Done</Text>
                   </Col>
                 </Row>
