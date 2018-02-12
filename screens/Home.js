@@ -22,7 +22,7 @@ import {
 import { connect } from 'react-redux'
 
 import PushNotification from '../notificationConfigure'
-import { Menu } from './components'
+import { Menu, HandleChart, HandleEmptyChart } from './components'
 import firebase from '../firebase'
 import { fetch_articles_from_api } from '../redux/actions/articlesActions'
 import { fetch_summaries_from_api } from '../redux/actions/summariesActions'
@@ -92,19 +92,11 @@ class Home extends Component {
 
   render() {
     const { navigate } = this.props.navigation
-
-    let data = []
-    for (let index = 0; index <= 12; index++) {
-      let lengthMonth = this.props.summaries.filter(summary => {
-        let setDate = new Date(summary.date)
-        let month = setDate.getMonth()
-        return month == index
-      })
-      let monthData = {
-        y: lengthMonth.length,
-        x: index
-      }
-      data.push(monthData);
+    let chartComponent
+    if (!this.props.summaries.length) {
+      chartComponent = <HandleChart />
+    } else {
+      chartComponent = <HandleEmptyChart navigate={navigate}/>
     }
 
     let unread = this.props.articles.filter(article => {
@@ -114,7 +106,7 @@ class Home extends Component {
     let done = this.props.articles.filter(article => {
       return article.statusRead === true
     }).length
-
+    
     return (
       <Container style={ styles.content }>
         <Content>
@@ -172,40 +164,7 @@ class Home extends Component {
               </Grid>
             </CardItem>
           </Card>
-          <Card>
-            <CardItem header>
-              <Text>Reading Summary</Text>
-            </CardItem>
-            <CardItem
-              style={{
-                paddingTop: 0,
-                paddingRight: 17,
-                paddingBottom: 0,
-                paddingLeft: 17,
-                marginTop: -17,
-                marginBottom: -17
-              }}
-            >
-              <Body>
-                <VictoryChart
-                  theme={VictoryTheme.material}
-                  animate={{
-                    duration: 2000,
-                    onLoad: { duration: 1000 }
-                  }}
-                  height={300}
-                >
-                  <VictoryLine
-                    style={{
-                      data: { stroke: "#66b3ff" },
-                      parent: { border: "1px solid #ccc"}
-                    }}
-                    data={data}
-                  />
-                </VictoryChart>
-              </Body>
-            </CardItem>
-          </Card>
+          {chartComponent}
         </Content>
         <Menu navigate={navigate} />
       </Container>

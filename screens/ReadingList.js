@@ -12,9 +12,11 @@ import {
   Body,
   Thumbnail,
   Header,
-  Title
+  Title,
+  Right
 } from 'native-base'
 import { connect } from 'react-redux'
+import ImageLoad from 'react-native-image-placeholder'
 
 import { Menu } from './components'
 
@@ -57,7 +59,15 @@ class ReadingList extends Component {
                 }}
               >
                 <Left style={{ width: winSize.width / 6, paddingLeft: 17 }}>
-                  <Thumbnail source={{ uri: data.img }} />
+                  <ImageLoad
+                    style={{ width: 56, height: 56, borderRadius: 28 }}
+                    loadingStyle={{ size: 'small', color: 'blue' }}
+                    source={{ uri: data.img }}
+                  />
+                  {/* <Thumbnail 
+                    loadingStyle={{ size: 'large', color: 'blue'}}
+                    source={{ uri: data.img }}
+                  /> */}
                 </Left>
                 <Body 
                   style={{
@@ -80,6 +90,9 @@ class ReadingList extends Component {
                   </Text>
                   <Text note>{data.category}</Text>
                 </Body>
+                <Right>
+                  {data.statusRead && <Icon name='md-checkmark-circle-outline' />}
+                </Right>
               </ListItem>
             }
             renderLeftHiddenRow={data =>

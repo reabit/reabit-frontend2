@@ -35,26 +35,26 @@ class HistoryChart extends Component {
       }
       data.push(mouthData);
     }
-
+    console.log(this.props.summaries)
     let goodLength = this.props.summaries.filter(summary => {
-      return summary.similarity === true
+      return summary.similarity == 'true'
     }).length
-    // console.log('good', goodLength)
+    console.log('good', goodLength)
     let badLength = this.props.summaries.filter(summary => {
-      return summary.similarity === false
+      return summary.similarity == 'false'
     }).length
-    // console.log('bad', badLength)
+    console.log('bad', badLength)
     let goodPercentage = (goodLength / this.props.summaries.length) * 100
-    // console.log('goodPercentage', goodPercentage)
+    console.log('goodPercentage', goodPercentage)
     let badPercentage = (badLength / this.props.summaries.length) * 100
-    // console.log('badPercentage', badPercentage)
+    console.log('badPercentage', badPercentage)
 
     return (
       <Container>
         <Content>
           <Card>
             <CardItem header>
-              <Text>Summary Percentage</Text>
+              <Text>Summaries Percentage</Text>
             </CardItem>
             <CardItem
               style={{

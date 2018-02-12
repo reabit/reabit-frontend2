@@ -12,8 +12,16 @@ import { connect } from 'react-redux'
 
 import firebase from '../firebase'
 import { create_user } from '../redux/actions/usersActions'
+import { Loading } from './components'
 
 class Login extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isLoading: false
+    }
+  }
+
   static navigationOptions = {
     header: null
   }
@@ -58,6 +66,10 @@ class Login extends Component {
     }
 
   googleLogin () {
+    this.setState({
+      isLoading: true
+    })
+    console.log('2', this.state.isLoading)
     console.log(GoogleSignin)
     GoogleSignin.signIn()
     .then((data) => {
@@ -75,6 +87,10 @@ class Login extends Component {
       }
       console.log('google account -->', payload)
       this.props.createUser(payload)
+      this.setState({
+        isLoading: false
+      })
+      console.log('3', this.state.isLoading)
       this.props.navigation.navigate('Home')
     })
     .catch((error) => {
@@ -84,28 +100,34 @@ class Login extends Component {
   }
 
   render() {
-    return (
-      <Container>
-        <Content padder 
-          contentContainerStyle={{ flex: 1, justifyContent: 'center' }}
-        >
-          <Button block 
-            style={{ backgroundColor: '#4060B8', marginBottom: 20 }}
-            onPress={() => this.facebookLogin()}
+    if (this.state.isLoading) {
+      console.log('1', this.state.isLoading)
+      return (<Loading />)
+    } else {
+      console.log('false', this.state.isLoading)
+      return (
+        <Container>
+          <Content padder 
+            contentContainerStyle={{ flex: 1, justifyContent: 'center' }}
           >
-            <Icon name='logo-facebook' />
-            <Text>Login with Facebook</Text>
-          </Button>
-          <Button block 
-            style={{ backgroundColor: '#EB2E1B' }}
-            onPress={() => this.googleLogin()}
-          >
-            <Icon name='logo-googleplus' />
-            <Text>Login with Google</Text>
-          </Button>
-        </Content>
-      </Container>
-    )
+            <Button block 
+              style={{ backgroundColor: '#4060B8', marginBottom: 20 }}
+              onPress={() => this.facebookLogin()}
+            >
+              <Icon name='logo-facebook' />
+              <Text>Login with Facebook</Text>
+            </Button>
+            <Button block 
+              style={{ backgroundColor: '#EB2E1B' }}
+              onPress={() => this.googleLogin()}
+            >
+              <Icon name='logo-googleplus' />
+              <Text>Login with Google</Text>
+            </Button>
+          </Content>
+        </Container>
+      )
+    }
   }
 }
 

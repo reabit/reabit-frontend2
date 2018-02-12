@@ -54,7 +54,7 @@ export default class CustomView extends React.Component {
       category: this.props.currentMessage.category
     }, {
       headers: {
-        email: 'zuhri.nurhuda@gmail.com'
+        email: 'triamri@gmail.com'
       }
     })
     .then(result => {
