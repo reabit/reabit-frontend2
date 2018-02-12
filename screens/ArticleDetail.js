@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Dimensions } from 'react-native'
+import { Dimensions, Image } from 'react-native'
 import {
   Container,
   Header,
@@ -22,6 +22,7 @@ import {
 import { connect } from 'react-redux'
 
 import { Menu } from './components'
+import { get_reading_status } from '../redux/actions/articlesActions'
 
 const winSize = Dimensions.get('window')
 class ArticleDetail extends Component {
@@ -43,9 +44,11 @@ class ArticleDetail extends Component {
   }
 
   componentDidMount() {
+    let articleId = this.props.navigation.state.params.id
     let article = this.props.articles.filter(article => {
-      return article._id == this.props.navigation.state.params.id
+      return article._id == articleId
     })
+    console.log('ini article', article)
     this.setState({
       title: article[0].title,
       article: article[0].article,
@@ -55,9 +58,12 @@ class ArticleDetail extends Component {
       decription: article[0].description,
       img: article[0].img
     })
+
+    this.props.setArticleStatus(articleId)
   }
   
   render() {
+    console.log('ini image', this.state.img)
     const { navigate } = this.props.navigation
     if(!this.state.title){
       return (
@@ -96,11 +102,14 @@ class ArticleDetail extends Component {
                 <Left>
                   <Body>
                     <Text>{this.state.title}</Text>
-                    <Text note>{this.state.date}</Text>
+                    <Text note>{new Date(this.state.date).toLocaleString()}</Text>
+                    <Badge style={{ marginTop: 10 }}>
+                      <Text>{this.state.category}</Text>
+                    </Badge>
                   </Body>
                 </Left>
               </CardItem>
-              <CardItem>
+              <CardItem style={{ paddingTop: 0 }}>
                 <Body>
                   <Image source={{ uri: this.state.img }} style={{height: 200, width: '100%', flex: 1}}/>
                   <Text style={styles.decription}>{this.state.description}</Text>
@@ -143,4 +152,10 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, null)(ArticleDetail)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setArticleStatus: (articleId) => dispatch(get_reading_status(articleId))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleDetail)
