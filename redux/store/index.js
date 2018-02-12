@@ -1,10 +1,11 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
-import { articlesReducers, summariesReducers } from '../reducers'
+import { articlesReducers, summariesReducers, chatbotReducers } from '../reducers'
 
 const reducers = combineReducers({
   articlesReducers,
-  summariesReducers
+  summariesReducers,
+  chatbotReducers
 })
 const middleware = applyMiddleware(thunk)
 const store = createStore(reducers, middleware)

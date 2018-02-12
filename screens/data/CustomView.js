@@ -14,38 +14,64 @@ import {
   Button
 } from 'native-base'
 import axios from 'axios'
+import { FlatList } from 'react-native'
 
 import firebase from '../../firebase'
 
 export default class CustomView extends React.Component {
-  state = {
-    dataCategories : this.props.currentMessage.dataFromBot ? this.props.currentMessage.dataFromBot : ''
+  constructor(props){
+    super(props)
+    this.state = {
+    dataCategories : this.props.currentMessage.dataFromBot ? this.props.currentMessage.dataFromBot : '',      
+      testing: 'ada'
+    }
   }
+  // state = {
+  //   dataCategories : this.props.currentMessage.dataFromBot ? this.props.currentMessage.dataFromBot : '',
+  //   testing: 'ada'
+  // }
 
   addToReadingList(url){
+    console.log(this.state.testing)
+    this.setState(() => {
+      return {
+
+        testing: 'ada apa dengan cinta'
+      }
+    })
+    console.log(this.state.testing)
+    // this.state.testing = 'ada apa dengan cinta'
+    console.log(this.state.dataCategories, 'from add to reagind list')
     console.log(url)
+    this.state.dataCategories = this.state.dataCategories.filter(article => {
+      if(article.url !== url){
+        return article
+      }
+    })
+    console.log(this.state.dataCategories)
     axios.post('http://apibucket.sabikaorganizer.com:3008/readings/set', {
       url: url,
       category: this.props.currentMessage.category
     }, {
       headers: {
-        email: firebase.auth().currentUser.email
+        email: 'zuhri.nurhuda@gmail.com'
       }
     })
     .then(result => {
+      
       console.log(result.data, 'dari add to reading list')
     })
   }
   
   render() {
-    if (this.props.currentMessage.dataFromBot) {
+    if (this.state.dataCategories) {
       return (
         <Container
           style={{width: 300}}
         >
           <Content>
             <List>
-              {this.props.currentMessage.dataFromBot.map((article, idx) => {
+              {this.state.dataCategories.map((article, idx) => {
                 return (
                   <ListItem
                     style={{marginLeft: 15, marginRight: 15, paddingRight: 0}}
@@ -62,6 +88,7 @@ export default class CustomView extends React.Component {
                   </ListItem>
                 )
               })}
+              
             </List>
           </Content>
         </Container>
