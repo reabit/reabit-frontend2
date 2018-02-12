@@ -34,12 +34,13 @@ class ReadingList extends Component {
   }
 
   render() {
+    console.log('ini apa', this.state.listViewData)
     const { navigate } = this.props.navigation
     return (
       <Container>
         <Header>
           <Body style={{ alignItems: 'center' }}>
-            <Title>Reding List</Title>
+            <Title>Reading List</Title>
           </Body>
         </Header>
         <Content style={styles.content}>
@@ -50,7 +51,9 @@ class ReadingList extends Component {
                 style={{
                   marginLeft: 2,
                   backgroundColor: (data.statusRead ? '#F5F5F5' : '#FFFFFF'),
-                  paddingTop: 5
+                  paddingTop: 5,
+                  borderBottomWidth: 0.5,
+                  borderColor: '#C9C9C9'
                 }}
               >
                 <Left style={{ width: winSize.width / 6, paddingLeft: 17 }}>
@@ -61,7 +64,8 @@ class ReadingList extends Component {
                     marginLeft: 3,
                     width: winSize.width / 2,
                     paddingLeft: 17,
-                    paddingBottom: 17
+                    paddingBottom: 17,
+                    borderBottomWidth: 0
                   }}
                 >
                   <Text 
@@ -88,7 +92,6 @@ class ReadingList extends Component {
             }
             leftOpenValue={75}
             disableLeftSwipe={true}
-            // style={{ marginLeft: 17 }}
           />
         </Content>
         <Menu navigate={navigate}/>

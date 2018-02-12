@@ -10,7 +10,9 @@ import {
   Icon,
   Thumbnail, 
   Text, 
-  Body 
+  Body,
+  Left,
+  Right
 } from 'native-base';
 import { connect } from 'react-redux'
 
@@ -39,30 +41,68 @@ class HistoryList extends Component {
             <List>
                 { this.state.histories.map((history,idx) => {
                   let similarity = '';
-                  if(history.similarity === true) {
-                    similarity = <Icon name="ios-happy-outline" />
+                  if (history.similarity === true) {
+                    similarity = <Icon name="ios-happy-outline" 
+                                    style={{
+                                      fontSize: 42,
+                                      color: 'green',
+                                      paddingLeft: 17
+                                    }} 
+                                  />
                   } else {
-                    similarity = <Icon name="ios-sad-outline" />
+                    similarity = <Icon name="ios-sad-outline" style={{ fontSize: 42, color: 'red', paddingLeft: 17 }} />
                   }
                 return (
-                      <ListItem key={idx}>
-                        <Thumbnail square size={80} source={{ uri: history.idReading.img }} />
-                        <Body>
-                          <Text>{ (history.idReading.title.length > 30 ? history.idReading.title.substr(0, 30)+'...' : history.idReading.title) }</Text>
-                        </Body>
-                        <View style={styles.buttonView}>
-                            <Button small danger vertical
-                            style={styles.button}>
-                            { similarity }
-                            </Button>
-                            {/* <Button small success vertical 
-                            style={styles.button}
-                            >
-                              <Icon name="ios-book-outline" />
+                  <ListItem avatar
+                    style={{
+                      marginLeft: 2,
+                      paddingTop: 5,
+                      borderBottomWidth: 0.5,
+                      borderColor: '#C9C9C9'
+                    }}
+                    key={idx}
+                  >
+                    {similarity}
+                    <Body
+                      style={{
+                        paddingLeft: 17,
+                        paddingBottom: 17,
+                        borderBottomWidth: 0
+                      }}
+                      >
+                      <Text
+                        style={{
+                          textAlign: 'left',
+                          marginRight: 0
+                        }}
+                        // onPress={() => navigate('ArticleDetail', { id: history.idReading._id })}
+                      >
+                        {history.idReading.title.length > 60 ? history.idReading.title.substr(0, 60) + '...' : history.idReading.title}
+                      </Text>
+                      <Right>
 
-                            </Button> */}
-                        </View>
-                      </ListItem>
+                      </Right>
+                      <Text note>{history.idReading.category}</Text>
+                    </Body>
+                  </ListItem>
+                      // <ListItem key={idx}>
+                      //   <Thumbnail square size={80} source={{ uri: history.idReading.img }} />
+                      //   <Body>
+                      //     <Text>{ (history.idReading.title.length > 30 ? history.idReading.title.substr(0, 30)+'...' : history.idReading.title) }</Text>
+                      //   </Body>
+                      //   <View style={styles.buttonView}>
+                      //       <Button small danger vertical
+                      //       style={styles.button}>
+                      //       { similarity }
+                      //       </Button>
+                      //       {/* <Button small success vertical 
+                      //       style={styles.button}
+                      //       >
+                      //         <Icon name="ios-book-outline" />
+
+                      //       </Button> */}
+                      //   </View>
+                      // </ListItem>
                     )
                   }
                 )
