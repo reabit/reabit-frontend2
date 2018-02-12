@@ -1,13 +1,5 @@
 import React, { Component } from 'react'
-<<<<<<< HEAD
-import { 
-  View, 
-  Dimensions,
-  AppState
-} from 'react-native'
-=======
-import { Dimensions } from 'react-native'
->>>>>>> b889ff3d96f4337a5e72be17effc4e0376e31518
+import { Dimensions, AppState } from 'react-native'
 import {
   Container,
   Content,
@@ -29,13 +21,9 @@ import {
 } from 'victory-native'
 import { connect } from 'react-redux'
 
-<<<<<<< HEAD
 import PushNotification from '../notificationConfigure'
-import Menu from './Menu'
-=======
 import { Menu } from './components'
 import firebase from '../firebase'
->>>>>>> b889ff3d96f4337a5e72be17effc4e0376e31518
 import { fetch_articles_from_api } from '../redux/actions/articlesActions'
 import { fetch_summaries_from_api } from '../redux/actions/summariesActions'
 
