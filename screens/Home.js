@@ -1,5 +1,13 @@
 import React, { Component } from 'react'
+<<<<<<< HEAD
+import { 
+  View, 
+  Dimensions,
+  AppState
+} from 'react-native'
+=======
 import { Dimensions } from 'react-native'
+>>>>>>> b889ff3d96f4337a5e72be17effc4e0376e31518
 import {
   Container,
   Content,
@@ -21,8 +29,13 @@ import {
 } from 'victory-native'
 import { connect } from 'react-redux'
 
+<<<<<<< HEAD
+import PushNotification from '../notificationConfigure'
+import Menu from './Menu'
+=======
 import { Menu } from './components'
 import firebase from '../firebase'
+>>>>>>> b889ff3d96f4337a5e72be17effc4e0376e31518
 import { fetch_articles_from_api } from '../redux/actions/articlesActions'
 import { fetch_summaries_from_api } from '../redux/actions/summariesActions'
 
@@ -38,10 +51,55 @@ class Home extends Component {
   static navigationOptions = {
     header: null
   }
-
   componentDidMount () {
     this.props.fetchArticles()
     this.props.fetchSummaries()
+    AppState.addEventListener('change', this.handleAppStateChange.bind());
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this.handleAppStateChange);
+  }
+
+  handleAppStateChange = (appState) => {
+    let dateNow = new Date().getDate()
+    let monthNow = new Date().getMonth()
+    let yearNow = new Date().getFullYear()
+    // console.log('ini props',this.props)
+    if(this.props.articles) {
+      let filter = this.props.articles.filter((article) => {
+        let date = new Date(article.createdAt)
+        let getDate = date.getDate()
+        let getYear = date.getFullYear()
+        let getMonth = date.getMonth()
+        let statusRead = article.statusRead
+        return getDate <= dateNow  && monthNow === getMonth && yearNow === getYear && statusRead === false
+      })
+
+      if(filter.length) {
+        let message = []
+        filter.map((msg) => {
+          message.push(msg.title)
+        })
+
+        //3*60*60*1000 convert 3 hour to milisecond
+
+        if (appState == 'background') {
+          PushNotification.localNotificationSchedule({
+            smallIcon: "ic_notification",
+            color: "red",
+            vibrate: true,
+            vibration: 300,
+            title: "Artikel Yang Belum Anda Baca",
+            badge: 1,
+            playSound: true,
+            soundName: 'default',
+            message: message.join(', '), // (required)
+            date: new Date(Date.now() + (3*60*60*1000)) // in 60 secs
+          });
+        }
+      }
+    }
   }
 
   render() {
