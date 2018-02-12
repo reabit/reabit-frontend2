@@ -8,6 +8,4 @@ module.exports = [
       name: 'Reading Habit',
     },
   },
-  
-  
-];
+]
