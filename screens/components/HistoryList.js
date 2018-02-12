@@ -1,30 +1,21 @@
 import React, { Component } from 'react'
-
-import { 
-  View, 
-  Dimensions 
-} from 'react-native'
-
+import { View, Dimensions } from 'react-native'
 import { 
   Container, 
-  Header, 
   Content, 
   Spinner,
   List, 
+  ListItem, 
   Button,
   Icon,
-  ListItem, 
   Thumbnail, 
   Text, 
   Body 
 } from 'native-base';
-
 import { connect } from 'react-redux'
 
 const winSize = Dimensions.get('window')
-
-class ListHistoryReading extends Component {
-
+class HistoryList extends Component {
   constructor(props) {
     super(props)
     this.state= {
@@ -33,7 +24,6 @@ class ListHistoryReading extends Component {
   }
 
   render() {
-    console.log('summaries list history reading', this.props.summaries)
     if (!this.state.histories) {
       return (
         <Container>
@@ -110,4 +100,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, null)(ListHistoryReading)
+export default connect(mapStateToProps, null)(HistoryList)

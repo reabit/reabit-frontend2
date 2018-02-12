@@ -1,13 +1,27 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { Container, Header, Content, List, ListItem, Thumbnail, Text, Body, Right, Icon, Button } from 'native-base';
+import PropTypes from 'prop-types'
+import React from 'react'
+import {
+  Container,
+  Header,
+  Content,
+  List,
+  ListItem,
+  Thumbnail,
+  Text,
+  Body,
+  Right,
+  Icon,
+  Button
+} from 'native-base'
 import axios from 'axios'
+
 import firebase from '../../firebase'
 
 export default class CustomView extends React.Component {
   state = {
     dataCategories : this.props.currentMessage.dataFromBot ? this.props.currentMessage.dataFromBot : ''
   }
+
   addToReadingList(url){
     console.log(url)
     axios.post('http://apibucket.sabikaorganizer.com:3008/readings/set', {
@@ -46,15 +60,13 @@ export default class CustomView extends React.Component {
                       <Icon name="add-circle" style={{fontSize: 24, color: 'green'}} onPress={() => this.addToReadingList(article.url)}/>
                     </Right>
                   </ListItem>
-
                 )
               })}
-              
             </List>
           </Content>
         </Container>
-      );
+      )
     }
-    return null;
+    return null
   }
 }

@@ -1,33 +1,56 @@
 import React, { Component } from 'react'
+<<<<<<< HEAD
 import { 
   View, 
   Dimensions,
   AppState
 } from 'react-native'
+=======
+import { Dimensions } from 'react-native'
+>>>>>>> b889ff3d96f4337a5e72be17effc4e0376e31518
 import {
   Container,
-  Header,
   Content,
   Icon,
-  H1,
+  H2,
   Text,
   Left,
   Body,
   Right,
   Card,
-  CardItem
+  CardItem,
+  Thumbnail
 } from 'native-base'
-import { VictoryPie, VictoryChart, VictoryTheme, VictoryLine, VictoryBar } from 'victory-native'
+import { Col, Row, Grid } from 'react-native-easy-grid'
+import {
+  VictoryChart,
+  VictoryTheme,
+  VictoryLine
+} from 'victory-native'
 import { connect } from 'react-redux'
 
+<<<<<<< HEAD
 import PushNotification from '../notificationConfigure'
 import Menu from './Menu'
+=======
+import { Menu } from './components'
+import firebase from '../firebase'
+>>>>>>> b889ff3d96f4337a5e72be17effc4e0376e31518
 import { fetch_articles_from_api } from '../redux/actions/articlesActions'
 import { fetch_summaries_from_api } from '../redux/actions/summariesActions'
 
 const winSize = Dimensions.get('window')
 class Home extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      user: firebase.auth().currentUser
+    }
+  }
 
+  static navigationOptions = {
+    header: null
+  }
   componentDidMount () {
     this.props.fetchArticles()
     this.props.fetchSummaries()
@@ -44,7 +67,6 @@ class Home extends Component {
     let yearNow = new Date().getFullYear()
     // console.log('ini props',this.props)
     if(this.props.articles) {
-      
       let filter = this.props.articles.filter((article) => {
         let date = new Date(article.createdAt)
         let getDate = date.getDate()
@@ -90,60 +112,105 @@ class Home extends Component {
         let month = setDate.getMonth()
         return month == index
       })
-      let mouthData = {
+      let monthData = {
         y: lengthMonth.length,
         x: index
       }
-      data.push(mouthData);
+      data.push(monthData);
     }
 
     return (
       <Container style={ styles.content }>
         <Content>
-        <Card>
-          <CardItem style={{ justifyContent: 'center', marginBottom:-15 }}>
-          <H1>Header One</H1>
-          </CardItem>
-          <CardItem>
-            <Left style={{ marginLeft: 10 }}>
-              <Body>
-                <Icon name="md-bookmarks" style={{fontSize: 130, color: '#66b3ff'}} />
-              </Body>
-            </Left>
-            <Right style={{ marginRight: 10 }}>
-              <Body>
-                <Text style={{fontSize: 100, color: '#66b3ff'}}>{this.props.articles.length}</Text>
-              </Body>
-            </Right>
-          </CardItem>
-       </Card>
-       <Card>
-       <CardItem style={{ justifyContent: 'center', marginBottom:-15 }}>
-            <H1>Graphic Summary</H1>
-          </CardItem>
-          <CardItem>
-            <Left style={{ marginLeft: -30 }}>
-              <Body>
-              <VictoryChart
-                theme={VictoryTheme.material}
-                animate={{
-                  duration: 2000,
-                  onLoad: { duration: 1000 }
-                }}
-              >
-                <VictoryLine
+          <Card>
+            <CardItem header 
+              style={{
+                backgroundColor: '#4060B8', //3F51B5, 2874F0
+                justifyContent: 'center',
+                paddingBottom: 0
+              }}
+            >
+              <Thumbnail source={{ uri: this.state.user.photoURL }}/>
+            </CardItem>
+            <CardItem header
+              style={{
+                backgroundColor: '#4060B8',
+                justifyContent: 'center'
+              }}
+            >
+              <Body style={{
+                alignItems: 'center'
+              }}>
+                <H2 style={{ color: '#FFFFFF' }}>
+                  {this.state.user.displayName}
+                </H2>
+                <Text note 
                   style={{
-                    data: { stroke: "#66b3ff" },
-                    parent: { border: "1px solid #ccc"}
+                    color: '#E0E0E0',
+                    fontSize: 10,
+                    marginRight: 0
                   }}
-                  data={data}
-                />
-              </VictoryChart>
+                >
+                  Last login: {new Date(this.state.user.metadata.lastSignInTime).toLocaleString()}
+                </Text>
               </Body>
-            </Left>
-          </CardItem>
-       </Card>
-      </Content>
+            </CardItem>
+            <CardItem footer>
+              <Grid>
+                <Row>
+                  <Col style={{ alignItems: 'center' }}>
+                    <Text style={{ fontWeight: 'bold', color: '#4060B8' }}>
+                      {this.props.articles.length}
+                    </Text>
+                    <Text>Articles</Text>
+                  </Col>
+                  <Col style={{ alignItems: 'center' }}>
+                    <Text style={{ fontWeight: 'bold', color: '#4060B8'}}>0</Text>
+                    <Text>Unread</Text>
+                  </Col>
+                  <Col style={{ alignItems: 'center' }}>
+                    <Text style={{ fontWeight: 'bold', color: '#4060B8'}}>0</Text>
+                    <Text>Done</Text>
+                  </Col>
+                </Row>
+              </Grid>
+            </CardItem>
+          </Card>
+          <Card>
+            <CardItem header>
+              <Text>Reading Summary</Text>
+            </CardItem>
+            <CardItem
+              style={{
+                paddingTop: 0,
+                paddingRight: 17,
+                paddingBottom: 0,
+                paddingLeft: 17,
+                marginTop: -17,
+                marginBottom: -17
+              }}
+            >
+              <Body>
+                <VictoryChart
+                  theme={VictoryTheme.material}
+                  animate={{
+                    duration: 2000,
+                    onLoad: { duration: 1000 }
+                  }}
+                  height={300}
+                >
+                  <VictoryLine
+                    style={{
+                      data: { stroke: "#66b3ff" },
+                      parent: { border: "1px solid #ccc"}
+                    }}
+                    data={data}
+                  />
+                </VictoryChart>
+              </Body>
+            </CardItem>
+          </Card>
+        </Content>
         <Menu navigate={navigate} />
       </Container>
     )
