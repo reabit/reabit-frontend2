@@ -68,8 +68,8 @@ class HistoryChart extends Component {
               <Body>
                 <VictoryPie
                   data={[
-                    { x: "Good", y: goodPercentage },
-                    { x: "Bad", y: badPercentage }
+                    { x: null, y: goodPercentage },
+                    { x: null, y: badPercentage }
                   ]}
                   labelRadius={60}
                   style={{ 
@@ -86,8 +86,8 @@ class HistoryChart extends Component {
               </Body>
             </CardItem>
             <CardItem style={{ paddingTop: 0, paddingBottom: 17, zIndex: 9999 }}>
-              <Text note>Merah: Bad, </Text>
-              <Text note>Hijau: Good</Text>
+              <Text note>Red: Bad, </Text>
+              <Text note>Green: Good</Text>
             </CardItem>
           </Card>
           <Card style={{ marginRight: 17, marginLeft: 17 }}>
