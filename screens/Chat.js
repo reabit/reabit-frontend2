@@ -138,6 +138,7 @@ class Chat extends Component {
   }
 
   onSend(messages = []) {
+    const { navigate } = this.props.navigation
     this.setState(previousState => {
       return {
         messages: GiftedChat.append(previousState.messages, messages)
@@ -171,8 +172,6 @@ class Chat extends Component {
             }
           })
           this.props.setCategoriesArticle(result.data.category)
-          console.log(result.data.category, 'data.categories')
-          console.log(this.props.articleCategories, 'article categories')
           this.answerDemo(this.props.articleCategories, result.data.category)
         } else if (result.data.summary) {
           let tempSummary = [...this.props.summaries]
@@ -181,6 +180,40 @@ class Chat extends Component {
           this.props.addSummary(this.state.idArticle, messages[0].text)
           console.log(this.props.summaries)
            
+        } else if (result.data.help){
+          setTimeout(() => {
+            this.setState(previousState => {
+              return {
+                messages: GiftedChat.append(previousState.messages, [
+                  {
+                    _id: Math.round(Math.random() * 1000000),
+                    text: 'Berikut ialah list bantuan yang dapat kamu gunakan',
+                    help: 'help',
+                    navigate: navigate,
+                    createdAt: new Date().getTime(),
+                    user: {
+                      _id: 2,
+                      name: 'Reading Habit'
+                    }
+                  }
+                ])
+              }
+            })
+            
+          }, 2000);
+        }else if (result.data.navigation){
+          let {navigation} = result.data 
+          setTimeout(() => {
+            if(navigation == 'artikel' || navigation == 'article' || navigation == 'reading' ){
+              navigate('ReadingList')
+            }else if(navigation == 'home'){
+              navigate('Home')
+            }else if(navigation == 'historikal' || navigation == 'history'){
+              navigate('ReadingHistory')
+            }else if(navigation == 'logout' || navigation == 'keluar'){
+              navigate('Login')
+            }
+          }, 1500);
         }
       })
       .catch(err => {
