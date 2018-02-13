@@ -68,6 +68,7 @@ class CustomView extends React.Component {
           <Icon name="md-checkmark-circle-outline" style={{fontSize: 35, color: 'blue'}} onPress={() => this.removeToReadingList(article)}/>
           
         )
+
       }
     }else{
       return (

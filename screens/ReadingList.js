@@ -12,9 +12,11 @@ import {
   Body,
   Thumbnail,
   Header,
-  Title
+  Title,
+  Right
 } from 'native-base'
 import { connect } from 'react-redux'
+import ImageLoad from 'react-native-image-placeholder'
 
 import { Menu } from './components'
 
@@ -38,7 +40,7 @@ class ReadingList extends Component {
     const { navigate } = this.props.navigation
     return (
       <Container>
-        <Header>
+        <Header style={{ backgroundColor: '#4060B8' }}>
           <Body style={{ alignItems: 'center' }}>
             <Title>Reading List</Title>
           </Body>
@@ -50,14 +52,18 @@ class ReadingList extends Component {
               <ListItem avatar 
                 style={{
                   marginLeft: 2,
-                  backgroundColor: (data.statusRead ? '#F5F5F5' : '#FFFFFF'),
+                  backgroundColor: (data.statusRead ? '#EEEEEE' : '#FFFFFF'),
                   paddingTop: 5,
                   borderBottomWidth: 0.5,
                   borderColor: '#C9C9C9'
                 }}
               >
                 <Left style={{ width: winSize.width / 6, paddingLeft: 17 }}>
-                  <Thumbnail source={{ uri: data.img }} />
+                  <ImageLoad
+                    style={{ width: 56, height: 56, borderRadius: 28 }}
+                    loadingStyle={{ size: 'small', color: 'blue' }}
+                    source={{ uri: data.img }}
+                  />
                 </Left>
                 <Body 
                   style={{
@@ -80,14 +86,26 @@ class ReadingList extends Component {
                   </Text>
                   <Text note>{data.category}</Text>
                 </Body>
+                <Right style={{ justifyContent: 'center' }}>
+                  {data.statusRead && 
+                    <Icon name='md-checkmark-circle-outline' 
+                      style={{ color: 'green', fontSize: 30 }}
+                    />
+                  }
+                </Right>
               </ListItem>
             }
             renderLeftHiddenRow={data =>
-              <Button full onPress={() => navigate('Chat', {
-                title:data.title,
-                idArticle: data._id
-                })}>
-                <Icon active name="md-checkmark-circle-outline" style={{ color: '#ffffff'}}/>
+              <Button
+                full onPress={() => navigate('Chat', {
+                  title:data.title,
+                  idArticle: data._id
+                })}
+              >
+                <Icon 
+                  active name={data.statusRead ? 'md-refresh' : 'md-checkmark-circle-outline'} 
+                  style={{ color: '#ffffff', fontSize: 30}}
+                />
               </Button>
             }
             leftOpenValue={75}
