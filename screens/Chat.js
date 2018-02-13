@@ -85,7 +85,9 @@ class Chat extends Component {
 
   componentWillReceiveProps(nextProps){
     if(nextProps.summaries !== this.props.summaries ) {
-      let similarityStatus = nextProps.summaries[nextProps.summaries.length - 1].similarity == 'true' ? 'Nice kakak, rangkuman kamu tepat, Selamat Membaca' : 'Huu.. sayang sekali, rangkuman yang kamu berikan kurang tepat, Harap memperhatikan artikelnya :p'
+      console.log(nextProps.summaries)
+      let similarityNumber = (nextProps.summaries[nextProps.summaries.length - 1].numberSimilarity * 100).toFixed(2)
+      let similarityStatus = nextProps.summaries[nextProps.summaries.length - 1].similarity == 'true' ? `Nice kakak, rangkuman kamu tepat, Score yang kamu Dapat ialah ${similarityNumber}%. Selamat Membaca` : `Huu.. sayang sekali, rangkuman yang kamu berikan hanya mendapat point ${similarityNumber}%, Harap memperhatikan artikelnya ya`
       this.setState(previousState => {
         return {
           messages: GiftedChat.append(previousState.messages, [

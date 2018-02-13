@@ -72,8 +72,20 @@ export const set_categories_article = (category) => {
   }
 }
 
+export const icon_add_article = (category) => {
+  let categoryIcon = { ...category, statusRead : false}
+  return {
+    type: 'ICON_ADD_ARTICLE',
+    payload: {
+      category: categoryIcon
+    }
+  }
+}
+
 export const add_article_from_api = (category) => {
+  console.log(category, 'from cateogry add article action')
   return (dispatch, getState) => {
+    dispatch(icon_add_article(category))
     const urlAPI = `http://apibucket.sabikaorganizer.com:3008/readings/set`
     const userEmail = 'zuhri.nurhuda@gmail.com'
     const dataPost = {
@@ -85,7 +97,6 @@ export const add_article_from_api = (category) => {
         email: userEmail
       }
     }
-    console.log(config)
     axios.post(urlAPI, dataPost,  config)
     .then(({ data: { data } }) => {
       console.log(data, 'from add_article_from_api')
@@ -108,8 +119,8 @@ export const add_article = (article, category) => {
 }
 
 export const remove_article_from_api = (article) => {
-  console.log(article)
   return (dispatch, getState) => {
+    dispatch(icon_remove_article(article))
     console.log(article, 'from remove article')
     const urlAPI = `http://apibucket.sabikaorganizer.com:3008/readings/delete/${article._id}`
     const userEmail = 'zuhri.nurhuda@gmail.com'
@@ -128,6 +139,15 @@ export const remove_article_from_api = (article) => {
 export const remove_article = (article) => {
   return {
     type: 'REMOVE_ARTICLE',
+    payload: {
+      article
+    }
+  }
+}
+
+export const icon_remove_article = (article) => {
+  return {
+    type: 'ICON_REMOVE_ARTICLE',
     payload: {
       article
     }
