@@ -4171,6 +4171,12 @@ react-native-google-signin@^0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/react-native-google-signin/-/react-native-google-signin-0.12.0.tgz#fc549593adbc92ed2a5a683a957f157650ece961"
 
+react-native-image-placeholder@^1.0.14:
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/react-native-image-placeholder/-/react-native-image-placeholder-1.0.14.tgz#74f8a74f0d9f2732cc55bc65eb9d6adb668c7c1d"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-invertible-scroll-view@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-native-invertible-scroll-view/-/react-native-invertible-scroll-view-1.1.0.tgz#bfd50a3f5d66ca12639b7c7a9844ceddd1d16890"
