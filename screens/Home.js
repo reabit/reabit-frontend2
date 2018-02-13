@@ -93,7 +93,7 @@ class Home extends Component {
   render() {
     const { navigate } = this.props.navigation
     let chartComponent
-    if (!this.props.summaries.length) {
+    if (this.props.summaries.length) {
       chartComponent = <HandleChart />
     } else {
       chartComponent = <HandleEmptyChart navigate={navigate}/>
@@ -106,64 +106,40 @@ class Home extends Component {
     let done = this.props.articles.filter(article => {
       return article.statusRead === true
     }).length
-    
+    //3F51B5, 2874F0
     return (
       <Container style={ styles.content }>
         <Content>
-          <Card>
-            <CardItem header 
-              style={{
-                backgroundColor: '#4060B8', //3F51B5, 2874F0
-                justifyContent: 'center',
-                paddingBottom: 0
-              }}
-            >
-              <Thumbnail source={{ uri: this.state.user.photoURL }}/>
-            </CardItem>
-            <CardItem header
-              style={{
-                backgroundColor: '#4060B8',
-                justifyContent: 'center'
-              }}
-            >
-              <Body style={{
-                alignItems: 'center'
-              }}>
-                <H2 style={{ color: '#FFFFFF' }}>
+          <Grid>
+            <Row
+              style={{ backgroundColor: '#4060B8',  paddingTop: 17, paddingBottom: 17 }} >
+              <Col style={{ alignItems: 'center' }}>
+                <Thumbnail source={{ uri: this.state.user.photoURL }} />
+                <H2 style={{ color: '#FFFFFF', paddingTop: 10 }}>
                   {this.state.user.displayName}
                 </H2>
-                <Text note 
-                  style={{
-                    color: '#E0E0E0',
-                    fontSize: 10,
-                    marginRight: 0
-                  }}
-                >
+                <Text note style={{ color: '#E0E0E0', fontSize: 10, marginRight: 0 }} >
                   Last login: {new Date(this.state.user.metadata.lastSignInTime).toLocaleString()}
                 </Text>
-              </Body>
-            </CardItem>
-            <CardItem footer>
-              <Grid>
-                <Row>
-                  <Col style={{ alignItems: 'center' }}>
-                    <Text style={{ fontWeight: 'bold', color: '#4060B8' }}>
-                      {this.props.articles.length}
-                    </Text>
-                    <Text>Articles</Text>
-                  </Col>
-                  <Col style={{ alignItems: 'center' }}>
-                    <Text style={{ fontWeight: 'bold', color: '#4060B8' }}>{unread}</Text>
-                    <Text>Unread</Text>
-                  </Col>
-                  <Col style={{ alignItems: 'center' }}>
-                    <Text style={{ fontWeight: 'bold', color: '#4060B8' }}>{done}</Text>
-                    <Text>Done</Text>
-                  </Col>
-                </Row>
-              </Grid>
-            </CardItem>
-          </Card>
+              </Col>
+            </Row>
+            <Row style={{ paddingTop: 17, paddingBottom: 17 }} >
+              <Col style={{ alignItems: 'center' }}>
+                <Text style={{ fontWeight: 'bold', color: '#4060B8' }}>
+                  {this.props.articles.length}
+                </Text>
+                <Text>Articles</Text>
+              </Col>
+              <Col style={{ alignItems: 'center' }}>
+                <Text style={{ fontWeight: 'bold', color: '#4060B8' }}>{unread}</Text>
+                <Text>Unread</Text>
+              </Col>
+              <Col style={{ alignItems: 'center' }}>
+                <Text style={{ fontWeight: 'bold', color: '#4060B8' }}>{done}</Text>
+                <Text>Done</Text>
+              </Col>
+            </Row>
+          </Grid>
           {chartComponent}
         </Content>
         <Menu navigate={navigate} />

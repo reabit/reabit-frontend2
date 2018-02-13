@@ -35,33 +35,31 @@ class HistoryChart extends Component {
       }
       data.push(mouthData);
     }
-    console.log(this.props.summaries)
+    // console.log(this.props.summaries)
     let goodLength = this.props.summaries.filter(summary => {
       return summary.similarity == 'true'
     }).length
-    console.log('good', goodLength)
+    // console.log('good', goodLength)
     let badLength = this.props.summaries.filter(summary => {
       return summary.similarity == 'false'
     }).length
-    console.log('bad', badLength)
+    // console.log('bad', badLength)
     let goodPercentage = (goodLength / this.props.summaries.length) * 100
-    console.log('goodPercentage', goodPercentage)
+    // console.log('goodPercentage', goodPercentage)
     let badPercentage = (badLength / this.props.summaries.length) * 100
-    console.log('badPercentage', badPercentage)
+    // console.log('badPercentage', badPercentage)
 
     return (
       <Container>
         <Content>
-          <Card>
-            <CardItem header>
-              <Text>Summaries Percentage</Text>
+          <Card style={{ marginRight: 17, marginLeft: 17 }}>
+            <CardItem header style={{ paddingBottom: 0, zIndex: 9999 }}>
+              <Text>Summaries</Text>
             </CardItem>
             <CardItem
               style={{
                 paddingTop: 0,
-                paddingRight: 17,
                 paddingBottom: 0,
-                paddingLeft: 17,
                 marginTop: -17,
                 marginBottom: -17
               }}
@@ -83,17 +81,15 @@ class HistoryChart extends Component {
                 />
               </Body>
             </CardItem>
-         </Card>
-         <Card>
-            <CardItem header>
-              <Text>Reading Percentage</Text>
+          </Card>
+          <Card style={{ marginRight: 17, marginLeft: 17 }}>
+            <CardItem header style={{ paddingBottom: 0, zIndex: 9999 }}>
+              <Text>Reading</Text>
             </CardItem>
             <CardItem
               style={{
                 paddingTop: 0,
-                paddingRight: 17,
                 paddingBottom: 0,
-                paddingLeft: 17,
                 marginTop: -17,
                 marginBottom: -17
               }}
@@ -102,10 +98,8 @@ class HistoryChart extends Component {
                 <VictoryChart
                   height={300}
                   theme={VictoryTheme.material}
-                  animate={{
-                    duration: 2000,
-                    onLoad: { duration: 1000 }
-                  }}
+                  height={315}
+                  width={335}
                 >
                   <VictoryLine
                     style={{

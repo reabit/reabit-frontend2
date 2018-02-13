@@ -40,7 +40,7 @@ class ReadingList extends Component {
     const { navigate } = this.props.navigation
     return (
       <Container>
-        <Header>
+        <Header style={{ backgroundColor: '#4060B8' }}>
           <Body style={{ alignItems: 'center' }}>
             <Title>Reading List</Title>
           </Body>
@@ -52,7 +52,7 @@ class ReadingList extends Component {
               <ListItem avatar 
                 style={{
                   marginLeft: 2,
-                  backgroundColor: (data.statusRead ? '#F5F5F5' : '#FFFFFF'),
+                  backgroundColor: (data.statusRead ? '#EEEEEE' : '#FFFFFF'),
                   paddingTop: 5,
                   borderBottomWidth: 0.5,
                   borderColor: '#C9C9C9'
@@ -64,10 +64,6 @@ class ReadingList extends Component {
                     loadingStyle={{ size: 'small', color: 'blue' }}
                     source={{ uri: data.img }}
                   />
-                  {/* <Thumbnail 
-                    loadingStyle={{ size: 'large', color: 'blue'}}
-                    source={{ uri: data.img }}
-                  /> */}
                 </Left>
                 <Body 
                   style={{
@@ -90,17 +86,26 @@ class ReadingList extends Component {
                   </Text>
                   <Text note>{data.category}</Text>
                 </Body>
-                <Right>
-                  {data.statusRead && <Icon name='md-checkmark-circle-outline' />}
+                <Right style={{ justifyContent: 'center' }}>
+                  {data.statusRead && 
+                    <Icon name='md-checkmark-circle-outline' 
+                      style={{ color: 'green', fontSize: 30 }}
+                    />
+                  }
                 </Right>
               </ListItem>
             }
             renderLeftHiddenRow={data =>
-              <Button full onPress={() => navigate('Chat', {
-                title:data.title,
-                idArticle: data._id
-                })}>
-                <Icon active name="md-checkmark-circle-outline" style={{ color: '#ffffff'}}/>
+              <Button
+                full onPress={() => navigate('Chat', {
+                  title:data.title,
+                  idArticle: data._id
+                })}
+              >
+                <Icon 
+                  active name={data.statusRead ? 'md-refresh' : 'md-checkmark-circle-outline'} 
+                  style={{ color: '#ffffff', fontSize: 30}}
+                />
               </Button>
             }
             leftOpenValue={75}

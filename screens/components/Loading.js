@@ -4,8 +4,7 @@ export default class Loading extends Component {
   render() {
     return (
       <Container>
-        <Header />
-        <Content>
+        <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
           <Spinner color='blue' />
         </Content>
       </Container>
