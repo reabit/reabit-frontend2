@@ -24,24 +24,27 @@ import { connect } from 'react-redux'
 import PushNotification from '../notificationConfigure'
 import { Menu, HandleChart, HandleEmptyChart } from './components'
 import firebase from '../firebase'
-import { fetch_articles_from_api } from '../redux/actions/articlesActions'
-import { fetch_summaries_from_api } from '../redux/actions/summariesActions'
 
 const winSize = Dimensions.get('window')
 class Home extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      user: firebase.auth().currentUser
+      user: firebase.auth().currentUser,
+      menuActive: {
+        home: true,
+        chat: false,
+        read: false,
+        history: false
+      }
     }
   }
 
   static navigationOptions = {
     header: null
   }
+
   componentDidMount () {
-    this.props.fetchArticles()
-    this.props.fetchSummaries()
     AppState.addEventListener('change', this.handleAppStateChange.bind());
   }
 
@@ -140,9 +143,11 @@ class Home extends Component {
               </Col>
             </Row>
           </Grid>
-          {chartComponent}
+          {this.props.summaries.length != 0 && <HandleChart />}
+          {this.props.summaries.length === 0 && <HandleEmptyChart navigate={navigate} />}
+
         </Content>
-        <Menu navigate={navigate} />
+        <Menu navigate={navigate} menuActive={this.state.menuActive}/>
       </Container>
     )
   }
@@ -161,11 +166,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchArticles: () => dispatch(fetch_articles_from_api()),
-    fetchSummaries: () => dispatch(fetch_summaries_from_api())
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default connect(mapStateToProps, null)(Home)

@@ -27,7 +27,15 @@ class ReadingList extends Component {
     this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     this.state = {
       basic: true,
-      listViewData: this.props.articles,
+      listViewData: this.props.articles.filter(article => {
+        return article.statusSummary === false
+      }),
+      menuActive: {
+        home: false,
+        chat: false,
+        read: true,
+        history: false
+      }
     }
   }
 
@@ -96,23 +104,33 @@ class ReadingList extends Component {
               </ListItem>
             }
             renderLeftHiddenRow={data =>
+              data.statusRead ? 
               <Button
                 full onPress={() => navigate('Chat', {
                   title:data.title,
                   idArticle: data._id
                 })}
+                style={{ backgroundColor: 'green' }}
               >
                 <Icon 
-                  active name={data.statusRead ? 'md-refresh' : 'md-checkmark-circle-outline'} 
+                  active name='md-list-box'
                   style={{ color: '#ffffff', fontSize: 30}}
                 />
-              </Button>
+              </Button> :
+                <Button
+                  full onPress={() => navigate('ArticleDetail', { id: data._id })}
+                >
+                  <Icon
+                    active name='md-bookmarks'
+                    style={{ color: '#ffffff', fontSize: 30 }}
+                  />
+                </Button>
             }
             leftOpenValue={75}
             disableLeftSwipe={true}
           />
         </Content>
-        <Menu navigate={navigate}/>
+        <Menu navigate={navigate} menuActive={this.state.menuActive}/>
       </Container>
     )
   }
