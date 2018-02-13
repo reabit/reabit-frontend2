@@ -35,7 +35,13 @@ class ArticleDetail extends Component {
       author: '',
       category: '',
       decription: '',
-      img: ''
+      img: '',
+      menuActive: {
+        home: false,
+        chat: false,
+        read: true,
+        history: false
+      }
     }
   }
 
@@ -124,7 +130,7 @@ class ArticleDetail extends Component {
               </CardItem>
             </Card>
           </Content>
-          <Menu navigate={navigate} />
+          <Menu navigate={navigate} menuActive={this.state.menuActive}/>
         </Container>
       )
     }

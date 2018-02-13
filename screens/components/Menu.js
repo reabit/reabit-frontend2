@@ -22,33 +22,34 @@ class Menu extends Component {
   }
 
   render() {
+    console.log('menu', this.props.menuActive)
     let unreadArticles = this.props.articles.filter(article => {
       return article.statusRead === false
     }).length
     const navigate = this.props.navigate
     return (
       <Footer>
-        <FooterTab>
-            <Button active vertical onPress={() => navigate('Home')}>
-              <Icon name="ios-home-outline" />
+        <FooterTab style={{ backgroundColor: '#2874F0' }}>
+            <Button active={this.props.menuActive.home} vertical onPress={() => navigate('Home')}>
+            <Icon active={this.props.menuActive.home} name="ios-home-outline"/>
               <Text style={ styles.fontButton }>Home</Text>
             </Button>
 
-            <Button active vertical onPress={() => navigate('Chat')}>
-              <Icon name="ios-chatbubbles-outline" />
+            <Button active={this.props.menuActive.chat} vertical onPress={() => navigate('Chat')}>
+              <Icon active={this.props.menuActive.chat} name="ios-chatbubbles-outline" />
               <Text style={ styles.fontButton }>Chat</Text>
             </Button>
 
-            <Button active badge vertical onPress={() => navigate('ReadingList')}>
+            <Button active={this.props.menuActive.read} badge vertical onPress={() => navigate('ReadingList')}>
               <Badge>
                 <Text>{unreadArticles}</Text>
               </Badge>
-              <Icon active name="ios-book-outline" />
+              <Icon active={this.props.menuActive.read} name="ios-book-outline" />
               <Text style={ styles.fontButton }>Read</Text>
             </Button>
 
-            <Button vertical onPress={() => navigate('ReadingHistory')}>
-              <Icon name="ios-clipboard-outline" />
+            <Button active={this.props.menuActive.history} vertical onPress={() => navigate('ReadingHistory')}>
+              <Icon active={this.props.menuActive.history} name="ios-clipboard-outline" />
               <Text style={ styles.fontButton }>History</Text>
             </Button>
 

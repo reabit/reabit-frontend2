@@ -44,6 +44,12 @@ class Chat extends Component {
       isLoadingEarlier: false,
       idArticle: null,
       category: '',
+      menuActive: {
+        home: false,
+        chat: true,
+        read: false,
+        history: false
+      }
     }
 
     this._isMounted = false
@@ -346,7 +352,7 @@ class Chat extends Component {
           renderCustomView={this.renderCustomView}
           renderMessage={this.renderMessage}
         />
-        <Menu navigate={navigate} />
+        <Menu navigate={navigate} menuActive={this.state.menuActive}/>
       </Container>
     )
   }

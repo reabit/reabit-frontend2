@@ -78,14 +78,14 @@ class CustomView extends React.Component {
   }
   
   render() {
-    if (this.state.dataCategories.length > 0) {
+    if (this.props.articleCategories.length > 0) {
       return (
         <Container
           style={{width: 300}}
         >
           <Content>
             <List>
-              {this.state.dataCategories.map((article, idx) => {
+              {this.props.articleCategories.map((article, idx) => {
                 
                 return (
                   <ListItem
