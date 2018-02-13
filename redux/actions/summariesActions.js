@@ -23,3 +23,26 @@ export const fetch_summaries_from_api = () => {
     })
   }
 }
+
+export const add_summary_from_api = (idArticle, summaryUser) => {
+  return (dispatch, getState) => {
+    const urlAPI = `http://apibucket.sabikaorganizer.com:3008/summarys/add/${idArticle}`
+    const config = {
+      headers: {
+        email: 'zuhri.nurhuda@gmail.com'
+      }
+    }
+    axios.post(urlAPI, {summary: summaryUser}, config)
+    .then(({ data: { data } }) => {
+      console.log(data, 'from action summary')
+      dispatch(add_summary(data))
+    })
+  }
+}
+
+export const add_summary = (summary) => {
+  return {
+    type: 'ADD_SUMMARY',
+    payload: summary
+  }
+}

@@ -14,7 +14,8 @@ export const fetch_articles_from_api = () => {
     const userEmail = firebase.auth().currentUser
     const config = {
       headers: {
-        email: userEmail.email
+        // email: userEmail.email
+        email: 'zuhri.nurhuda@gmail.com'
       }
     }
     axios.get(urlAPI, config)
@@ -44,5 +45,91 @@ export const get_reading_status = (articleId) => {
     .then(({ data: { data } }) => {
       dispatch(set_reading_status(data))
     })
+  }
+}
+
+export const get_categories_article = (category) => {
+  return (dispatch, getState) => {
+    const urlAPI = `http://apibucket.sabikaorganizer.com:3008/cheerio`
+    const userEmail = 'zuhri.nurhuda@gmail.com'
+    const config = {
+      category: category,
+      headers: {
+        email: userEmail
+      }
+    }
+    axios.post(urlAPI, config)
+    .then(({ data: { data } }) => {
+      dispatch(set_categories_article(data))
+    })
+  }
+}
+
+export const set_categories_article = (category) => {
+  return {
+    type: 'SET_CATEGORIES_ARTICLE',
+    payload: category
+  }
+}
+
+export const add_article_from_api = (category) => {
+  return (dispatch, getState) => {
+    const urlAPI = `http://apibucket.sabikaorganizer.com:3008/readings/set`
+    const userEmail = 'zuhri.nurhuda@gmail.com'
+    const dataPost = {
+      url: category.url,
+      category: category.category
+    }
+    const config = {
+      headers: {
+        email: userEmail
+      }
+    }
+    console.log(config)
+    axios.post(urlAPI, dataPost,  config)
+    .then(({ data: { data } }) => {
+      console.log(data, 'from add_article_from_api')
+      dispatch(add_article(data, category))
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+}
+
+export const add_article = (article, category) => {
+  return {
+    type: 'ADD_ARTICLE',
+    payload: {
+      article,
+      category
+    }
+  }
+}
+
+export const remove_article_from_api = (article) => {
+  console.log(article)
+  return (dispatch, getState) => {
+    console.log(article, 'from remove article')
+    const urlAPI = `http://apibucket.sabikaorganizer.com:3008/readings/delete/${article._id}`
+    const userEmail = 'zuhri.nurhuda@gmail.com'
+    const config = {
+      headers: {
+        email: userEmail
+      }
+    }
+    axios.delete(urlAPI, config)
+    .then(result => {
+      dispatch(remove_article(article))
+    })
+  }
+}
+
+export const remove_article = (article) => {
+  return {
+    type: 'REMOVE_ARTICLE',
+    payload: {
+      article
+    }
   }
 }
