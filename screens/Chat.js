@@ -101,6 +101,10 @@ class Chat extends Component {
           ])
         }
       })
+    }else if(nextProps.articleCategories !== this.props.articleCategories){
+      console.log(nextProps, 'in receive props')
+      // this.answerDemo(nextProps.articleCategories, this.state.category)     
+
     }
   }
 
@@ -159,62 +163,22 @@ class Chat extends Component {
         })
         console.log(result.data, '-----------> category')
         if (result.data.category) {
-          // axios
-          //   .post('http://apibucket.sabikaorganizer.com:3008/cheerio', {
-          //     category: result.data.category
-          //   })
-          //   .then(categoryList => {
-          //     this.answerDemo(categoryList.data, result.data.category)
-          //   })
           this.setState(() => {
             return {
               category: result.data.category
             }
           })
           this.props.setCategoriesArticle(result.data.category)
-          this.answerDemo(result.data.category, this.state.category)
+          console.log(result.data.category, 'data.categories')
           console.log(this.props.articleCategories, 'article categories')
-
+          this.answerDemo(this.props.articleCategories, result.data.category)
         } else if (result.data.summary) {
           let tempSummary = [...this.props.summaries]
           console.log(this.props.summaries)
           
           this.props.addSummary(this.state.idArticle, messages[0].text)
           console.log(this.props.summaries)
-            // this.setState(previousState => {
-            //   return {
-            //     messages: GiftedChat.append(previousState.messages, [
-            //       {
-            //         _id: Math.round(Math.random() * 1000000),
-            //         text: similarityStatus,
-            //         createdAt: new Date().getTime(),
-            //         user: {
-            //           _id: 2,
-            //           name: 'Reading Habit'
-            //         }
-            //       }
-            //     ])
-            //   }
-            // })
-          // axios
-          //   .post(
-          //     `http://apibucket.sabikaorganizer.com:3008/summarys/add/${
-          //       this.state.idArticle
-          //     }`,
-          //     {
-          //       summary: messages[0].text
-          //     },
-          //     {
-          //       headers: {
-          //         // email: firebase.auth().currentUser.email
-          //         email: 'zuhri.nurhuda@gmail.com'
-          //       }
-          //     }
-          //   )
-          //   .then(resultSummary => {
-          //     console.log(resultSummary, '-------------- ini dari then summary')
-              
-            // })
+           
         }
       })
       .catch(err => {
@@ -247,9 +211,7 @@ class Chat extends Component {
               ])
             }
           })
-        } else {
-          this.onReceive('no data', dataFromBot)
-        }
+        } 
       }
 
       this.setState(previousState => {
@@ -257,7 +219,7 @@ class Chat extends Component {
           typingText: null
         }
       })
-    }, 1000)
+    }, 4000)
   }
 
   onReceive(text, category) {
