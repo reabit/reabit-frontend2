@@ -1,4 +1,5 @@
 import axios from 'axios'
+import firebase from '../../firebase'
 
 const urlAPI = 'http://apibucket.sabikaorganizer.com:3008/chatbot'
 
@@ -7,7 +8,7 @@ export const fetch_chatbot_from_api = (text) => {
     const config = {
       chat: text,
       headers: {
-        email: 'zuhri.nurhuda@gmail.com'
+        email: firebase.auth().currentUser.email
       }
     }
     axios.post(urlAPI, config)

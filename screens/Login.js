@@ -12,6 +12,8 @@ import { connect } from 'react-redux'
 
 import firebase from '../firebase'
 import { create_user } from '../redux/actions/usersActions'
+import { fetch_articles_from_api } from '../redux/actions/articlesActions'
+import { fetch_summaries_from_api } from '../redux/actions/summariesActions'
 import { Loading } from './components'
 
 class Login extends Component {
@@ -87,6 +89,8 @@ class Login extends Component {
       }
       console.log('google account -->', payload)
       this.props.createUser(payload)
+      this.props.fetchArticles()
+      this.props.fetchSummaries()
       this.setState({
         isLoading: false
       })
@@ -133,7 +137,9 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createUser: (payload) => dispatch(create_user(payload))
+    createUser: (payload) => dispatch(create_user(payload)),
+    fetchArticles: () => dispatch(fetch_articles_from_api()),
+    fetchSummaries: () => dispatch(fetch_summaries_from_api())
   }
 }
 
