@@ -15,56 +15,70 @@ import {
 } from 'native-base'
 import axios from 'axios'
 import { FlatList } from 'react-native'
-
+import { connect } from 'react-redux'
 import firebase from '../../firebase'
+import { fetch_articles_from_api, add_article_from_api, remove_article_from_api } from '../../redux/actions/articlesActions'
 
-export default class CustomView extends React.Component {
+class CustomView extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-    dataCategories : this.props.currentMessage.dataFromBot ? this.props.currentMessage.dataFromBot : '',      
-      testing: 'ada'
+    dataCategories : this.props.articleCategories.length !== 0 ? this.props.articleCategories : '',   
+    dataArticleList: this.props.articleList,
+    testing: 'ada'
     }
   }
-  // state = {
-  //   dataCategories : this.props.currentMessage.dataFromBot ? this.props.currentMessage.dataFromBot : '',
-  //   testing: 'ada'
-  // }
+  componentDidMount(){
+    this.props.showArticleList()
+  }
 
-  addToReadingList(url){
-    console.log(this.state.testing)
-    this.setState(() => {
-      return {
-
-        testing: 'ada apa dengan cinta'
-      }
+  addToReadingList(article){
+    this.setState({
+      testing: 'lagiiiiii'
     })
-    console.log(this.state.testing)
-    // this.state.testing = 'ada apa dengan cinta'
-    console.log(this.state.dataCategories, 'from add to reagind list')
-    console.log(url)
-    this.state.dataCategories = this.state.dataCategories.filter(article => {
-      if(article.url !== url){
-        return article
-      }
-    })
-    console.log(this.state.dataCategories)
-    axios.post('http://apibucket.sabikaorganizer.com:3008/readings/set', {
-      url: url,
+    this.props.addArticle({
+      url: article.url,
+      title: article.title,
       category: this.props.currentMessage.category
-    }, {
-      headers: {
-        email: 'triamri@gmail.com'
+    })                           
+  }
+
+  removeToReadingList(article){
+    let articleRemoved = this.state.dataArticleList.filter(a => {
+      if(a.title == article.title){
+        return a
       }
     })
-    .then(result => {
-      
-      console.log(result.data, 'dari add to reading list')
+    console.log(articleRemoved, 'from customview')
+    this.props.removeArticle(articleRemoved[0])
+  }
+  iconAddCancelArticle(article){
+    let titleArticle = this.props.articleList.filter(a => {
+      if(a.title == article.title){
+        return a
+      }
     })
+    if(titleArticle.length !== 0){
+      if(titleArticle[0].statusRead){
+        return (
+          <Icon name="md-book" style={{fontSize:35, color: 'black'}}/>
+        )
+      }else{
+        return (
+          <Icon name="md-checkmark-circle-outline" style={{fontSize: 35, color: 'blue'}} onPress={() => this.removeToReadingList(article)}/>
+          
+        )
+
+      }
+    }else{
+      return (
+        <Icon name="add-circle" style={{fontSize: 35, color: 'green'}} onPress={() => this.addToReadingList(article)}/>        
+      )
+    }
   }
   
   render() {
-    if (this.state.dataCategories) {
+    if (this.state.dataCategories.length > 0) {
       return (
         <Container
           style={{width: 300}}
@@ -72,6 +86,7 @@ export default class CustomView extends React.Component {
           <Content>
             <List>
               {this.state.dataCategories.map((article, idx) => {
+                
                 return (
                   <ListItem
                     style={{marginLeft: 15, marginRight: 15, paddingRight: 0}}
@@ -80,10 +95,16 @@ export default class CustomView extends React.Component {
                     <Body
                       style={{width: 250}}
                     >
+                    
                       <Text style={{marginLeft: 0, marginRight: 0}} >{article.title}</Text>
                     </Body>
                     <Right>
-                      <Icon name="add-circle" style={{fontSize: 24, color: 'green'}} onPress={() => this.addToReadingList(article.url)}/>
+                      {this.iconAddCancelArticle(article)}
+                      
+                      {/* {this.state.testing} */}
+                      {/* {this.state.dataArticleList.filter(a =>{
+                        return a.title == article.title
+                      }).length > 0 ? 'test' : 'aja'} */}
                     </Right>
                   </ListItem>
                 )
@@ -97,3 +118,18 @@ export default class CustomView extends React.Component {
     return null
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    articleCategories: state.articlesReducers.categories,
+    articleList: state.articlesReducers.articles
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    showArticleList: () => dispatch(fetch_articles_from_api()),
+    addArticle: (article) => dispatch(add_article_from_api(article)),
+    removeArticle: (article) => dispatch(remove_article_from_api(article))
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(CustomView)

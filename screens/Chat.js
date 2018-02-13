@@ -31,6 +31,8 @@ import { Menu } from './components'
 import { summaryBot } from './data/summary'
 import { connect } from 'react-redux'
 import { fetch_chatbot_from_api } from '../redux/actions/chatbotActions'
+import { get_categories_article } from '../redux/actions/articlesActions'
+import { add_summary_from_api } from '../redux/actions/summariesActions'
 
 class Chat extends Component {
   constructor(props) {
@@ -40,7 +42,8 @@ class Chat extends Component {
       loadEarlier: true,
       typingText: null,
       isLoadingEarlier: false,
-      idArticle: null
+      idArticle: null,
+      category: '',
     }
 
     this._isMounted = false
@@ -68,13 +71,34 @@ class Chat extends Component {
       this.setState(() => {
         return {
           messages: summaryBot(this.props.navigation.state.params.title),
-          idArticle: this.props.navigation.state.params.idArticle 
+          idArticle: this.props.navigation.state.params.idArticle
         }
       })
     } else {
       this.setState(() => {
         return {
           messages: require('./data/messages.js')
+        }
+      })
+    }
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.summaries !== this.props.summaries ) {
+      let similarityStatus = nextProps.summaries[nextProps.summaries.length - 1].similarity == 'true' ? 'Nice kakak, rangkuman kamu tepat, Selamat Membaca' : 'Huu.. sayang sekali, rangkuman yang kamu berikan kurang tepat, Harap memperhatikan artikelnya :p'
+      this.setState(previousState => {
+        return {
+          messages: GiftedChat.append(previousState.messages, [
+            {
+              _id: Math.round(Math.random() * 1000000),
+              text: similarityStatus,
+              createdAt: new Date().getTime(),
+              user: {
+                _id: 2,
+                name: 'Reading Habit'
+              }
+            }
+          ])
         }
       })
     }
@@ -113,7 +137,7 @@ class Chat extends Component {
         messages: GiftedChat.append(previousState.messages, messages)
       }
     })
-     axios
+    axios
       .post('http://apibucket.sabikaorganizer.com:3008/chatbot', {
         chat: messages[0].text
       })
@@ -135,31 +159,68 @@ class Chat extends Component {
         })
         console.log(result.data, '-----------> category')
         if (result.data.category) {
-          axios
-            .post('http://apibucket.sabikaorganizer.com:3008/cheerio', {
+          // axios
+          //   .post('http://apibucket.sabikaorganizer.com:3008/cheerio', {
+          //     category: result.data.category
+          //   })
+          //   .then(categoryList => {
+          //     this.answerDemo(categoryList.data, result.data.category)
+          //   })
+          this.setState(() => {
+            return {
               category: result.data.category
-            })
-            .then(categoryList => {
-              this.answerDemo(categoryList.data, result.data.category)
-            })
-        } else if(result.data.summary) {
-          axios.post(`http://apibucket.sabikaorganizer.com:3008/summarys/add/${this.state.idArticle}`, {
-            summary: messages[0].text
-          }, {
-              headers: {
-                email: firebase.auth().currentUser.email
-              }
-            })
-          .then(resultSummary => {
-            console.log(resultSummary, '-------------- ini dari then summary')
+            }
           })
+          this.props.setCategoriesArticle(result.data.category)
+          this.answerDemo(result.data.category, this.state.category)
+          console.log(this.props.articleCategories, 'article categories')
+
+        } else if (result.data.summary) {
+          let tempSummary = [...this.props.summaries]
+          console.log(this.props.summaries)
+          
+          this.props.addSummary(this.state.idArticle, messages[0].text)
+          console.log(this.props.summaries)
+            // this.setState(previousState => {
+            //   return {
+            //     messages: GiftedChat.append(previousState.messages, [
+            //       {
+            //         _id: Math.round(Math.random() * 1000000),
+            //         text: similarityStatus,
+            //         createdAt: new Date().getTime(),
+            //         user: {
+            //           _id: 2,
+            //           name: 'Reading Habit'
+            //         }
+            //       }
+            //     ])
+            //   }
+            // })
+          // axios
+          //   .post(
+          //     `http://apibucket.sabikaorganizer.com:3008/summarys/add/${
+          //       this.state.idArticle
+          //     }`,
+          //     {
+          //       summary: messages[0].text
+          //     },
+          //     {
+          //       headers: {
+          //         // email: firebase.auth().currentUser.email
+          //         email: 'zuhri.nurhuda@gmail.com'
+          //       }
+          //     }
+          //   )
+          //   .then(resultSummary => {
+          //     console.log(resultSummary, '-------------- ini dari then summary')
+              
+            // })
         }
       })
       .catch(err => {
         console.log(err, 'ini error')
       })
   }
-
   answerDemo(dataFromBot, category = '') {
     console.log(dataFromBot, 'in answerDemo')
     this.setState(previousState => {
@@ -170,31 +231,24 @@ class Chat extends Component {
     setTimeout(() => {
       if (this._isMounted === true) {
         if (dataFromBot) {
-          if (dataFromBot.messages == 'List Categories') {
-            console.log('masuk ke sini')
-            this.onReceive(
-              'ini list artikel yang kamu minta, kamu bisa memilih artikel yang ingin kamu baca dengan menekan tombol tambah',
-              dataFromBot.data,
-              category
-            )
-            this.setState(previousState => {
-              return {
-                messages: GiftedChat.append(previousState.messages, [
-                  {
-                    _id: Math.round(Math.random() * 1000000),
-                    text: 'masih bingung? ketik help',
-                    createdAt: new Date().getTime(),
-                    user: {
-                      _id: 2,
-                      name: 'Reading Habit'
-                    }
+          this.setState(previousState => {
+            return {
+              messages: GiftedChat.append(previousState.messages, [
+                {
+                  _id: Math.round(Math.random() * 1000000),
+                  text: 'ini list artikel yang kamu minta, untuk bisa melihat artikel kamu harus menekan tombol tambah. masih bingung? ketik help',
+                  category: category,
+                  createdAt: new Date().getTime(),
+                  user: {
+                    _id: 2,
+                    name: 'Reading Habit'
                   }
-                ])
-              }
-            })
-          } else {
-            this.onReceive('no data', dataFromBot.data)
-          }
+                }
+              ])
+            }
+          })
+        } else {
+          this.onReceive('no data', dataFromBot)
         }
       }
 
@@ -206,13 +260,12 @@ class Chat extends Component {
     }, 1000)
   }
 
-  onReceive(text, dataFromBot, category) {
+  onReceive(text, category) {
     this.setState(previousState => {
       return {
         messages: GiftedChat.append(previousState.messages, {
           _id: Math.round(Math.random() * 1000000),
           text: text,
-          dataFromBot: dataFromBot,
           category: category,
           createdAt: new Date(),
           user: {
@@ -327,7 +380,6 @@ class Chat extends Component {
           }}
           renderActions={this.renderCustomActions}
           renderBubble={this.renderBubble}
-          // renderSystemMessage={this.renderSystemMessage}
           renderFooter={this.renderFooter}
           renderCustomView={this.renderCustomView}
           renderMessage={this.renderMessage}
@@ -351,15 +403,19 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    messages: state.chatbotReducers.messages
+    messages: state.chatbotReducers.messages,
+    articleCategories: state.articlesReducers.categories,
+    summaries: state.summariesReducers.summaries
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    showMessages: (data) => dispatch(fetch_chatbot_from_api(data))
+    showMessages: data => dispatch(fetch_chatbot_from_api(data)),
+    setCategoriesArticle: category => dispatch(get_categories_article(category)),
+    addSummary: (idArticle, summary) => dispatch(add_summary_from_api(idArticle, summary))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Chat)
