@@ -78,7 +78,9 @@ class CustomView extends React.Component {
   }
   
   render() {
-    if (this.props.articleCategories.length > 0) {
+    if (this.state.dataCategories.length > 0) {
+      console.log(this.state.dataCategories)
+
       return (
         <Container
           style={{width: 300}}
