@@ -22,39 +22,106 @@ class Menu extends Component {
   }
 
   render() {
+    console.log('menu', this.props.menuActive)
     let unreadArticles = this.props.articles.filter(article => {
       return article.statusRead === false
     }).length
     const navigate = this.props.navigate
     return (
       <Footer>
-        <FooterTab>
-            <Button active vertical onPress={() => navigate('Home')}>
-              <Icon name="ios-home-outline" />
-              <Text style={ styles.fontButton }>Home</Text>
+        <FooterTab style={{ backgroundColor: '#2874F0' }}>
+            <Button 
+              active={this.props.menuActive.home}
+              vertical onPress={() => navigate('Home')}
+              style={styles.button}
+            >
+              <Icon
+                active={this.props.menuActive.home}
+                name="ios-home-outline"
+                style={this.props.menuActive.home ? null : styles.white}
+              />
+              <Text 
+                style={[
+                  styles.fontButton, 
+                  this.props.menuActive.home ? null : styles.white
+                ]}
+              >
+              Home</Text>
             </Button>
 
-            <Button active vertical onPress={() => navigate('Chat')}>
-              <Icon name="ios-chatbubbles-outline" />
-              <Text style={ styles.fontButton }>Chat</Text>
+            <Button 
+              active={this.props.menuActive.chat}
+              vertical onPress={() => navigate('Chat')}
+              style={styles.button}
+            >
+              <Icon
+                active={this.props.menuActive.chat}
+                name="ios-chatbubbles-outline"
+                style={this.props.menuActive.chat ? null : styles.white}
+              />
+              <Text 
+                style={[
+                  styles.fontButton, 
+                  this.props.menuActive.chat ? null : styles.white
+                ]}
+              >
+              Chat</Text>
             </Button>
 
-            <Button active badge vertical onPress={() => navigate('ReadingList')}>
+            <Button
+              active={this.props.menuActive.read}
+              badge vertical onPress={() => navigate('ReadingList')}
+              style={styles.button}
+            >
               <Badge>
                 <Text>{unreadArticles}</Text>
               </Badge>
-              <Icon active name="ios-book-outline" />
-              <Text style={ styles.fontButton }>Read</Text>
+              <Icon
+                active={this.props.menuActive.read}
+                name="ios-book-outline"
+                style={this.props.menuActive.read ? null : styles.white}
+              />
+            <Text 
+              style={[
+                styles.fontButton,
+                this.props.menuActive.read ? null : styles.white
+              ]}
+            >
+              Read</Text>
             </Button>
 
-            <Button vertical onPress={() => navigate('ReadingHistory')}>
-              <Icon name="ios-clipboard-outline" />
-              <Text style={ styles.fontButton }>History</Text>
+            <Button
+              active={this.props.menuActive.history}
+              vertical onPress={() => navigate('ReadingHistory')}
+              style={styles.button}
+            >
+              <Icon
+                active={this.props.menuActive.history}
+                name="ios-clipboard-outline"
+                style={this.props.menuActive.history ? null : styles.white}
+              />
+              <Text style={[
+                  styles.fontButton,
+                  this.props.menuActive.history ? null : styles.white
+                ]}
+              >
+              History</Text>
             </Button>
 
-            <Button vertical onPress={() => this.logout()}>
-              <Icon name="ios-log-out-outline" />
-              <Text style={ styles.fontButton }>Log out</Text>
+            <Button
+              vertical onPress={() => this.logout()}
+              style={styles.button}
+            >
+              <Icon 
+                name="ios-log-out-outline" 
+                style={styles.white}
+              />
+              <Text
+                style={[
+                  styles.fontButton,
+                  styles.white
+                ]}>
+                Log out</Text>
             </Button>
         </FooterTab>
       </Footer>
@@ -65,6 +132,14 @@ class Menu extends Component {
 const styles = {
   fontButton: {
     fontSize: 8
+  },
+  white: {
+    color: '#FFFFFF'
+  },
+  button: {
+    paddingTop: 8,
+    paddingBottom: 8,
+    borderRadius: 0
   }
 }
 

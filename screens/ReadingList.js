@@ -10,7 +10,7 @@ import {
   ListItem,
   Left,
   Body,
-  Thumbnail,
+  // Thumbnail,
   Header,
   Title,
   Right
@@ -27,7 +27,15 @@ class ReadingList extends Component {
     this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
     this.state = {
       basic: true,
-      listViewData: this.props.articles,
+      listViewData: this.props.articles.filter(article => {
+        return article.statusSummary === false
+      }),
+      menuActive: {
+        home: false,
+        chat: false,
+        read: true,
+        history: false
+      }
     }
   }
 
@@ -36,101 +44,129 @@ class ReadingList extends Component {
   }
 
   render() {
-    console.log('ini apa', this.state.listViewData)
     const { navigate } = this.props.navigation
+    const {
+      container,
+      header,
+      centered,
+      listItem,
+      imagePosition,
+      thumbnail,
+      loading,
+      listBody,
+      listTitle,
+      alignCenter,
+      greenIcon,
+      whiteIcon,
+      backgroundGreen
+    } = styles
     return (
-      <Container>
-        <Header style={{ backgroundColor: '#4060B8' }}>
-          <Body style={{ alignItems: 'center' }}>
+      <Container style={container}>
+        <Header style={header}>
+          <Body style={centered}>
             <Title>Reading List</Title>
           </Body>
         </Header>
-        <Content style={styles.content}>
+        <Content>
           <List
             dataSource={this.ds.cloneWithRows(this.state.listViewData)}
             renderRow={data =>
               <ListItem avatar 
-                style={{
-                  marginLeft: 2,
-                  backgroundColor: (data.statusRead ? '#EEEEEE' : '#FFFFFF'),
-                  paddingTop: 5,
-                  borderBottomWidth: 0.5,
-                  borderColor: '#C9C9C9'
-                }}
+                style={[listItem, {backgroundColor: (data.statusRead ? '#EEEEEE' : '#FFFFFF') }]}
               >
-                <Left style={{ width: winSize.width / 6, paddingLeft: 17 }}>
-                  <ImageLoad
-                    style={{ width: 56, height: 56, borderRadius: 28 }}
-                    loadingStyle={{ size: 'small', color: 'blue' }}
-                    source={{ uri: data.img }}
-                  />
+                <Left style={imagePosition}>
+                  <ImageLoad style={thumbnail} loadingStyle={loading} source={{ uri: data.img }}/>
                 </Left>
-                <Body 
-                  style={{
-                    marginLeft: 3,
-                    width: winSize.width / 2,
-                    paddingLeft: 17,
-                    paddingBottom: 17,
-                    borderBottomWidth: 0
-                  }}
-                >
+                <Body style={listBody}>
                   <Text 
-                    style={{
-                      textAlign: 'left',
-                      marginRight: 0,
-                      color: (data.statusRead ? '#757575' : '#000000')
-                    }}
+                    style={[listTitle, { color: (data.statusRead ? '#757575' : '#000000') }]}
                     onPress={() => navigate('ArticleDetail', { id: data._id })}
                   >
                     {data.title.length > 60 ? data.title.substr(0, 60)+'...' : data.title }
                   </Text>
                   <Text note>{data.category}</Text>
                 </Body>
-                <Right style={{ justifyContent: 'center' }}>
-                  {data.statusRead && 
-                    <Icon name='md-checkmark-circle-outline' 
-                      style={{ color: 'green', fontSize: 30 }}
-                    />
-                  }
+                <Right style={alignCenter}>
+                  {data.statusRead && <Icon name='md-checkmark-circle-outline' style={greenIcon}/>}
                 </Right>
               </ListItem>
             }
+            // ternary operator -------------------------------------------------------------------
             renderLeftHiddenRow={data =>
+              data.statusRead ? 
               <Button
-                full onPress={() => navigate('Chat', {
-                  title:data.title,
-                  idArticle: data._id
-                })}
+                full onPress={() => navigate('Chat', { title:data.title, idArticle: data._id })}
+                style={backgroundGreen}
               >
-                <Icon 
-                  active name={data.statusRead ? 'md-refresh' : 'md-checkmark-circle-outline'} 
-                  style={{ color: '#ffffff', fontSize: 30}}
-                />
+                <Icon active name='ios-list-box-outline' style={whiteIcon}/>
+              </Button> :
+              <Button full onPress={() => navigate('ArticleDetail', { id: data._id })}>
+                <Icon active name='ios-book-outline' style={whiteIcon}/>
               </Button>
             }
+            // -----------------------------------------------------------------------------------
             leftOpenValue={75}
             disableLeftSwipe={true}
           />
         </Content>
-        <Menu navigate={navigate}/>
+        <Menu navigate={navigate} menuActive={this.state.menuActive}/>
       </Container>
     )
   }
 }
 
 const styles = {
-  content: {
+  container: {
     backgroundColor: '#fff'
   },
-  buttonView: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: 0,
-    width: winSize.width / 3,
+  header: {
+    backgroundColor: '#4060B8'
   },
-  button: {
-    margin: 2
+  centered: {
+    alignItems: 'center'
+  },
+  listItem: {
+    marginLeft: 0,
+    borderBottomWidth: 0.5,
+    borderColor: '#C9C9C9'
+  },
+  imagePosition: {
+    paddingLeft: 10
+  },
+  thumbnail: {
+    width: 56,
+    height: 56,
+    marginTop: 10,
+    marginBottom: 10
+  },
+  loading: {
+    size: 'small',
+    color: 'blue'
+  },
+  listBody: {
+    marginLeft: 0,
+    paddingLeft: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
+    borderBottomWidth: 0
+  },
+  listTitle: {
+    textAlign: 'left',
+    marginRight: 0
+  },
+  alignCenter: {
+    justifyContent: 'center'
+  },
+  greenIcon: {
+    color: '#00B42A',
+    fontSize: 30
+  },
+  whiteIcon: {
+    color: '#ffffff',
+    fontSize: 30
+  },
+  backgroundGreen: {
+    backgroundColor: '#00B42A'
   }
 }
 

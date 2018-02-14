@@ -27,9 +27,10 @@ export const fetch_summaries_from_api = () => {
 export const add_summary_from_api = (idArticle, summaryUser) => {
   return (dispatch, getState) => {
     const urlAPI = `http://apibucket.sabikaorganizer.com:3008/summarys/add/${idArticle}`
+    const userEmail = firebase.auth().currentUser
     const config = {
       headers: {
-        email: 'zuhri.nurhuda@gmail.com'
+        email: userEmail.email
       }
     }
     axios.post(urlAPI, {summary: summaryUser}, config)

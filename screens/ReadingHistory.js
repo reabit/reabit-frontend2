@@ -14,6 +14,17 @@ import { HistoryChart, HistoryList} from './components'
 
 const winSize = Dimensions.get('window')
 class ReadingHistory extends Component {
+  constructor (props) {
+    super(props)
+    this.state ={
+      menuActive: {
+        home: false,
+        chat: false,
+        read: false,
+        history: true
+      }
+    }
+  }
   static navigationOptions = {
     header: null
   }
@@ -46,7 +57,7 @@ class ReadingHistory extends Component {
             <HistoryList />
           </Tab>
         </Tabs>
-        <Menu navigate={navigate} />
+        <Menu navigate={navigate} menuActive={this.state.menuActive}/>
       </Container>
     )
   }

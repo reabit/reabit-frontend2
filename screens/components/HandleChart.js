@@ -49,18 +49,15 @@ class HandleChart extends Component {
             paddingTop: 0,
             paddingBottom: 0,
             marginTop: -17,
-            marginBottom: -17
+            // marginBottom: -17,
+            marginLeft: -17
           }}
         >
           <Body>
             <VictoryChart
               theme={VictoryTheme.material}
-              // animate={{
-              //   duration: 2000,
-              //   onLoad: { duration: 1000 }
-              // }}
-              height={315}
-              width={335}
+              height={300}
+              width={350}
             >
               <VictoryLine
                 style={{

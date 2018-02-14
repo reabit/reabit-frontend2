@@ -60,26 +60,34 @@ class HistoryChart extends Component {
               style={{
                 paddingTop: 0,
                 paddingBottom: 0,
-                marginTop: -17,
-                marginBottom: -17
+                marginTop: -21,
+                marginBottom: -21,
+                marginLeft: -21
               }}
             >
               <Body>
                 <VictoryPie
                   data={[
-                    { x: "Good", y: goodPercentage },
-                    { x: "Bad", y: badPercentage }
+                    { x: null, y: goodPercentage },
+                    { x: null, y: badPercentage }
                   ]}
-                  labelRadius={90}
+                  labelRadius={60}
                   style={{ 
                     labels: { 
                       fill: "white", 
-                      fontSize: 20, 
+                      fontSize: 14, 
                       fontWeight: "bold" 
-                    } 
+                    }
                   }}
+                  colorScale={["#00B42A", "#E10000"]}
+                  height={330}
+                  width={330}
                 />
               </Body>
+            </CardItem>
+            <CardItem style={{ paddingTop: 0, paddingBottom: 17, zIndex: 9999 }}>
+              <Text note>Red: Bad, </Text>
+              <Text note>Green: Good</Text>
             </CardItem>
           </Card>
           <Card style={{ marginRight: 17, marginLeft: 17 }}>
