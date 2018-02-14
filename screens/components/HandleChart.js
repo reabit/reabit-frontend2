@@ -56,10 +56,6 @@ class HandleChart extends Component {
           <Body>
             <VictoryChart
               theme={VictoryTheme.material}
-              // animate={{
-              //   duration: 2000,
-              //   onLoad: { duration: 1000 }
-              // }}
               height={300}
               width={350}
             >

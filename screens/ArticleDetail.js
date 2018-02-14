@@ -9,12 +9,8 @@ import {
   Text,
   Title,
   Badge,
-  List,
-  ListItem,
   Left,
   Body,
-  Right,
-  Thumbnail,
   Card,
   CardItem,
   Spinner
@@ -54,7 +50,7 @@ class ArticleDetail extends Component {
     let article = this.props.articles.filter(article => {
       return article._id == articleId
     })
-    console.log('ini article', article)
+
     this.setState({
       title: article[0].title,
       article: article[0].article,
@@ -69,11 +65,12 @@ class ArticleDetail extends Component {
   }
   
   render() {
-    console.log('ini image', this.state.img)
     const { navigate } = this.props.navigation
+    const { container, decription, article, image } = styles
+
     if(!this.state.title){
       return (
-        <Container>
+        <Container style={container}>
           <Header>
             <Left>
               <Button transparent onPress={() => navigate('ReadingList')}>
@@ -85,13 +82,13 @@ class ArticleDetail extends Component {
             </Body>
           </Header>
           <Content>
-          <Spinner color='blue' />
+            <Spinner color='blue' />
           </Content>
         </Container>
       )
     } else {
       return (
-        <Container>
+        <Container style={container}>
           <Header>
             <Left>
               <Button transparent onPress={() => navigate('ReadingList')} >
@@ -117,13 +114,13 @@ class ArticleDetail extends Component {
               </CardItem>
               <CardItem style={{ paddingTop: 0 }}>
                 <Body>
-                  <Image source={{ uri: this.state.img }} style={{height: 200, width: '100%', flex: 1}}/>
-                  <Text style={styles.decription}>{this.state.description}</Text>
+                  <Image source={{ uri: this.state.img }} style={image}/>
+                  <Text style={decription}>{this.state.description}</Text>
                   {this.state.article.map((art,idx) => {
                     return (
                       <Content key={idx}>
-                        <Text style={styles.article}>{art}</Text>
-                      </Content>       
+                        <Text style={article}>{art}</Text>
+                      </Content>
                     )}
                   )}
                 </Body>
@@ -138,7 +135,7 @@ class ArticleDetail extends Component {
 }
 
 const styles = {
-  content: {
+  container: {
     backgroundColor: '#fff'
   },
   decription: {
@@ -149,6 +146,11 @@ const styles = {
     fontSize: 13,
     fontWeight: 'normal',
     textAlign: 'justify'
+  },
+  image: {
+    height: 200,
+    width: '100%',
+    flex: 1
   }
 }
 

@@ -26,9 +26,11 @@ class HistoryList extends Component {
   }
 
   render() {
+    const { container, greenIcon, redIcon, listItem, listBody, listTitle } = styles
+
     if (!this.state.histories) {
       return (
-        <Container>
+        <Container style={container}>
           <Content>
             <Spinner color='blue' />
           </Content>
@@ -36,58 +38,32 @@ class HistoryList extends Component {
       )
     } else {
       return (
-        <Container>
+        <Container style={container}>
           <Content>
             <List>
-                { this.state.histories.map((history,idx) => {
+                {this.state.histories.map((history,idx) => {
                   let similarity = '';
                   if (history.similarity === true) {
-                    similarity = <Icon name="ios-happy-outline" 
-                                    style={{
-                                      fontSize: 42,
-                                      color: 'green',
-                                      paddingLeft: 17
-                                    }} 
-                                  />
+                    similarity = <Icon name="ios-happy-outline" style={greenIcon}/>
                   } else {
-                    similarity = <Icon name="ios-sad-outline" style={{ fontSize: 42, color: 'red', paddingLeft: 17 }} />
+                    similarity = <Icon name="ios-sad-outline" style={redIcon} />
                   }
-                let article = this.props.articles.filter(article => {
-                  return article._id == history.idReading
-                })[0]
-                console.log('article', article)
-                return (
-                  <ListItem avatar
-                    style={{
-                      marginLeft: 2,
-                      paddingTop: 5,
-                      borderBottomWidth: 0.5,
-                      borderColor: '#C9C9C9'
-                    }}
-                    key={idx}
-                  >
-                    {similarity}
-                    <Body
-                      style={{
-                        paddingLeft: 17,
-                        paddingBottom: 17,
-                        borderBottomWidth: 0
-                      }}
-                      >
-                      <Text
-                        style={{
-                          textAlign: 'left',
-                          marginRight: 0
-                        }}
-                      >
-                        {article.title.length > 60 ? article.title.substr(0, 60) + '...' : article.title}
-                      </Text>
-                      <Right>
 
-                      </Right>
-                      <Text note>{article.category}</Text>
-                    </Body>
-                  </ListItem>
+                  let article = this.props.articles.filter(article => {
+                    return article._id == history.idReading
+                  })[0]
+                  {console.log('article ------->', article)}
+
+                  return (
+                    <ListItem avatar style={listItem} key={idx}>
+                      {similarity}
+                      <Body style={listBody}>
+                        <Text style={listTitle}>
+                          {article.title.length > 60 ? article.title.substr(0, 60) + '...' : article.title}
+                        </Text>
+                        <Text note>{article.category}</Text>
+                      </Body>
+                    </ListItem>
                     )
                   }
                 )
@@ -101,21 +77,33 @@ class HistoryList extends Component {
 }
 
 const styles = {
-  content: {
+  container: {
     backgroundColor: '#fff'
   },
-  buttonView: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: 0,
-    width: winSize.width / 3,
+  greenIcon: {
+    fontSize: 42,
+    color: 'green',
+    paddingLeft: 17
   },
-  button: {
-    margin: 2
+  redIcon: { 
+    fontSize: 42, 
+    color: 'red',
+    paddingLeft: 17 
   },
-  text: {
-    padding: 2.5
+  listItem: {
+    marginLeft: 2,
+    paddingTop: 5,
+    borderBottomWidth: 0.5,
+    borderColor: '#C9C9C9'
+  },
+  listBody: {
+    paddingLeft: 17,
+    paddingBottom: 17,
+    borderBottomWidth: 0
+  },
+  listTitle: {
+    textAlign: 'left',
+    marginRight: 0
   }
 }
 
