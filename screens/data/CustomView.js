@@ -25,7 +25,7 @@ class CustomView extends React.Component {
     this.state = {
     dataCategories : this.props.articleCategories.length !== 0 ? this.props.articleCategories : '',   
     dataArticleList: this.props.articleList,
-    testing: 'ada'
+    testing: 'ada',
     }
   }
   componentDidMount(){
@@ -49,7 +49,6 @@ class CustomView extends React.Component {
         return a
       }
     })
-    console.log(articleRemoved, 'from customview')
     this.props.removeArticle(articleRemoved[0])
   }
   iconAddCancelArticle(article){
@@ -58,6 +57,7 @@ class CustomView extends React.Component {
         return a
       }
     })
+    
     if(titleArticle.length !== 0){
       if(titleArticle[0].statusRead){
         return (
@@ -68,7 +68,6 @@ class CustomView extends React.Component {
           <Icon name="md-checkmark-circle-outline" style={{fontSize: 35, color: 'blue'}} onPress={() => this.removeToReadingList(article)}/>
           
         )
-
       }
     }else{
       return (
@@ -78,8 +77,7 @@ class CustomView extends React.Component {
   }
   
   render() {
-    if (this.state.dataCategories.length > 0) {
-      console.log(this.state.dataCategories)
+    if (this.props.currentMessage.category) {
 
       return (
         <Container
