@@ -80,10 +80,7 @@ class CustomView extends React.Component {
     if (this.props.currentMessage.category) {
 
       return (
-        <Container
-          style={{width: 300}}
-        >
-          <Content>
+          <Content style={{width: 300}}>
             <List>
               {this.props.articleCategories.map((article, idx) => {
                 
@@ -112,10 +109,50 @@ class CustomView extends React.Component {
               
             </List>
           </Content>
-        </Container>
       )
+    }else if(this.props.currentMessage.help){
+      console.log(this.props.currentMessage.navigate, 'from customview')
+      const { navigate } = this.props.currentMessage
+      return (
+          <Content>
+            <List>
+              <ListItem>
+                <Text>
+                  Untuk meminta artikel, kamu cukup ketik artikel apa yang kamu inginkan, seperti 'Aku ingin artikel inspirasi'
+                </Text>
+              </ListItem>
+              <ListItem>
+                <Text>
+                  Untuk memberikan rangkuman atas artikel yang telah kamu buat, kamu diharuskan untuk membaca artikel terlebih dahulu, lalu swipe artikel yang telah kamu baca di artikel list dan tekan tombol di sebelah kiri untuk memberikan rangkuman
+                </Text>
+              </ListItem>
+              <ListItem>
+                <Text onPress={() => navigate('Home')}>
+                  Untuk Kembali ke Home, kamu bisa ketik 'navigasi ke home' atau bisa klik text ini
+                </Text>
+              </ListItem>
+              <ListItem>
+                <Text onPress={() => navigate('ReadingList')}>
+                  Untuk melihat artikel yang kamu telah pilih untuk di baca,  kamu bisa ketik 'navigasi ke artikel list' atau bisa klik text ini
+                </Text>
+              </ListItem>
+              <ListItem>
+                <Text onPress={() => navigate('ReadingHistory')}>
+                  Untuk melihat histori kegiatan yang telah kamu lakukan di sini, kamu bisa ketik 'navigasi ke historikal list' atau bisa klik text ini
+                </Text>
+              </ListItem>
+              <ListItem>
+                <Text onPress={() => navigate('logout')}>
+                  Untuk melihat artikel yang kamu telah pilih untuk di baca kamu bisa ketik 'navigasi ke logout' atau bisa klik text ini
+                </Text>
+              </ListItem>
+            </List>
+          </Content>
+      )
+    }else{
+      return null
+
     }
-    return null
   }
 }
 
