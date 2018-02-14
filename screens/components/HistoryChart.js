@@ -79,7 +79,7 @@ class HistoryChart extends Component {
                       fontWeight: "bold" 
                     }
                   }}
-                  colorScale={["green", "red"]}
+                  colorScale={["#00B42A", "#E10000"]}
                   height={330}
                   width={330}
                 />

@@ -3,7 +3,8 @@ import HistoryChart from './HistoryChart'
 import HistoryList from './HistoryList'
 import HandleChart from './HandleChart'
 import HandleEmptyChart from './HandleEmptyChart'
-import Loading from './Loading'
+import ScreenLoading from './ScreenLoading'
+import ContentLoading from './ContentLoading'
 
 export {
   Menu,
@@ -11,5 +12,6 @@ export {
   HistoryList,
   HandleChart,
   HandleEmptyChart,
-  Loading
+  ScreenLoading,
+  ContentLoading
 }
